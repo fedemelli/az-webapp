@@ -1,0 +1,18 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Action Group (Email)</span>
+<span style="color:#38bdf8;">az monitor action-group create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyActionGroup <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--action</span> email admin admin@contoso.com
+
+<span style="color:#94a3b8;"># Creare un Metric Alert (CPU > 80%)</span>
+<span style="color:#38bdf8;">az monitor metrics alert create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> HighCPUAlert <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--scopes</span> MyVMID <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--condition</span> "avg Percentage CPU > 80" <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--window-size</span> 5m <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--evaluation-frequency</span> 1m <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--action</span> MyActionGroup</code></pre>
+        </div>

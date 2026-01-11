@@ -1,0 +1,30 @@
+<h2>Azure Public DNS</h2>
+        <p>Azure DNS permette di ospitare i tuoi domini DNS (es. <code>contoso.com</code>) utilizzando l'infrastruttura globale di Microsoft. Offre prestazioni elevate, alta disponibilità (100% SLA) e gestione integrata.</p>
+
+        <h3>Delegazione del Dominio</h3>
+        <svg viewBox="0 0 600 240" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+          <!-- Registrar -->
+          <rect x="50" y="40" width="160" height="160" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+          <text x="130" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Registrar</text>
+          <text x="130" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">(es. GoDaddy)</text>
+
+          <rect x="70" y="100" width="120" height="80" rx="8" fill="white" stroke="#2563eb"/>
+          <text x="130" y="125" text-anchor="middle" font-weight="bold" font-size="11" fill="#1e3a8a">NS Records</text>
+          <text x="130" y="145" text-anchor="middle" font-size="9" fill="#64748b">ns1.azure-dns.com</text>
+          <text x="130" y="160" text-anchor="middle" font-size="9" fill="#64748b">ns2.azure-dns.com</text>
+
+          <!-- Azure DNS -->
+          <rect x="350" y="40" width="200" height="160" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="450" y="65" text-anchor="middle" font-weight="bold" fill="#166534">Azure DNS Zone</text>
+          <text x="450" y="80" text-anchor="middle" font-size="10" fill="#22c55e">(contoso.com)</text>
+
+          <rect x="370" y="100" width="160" height="80" rx="8" fill="white" stroke="#16a34a"/>
+          <text x="450" y="125" text-anchor="middle" font-weight="bold" font-size="11" fill="#14532d">A Record</text>
+          <text x="450" y="145" text-anchor="middle" font-size="10" fill="#64748b">www -> 20.45.12.34</text>
+
+          <!-- Arrow -->
+          <path d="M210 120 L350 120" stroke="#f59e0b" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrow21)"/>
+          <text x="280" y="110" text-anchor="middle" font-size="10" fill="#92400e">Delegation</text>
+
+          <defs><marker id="arrow21" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/></marker></defs>
+        </svg>

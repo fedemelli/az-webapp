@@ -1,0 +1,13 @@
+<h2>Private DNS Zones</h2>
+        <p>Le <strong>Private DNS Zones</strong> permettono di usare nomi di dominio personalizzati (es. <code>app.internal</code>) all'interno delle tue VNet, senza esporli su internet.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🔗 VNet Link</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Collega una o più VNet alla zona privata. Tutte le VM in quelle VNet potranno risolvere i nomi della zona.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🤖 Auto-registration</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Se abilitato, Azure crea automaticamente un record A per ogni VM nella VNet, usando il nome della VM.</p>
+          </div>
+        </div>

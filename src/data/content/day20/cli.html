@@ -1,0 +1,24 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un NSG</span>
+<span style="color:#38bdf8;">az network nsg create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyNSG
+
+<span style="color:#94a3b8;"># Creare una regola (Allow HTTP)</span>
+<span style="color:#38bdf8;">az network nsg rule create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--nsg-name</span> MyNSG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> AllowHTTP <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--priority</span> 100 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--destination-port-ranges</span> 80 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--access</span> Allow <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--protocol</span> Tcp
+
+<span style="color:#94a3b8;"># Associare NSG a una Subnet</span>
+<span style="color:#38bdf8;">az network vnet subnet update</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vnet-name</span> MyVNet <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MySubnet <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--network-security-group</span> MyNSG</code></pre>
+        </div>

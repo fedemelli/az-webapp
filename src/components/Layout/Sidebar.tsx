@@ -40,7 +40,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside className={`
         fixed lg:sticky top-14 sm:top-16 left-0 z-40
-        w-72 sm:w-80 bg-white border-r border-slate-200
+        w-72 sm:w-80 glass border-r border-slate-200/50
         h-[calc(100vh-56px)] sm:h-[calc(100vh-64px)] overflow-y-auto
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
@@ -48,7 +48,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="p-3 sm:p-4 space-y-4 sm:space-y-6">
           <ProgressBar />
 
-          <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200">
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-sm border border-slate-200/50">
             <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               Piano di Studio
@@ -65,26 +65,24 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     key={day.day}
                     to={`/day/${day.day}`}
                     onClick={handleLinkClick}
-                    className={`flex items-center gap-2 sm:gap-3 p-2 rounded-lg transition-colors ${
-                      isActive
-                        ? 'bg-indigo-50 text-indigo-700'
-                        : 'hover:bg-slate-50 text-slate-600'
-                    }`}
+                    className={`flex items-center gap-2 sm:gap-3 p-2 rounded-lg transition-all duration-200 ${isActive
+                        ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20'
+                        : 'hover:bg-white/60 text-slate-600 hover:shadow-sm'
+                      }`}
                   >
-                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                      isComplete
-                        ? 'bg-emerald-500 text-white'
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${isComplete
+                        ? 'bg-emerald-500 text-white shadow-sm'
                         : isActive
-                          ? 'bg-indigo-600 text-white'
+                          ? 'bg-white/20 text-white'
                           : 'bg-slate-100 text-slate-600'
-                    }`}>
+                      }`}>
                       {isComplete ? <Trophy className="w-3 h-3 sm:w-4 sm:h-4" /> : day.day}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs sm:text-sm font-medium truncate">{day.title}</p>
-                      <p className={`text-xs ${category.color} hidden sm:block`}>{category.name}</p>
+                      <p className={`text-xs ${isActive ? 'text-indigo-100' : category.color} hidden sm:block`}>{category.name}</p>
                     </div>
-                    <span className="text-xs text-slate-400 flex-shrink-0">
+                    <span className={`text-xs flex-shrink-0 ${isActive ? 'text-indigo-100' : 'text-slate-400'}`}>
                       {prog.completed}/{prog.total}
                     </span>
                   </Link>
@@ -93,7 +91,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-3 sm:p-4 text-white">
+          <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl p-3 sm:p-4 text-white shadow-lg shadow-indigo-500/20">
             <h3 className="font-semibold mb-2 text-sm sm:text-base">Risorse Ufficiali</h3>
             <a
               href="https://learn.microsoft.com/en-us/certifications/exams/az-104"

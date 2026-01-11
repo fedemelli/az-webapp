@@ -1,0 +1,389 @@
+<h2>Compliance e Remediation</h2>
+
+<p>Azure Policy non solo <strong>valuta</strong> la compliance delle risorse, ma può anche <strong>correggere automaticamente</strong> le risorse non conformi attraverso i remediation tasks.</p>
+
+<!-- Diagramma Compliance Flow -->
+<svg viewBox="0 0 800 280" style="width:100%;max-width:800px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="compGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444"/>
+      <stop offset="100%" style="stop-color:#dc2626"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Policy Evaluation -->
+  <rect x="20" y="80" width="160" height="100" rx="10" fill="url(#compGrad)"/>
+  <text x="100" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="white">Policy Evaluation</text>
+  <text x="100" y="140" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">Ogni 24 ore</text>
+  <text x="100" y="158" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">+ On-demand</text>
+
+  <!-- Arrow -->
+  <path d="M180 130 L240 130" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Results Box -->
+  <rect x="240" y="50" width="180" height="160" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="330" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Risultati Compliance</text>
+
+  <!-- Compliant -->
+  <rect x="260" y="100" width="140" height="35" rx="6" fill="url(#greenGrad)"/>
+  <text x="330" y="123" text-anchor="middle" font-size="11" font-weight="600" fill="white">✓ Compliant</text>
+
+  <!-- Non-Compliant -->
+  <rect x="260" y="145" width="140" height="35" rx="6" fill="url(#redGrad)"/>
+  <text x="330" y="168" text-anchor="middle" font-size="11" font-weight="600" fill="white">✗ Non-Compliant</text>
+
+  <!-- Arrow to Remediation -->
+  <path d="M420 163 L480 163" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow3)"/>
+  <text x="450" y="155" text-anchor="middle" font-size="9" fill="#64748b">Remediation</text>
+
+  <!-- Remediation Task -->
+  <rect x="480" y="110" width="160" height="100" rx="10" fill="#3b82f6"/>
+  <text x="560" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="white">Remediation Task</text>
+  <text x="560" y="168" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">Deploy/Modify</text>
+  <text x="560" y="186" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">risorse automaticamente</text>
+
+  <!-- Arrow to Fixed -->
+  <path d="M640 160 L700 160" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Fixed -->
+  <rect x="700" y="130" width="80" height="55" rx="6" fill="url(#greenGrad)"/>
+  <text x="740" y="155" text-anchor="middle" font-size="10" font-weight="600" fill="white">Risorsa</text>
+  <text x="740" y="172" text-anchor="middle" font-size="10" font-weight="600" fill="white">Corretta</text>
+
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+</svg>
+
+<h3>Compliance Dashboard</h3>
+
+<p>Il Compliance Dashboard in Azure Portal fornisce una visualizzazione completa dello stato di conformità:</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);padding:1rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <strong style="color:#166534;">📊 Overall Compliance</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Percentuale complessiva di risorse conformi nel scope selezionato</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <strong style="color:#1e40af;">📋 Per Policy</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Stato di compliance per ogni singola policy assegnata</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;border-left:4px solid #f59e0b;">
+    <strong style="color:#b45309;">🔍 Per Risorsa</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Quali risorse specifiche non sono conformi</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);padding:1rem;border-radius:8px;border-left:4px solid #a855f7;">
+    <strong style="color:#7c3aed;">📈 Trend nel Tempo</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Come la compliance cambia nel tempo (storico)</p>
+  </div>
+</div>
+
+<h3>Stati di Compliance</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Stato</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Descrizione</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Azione Richiesta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#dcfce7;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#166534;">✓ Compliant</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La risorsa rispetta la policy</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Nessuna</td>
+    </tr>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#dc2626;">✗ Non-Compliant</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La risorsa viola la policy</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Remediation o modifica manuale</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#64748b;">Exempt</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La risorsa è esclusa dalla valutazione</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Review periodica dell'exemption</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#f59e0b;">Conflicting</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Due policy hanno regole contrastanti</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Risolvere il conflitto nelle policy</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#94a3b8;">Not Started</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La valutazione non è ancora iniziata</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Attendere o trigger manuale</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Quando Viene Valutata la Compliance</h3>
+
+<p>Azure Policy valuta le risorse in diversi momenti:</p>
+
+<div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;margin:1rem 0;">
+  <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+    <tr>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:600;width:35%;">📝 Creazione/Modifica risorsa</td>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;">Valutazione <strong>immediata</strong> durante la request</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:600;">⏰ Ogni 24 ore</td>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;">Scan <strong>automatico</strong> completo di tutte le risorse</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:600;">🔄 Assignment change</td>
+      <td style="padding:10px;border-bottom:1px solid #e2e8f0;">Quando modifichi o crei un nuovo assignment</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;font-weight:600;">👆 On-demand</td>
+      <td style="padding:10px;">Trigger manuale tramite CLI, PowerShell o API</td>
+    </tr>
+  </table>
+</div>
+
+<h3>Remediation Tasks</h3>
+
+<p>Per policy con effetto <strong>DeployIfNotExists</strong> o <strong>Modify</strong>, puoi creare remediation tasks per correggere automaticamente le risorse non conformi esistenti.</p>
+
+<!-- Remediation Flow Diagram -->
+<svg viewBox="0 0 700 180" style="width:100%;max-width:700px;margin:1.5rem auto;display:block;">
+  <!-- Step 1 -->
+  <rect x="20" y="60" width="130" height="80" rx="8" fill="#ef4444"/>
+  <text x="85" y="95" text-anchor="middle" font-size="11" font-weight="600" fill="white">Non-Compliant</text>
+  <text x="85" y="115" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">Resources</text>
+
+  <path d="M150 100 L190 100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Step 2 -->
+  <rect x="190" y="60" width="130" height="80" rx="8" fill="#6366f1"/>
+  <text x="255" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="white">Create</text>
+  <text x="255" y="108" text-anchor="middle" font-size="11" font-weight="600" fill="white">Remediation Task</text>
+  <text x="255" y="128" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">+ Managed Identity</text>
+
+  <path d="M320 100 L360 100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Step 3 -->
+  <rect x="360" y="60" width="130" height="80" rx="8" fill="#3b82f6"/>
+  <text x="425" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="white">Execute</text>
+  <text x="425" y="108" text-anchor="middle" font-size="11" font-weight="600" fill="white">Deployment</text>
+  <text x="425" y="128" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">Deploy/Modify</text>
+
+  <path d="M490 100 L530 100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Step 4 -->
+  <rect x="530" y="60" width="130" height="80" rx="8" fill="#22c55e"/>
+  <text x="595" y="95" text-anchor="middle" font-size="11" font-weight="600" fill="white">Compliant</text>
+  <text x="595" y="115" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)">Resources</text>
+
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+</svg>
+
+<h3>Managed Identity per Remediation</h3>
+
+<p>I remediation tasks richiedono una <strong>Managed Identity</strong> per eseguire le modifiche sulle risorse:</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">System-Assigned (Default)</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Creata automaticamente con l'assignment</li>
+      <li>Riceve i permessi definiti nella policy</li>
+      <li>Lifecycle legato all'assignment</li>
+      <li>Più semplice da gestire</li>
+    </ul>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <h4 style="margin:0 0 0.75rem 0;color:#166534;">User-Assigned</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Creata separatamente, poi associata</li>
+      <li>Puoi usare la stessa per più assignment</li>
+      <li>Controllo più granulare sui permessi</li>
+      <li>Lifecycle indipendente</li>
+    </ul>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #f59e0b;">
+  <strong style="color:#b45309;">⚠️ Importante:</strong>
+  <span style="color:#92400e;font-size:0.9rem;"> La Managed Identity deve avere i <strong>permessi RBAC necessari</strong> per modificare le risorse (es. Contributor sul resource group target).</span>
+</div>
+
+<h3>Creare Remediation Task con Azure CLI</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Trigger valutazione on-demand per un resource group</span>
+az policy state trigger-scan \
+  --resource-group "my-resource-group"
+
+<span style="color:#94a3b8;"># Trigger valutazione on-demand per subscription</span>
+az policy state trigger-scan
+
+<span style="color:#94a3b8;"># Creare un remediation task</span>
+az policy remediation create \
+  --name "remediate-storage-https" \
+  --policy-assignment "storage-https-assignment" \
+  --resource-group "my-resource-group" \
+  --resource-discovery-mode "ReEvaluateCompliance"
+
+<span style="color:#94a3b8;"># Remediation per tutte le risorse non conformi nella subscription</span>
+az policy remediation create \
+  --name "remediate-all-storage" \
+  --policy-assignment "/subscriptions/{sub-id}/providers/Microsoft.Authorization/policyAssignments/storage-assignment"
+
+<span style="color:#94a3b8;"># Controllare lo stato del remediation</span>
+az policy remediation show \
+  --name "remediate-storage-https" \
+  --resource-group "my-resource-group"
+
+<span style="color:#94a3b8;"># Elencare tutti i remediation tasks</span>
+az policy remediation list \
+  --resource-group "my-resource-group"
+
+<span style="color:#94a3b8;"># Elencare risorse non conformi per una policy</span>
+az policy state list \
+  --resource-group "my-resource-group" \
+  --filter "complianceState eq 'NonCompliant'" \
+  --query "[].{Resource:resourceId, Policy:policyDefinitionName}"</code></pre>
+
+<h3>Creare Remediation Task con PowerShell</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Trigger compliance scan on-demand</span>
+Start-AzPolicyComplianceScan -ResourceGroupName "my-resource-group"
+
+<span style="color:#94a3b8;"># Get policy assignment ID</span>
+$assignment = Get-AzPolicyAssignment -Name "storage-https-assignment"
+
+<span style="color:#94a3b8;"># Create remediation task</span>
+Start-AzPolicyRemediation `
+  -Name "remediate-storage-https" `
+  -PolicyAssignmentId $assignment.PolicyAssignmentId `
+  -ResourceGroupName "my-resource-group"
+
+<span style="color:#94a3b8;"># Get remediation status</span>
+Get-AzPolicyRemediation -Name "remediate-storage-https" -ResourceGroupName "my-resource-group"
+
+<span style="color:#94a3b8;"># Get all non-compliant resources</span>
+Get-AzPolicyState `
+  -ResourceGroupName "my-resource-group" `
+  -Filter "complianceState eq 'NonCompliant'" |
+  Select-Object ResourceId, PolicyDefinitionName, ComplianceState
+
+<span style="color:#94a3b8;"># List all remediation tasks in subscription</span>
+Get-AzPolicyRemediation</code></pre>
+
+<h3>Policy Exemptions</h3>
+
+<p>Le <strong>Exemptions</strong> permettono di escludere temporaneamente o permanentemente risorse dalla valutazione di una policy.</p>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Categoria</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Uso</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Esempio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Waiver</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La risorsa <strong>non può</strong> o <strong>non deve</strong> essere conforme</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Legacy system che non può essere aggiornato</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Mitigated</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Il requisito è soddisfatto in <strong>altro modo</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Controllo di sicurezza implementato diversamente</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Creare un'exemption (CLI)</span>
+az policy exemption create \
+  --name "exempt-legacy-storage" \
+  --policy-assignment "storage-https-assignment" \
+  --exemption-category "Waiver" \
+  --scope "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/Microsoft.Storage/storageAccounts/legacystorage" \
+  --description "Legacy storage account - scheduled for decommission" \
+  --expires-on "2025-12-31"
+
+<span style="color:#94a3b8;"># Creare un'exemption (PowerShell)</span>
+New-AzPolicyExemption `
+  -Name "exempt-legacy-storage" `
+  -PolicyAssignment $assignment `
+  -ExemptionCategory "Waiver" `
+  -Scope "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/Microsoft.Storage/storageAccounts/legacystorage" `
+  -Description "Legacy storage account" `
+  -ExpiresOn (Get-Date).AddYears(1)
+
+<span style="color:#94a3b8;"># Elencare exemptions</span>
+az policy exemption list --resource-group "my-rg"
+Get-AzPolicyExemption -Scope "/subscriptions/{sub-id}/resourceGroups/my-rg"</code></pre>
+
+<h3>Resource Discovery Mode</h3>
+
+<p>Quando crei un remediation task, puoi specificare come vengono scoperte le risorse non conformi:</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;">
+    <h4 style="margin:0 0 0.75rem 0;color:#334155;">ExistingNonCompliant (Default)</h4>
+    <p style="font-size:0.875rem;color:#64748b;margin:0;">Usa lo stato compliance esistente. Più veloce ma potrebbe non includere risorse modificate di recente.</p>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;">
+    <h4 style="margin:0 0 0.75rem 0;color:#334155;">ReEvaluateCompliance</h4>
+    <p style="font-size:0.875rem;color:#64748b;margin:0;">Rivaluta tutte le risorse prima del remediation. Più accurato ma richiede più tempo.</p>
+  </div>
+</div>
+
+<h3>Limiti e Quote</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">500</div>
+    <div style="font-size:0.875rem;color:#64748b;">Risorse per Remediation Task</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">100</div>
+    <div style="font-size:0.875rem;color:#64748b;">Remediation Tasks Paralleli</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">1000</div>
+    <div style="font-size:0.875rem;color:#64748b;">Exemptions per Subscription</div>
+  </div>
+</div>
+
+<h3>Best Practices per Compliance</h3>
+
+<ul>
+  <li><strong>Monitora regolarmente</strong>: Controlla il compliance dashboard almeno settimanalmente</li>
+  <li><strong>Usa Audit prima di Deny</strong>: Valuta l'impatto prima di bloccare</li>
+  <li><strong>Documenta le Exemptions</strong>: Specifica sempre il motivo e una data di scadenza</li>
+  <li><strong>Automatizza i Remediation</strong>: Configura remediation tasks automatici per policy critiche</li>
+  <li><strong>Verifica i permessi MI</strong>: Assicurati che la Managed Identity abbia i permessi necessari</li>
+  <li><strong>Testa in scope limitato</strong>: Prova le policy su un resource group prima di applicarle alla subscription</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1.25rem;border-radius:8px;margin:1.5rem 0;border-left:4px solid #3b82f6;">
+  <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">💡 Tip per l'Esame AZ-104</h4>
+  <ul style="margin:0;padding-left:1.25rem;font-size:0.9rem;color:#1e40af;">
+    <li>Solo <strong>DeployIfNotExists</strong> e <strong>Modify</strong> supportano remediation automatico</li>
+    <li>Il remediation richiede una <strong>Managed Identity</strong> con i permessi appropriati</li>
+    <li>La compliance viene valutata <strong>ogni 24 ore</strong> automaticamente + on-demand</li>
+    <li>Le <strong>Exemptions</strong> non eliminano la policy - solo escludono specifiche risorse</li>
+    <li><code>az policy state trigger-scan</code> forza una valutazione immediata</li>
+    <li>Il compliance state <strong>Conflicting</strong> indica policy contraddittorie (risolvi prima)</li>
+  </ul>
+</div>

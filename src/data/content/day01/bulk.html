@@ -1,0 +1,298 @@
+<h2>Operazioni Bulk in Microsoft Entra ID</h2>
+<p>Le operazioni bulk permettono di gestire un gran numero di utenti utilizzando file CSV. Sono ideali per onboarding massivo, cleanup account, e gestione su larga scala.</p>
+
+<!-- Diagramma Bulk Operations -->
+<svg viewBox="0 0 600 160" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- CSV File -->
+  <rect x="40" y="40" width="100" height="80" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="90" y="70" fill="#1e40af" font-size="11" text-anchor="middle" font-weight="bold">CSV File</text>
+  <text x="90" y="90" fill="#3b82f6" font-size="9" text-anchor="middle">users.csv</text>
+  <!-- Arrow 1 -->
+  <path d="M150 80 L200 80" stroke="#64748b" stroke-width="2" marker-end="url(#bulkArrow)"/>
+  <!-- Azure Portal -->
+  <rect x="210" y="30" width="180" height="100" rx="12" fill="white" stroke="#6366f1" stroke-width="2"/>
+  <text x="300" y="55" fill="#4f46e5" font-size="10" text-anchor="middle" font-weight="bold">Entra Admin Center</text>
+  <text x="300" y="75" fill="#64748b" font-size="9" text-anchor="middle">Bulk Operations</text>
+  <rect x="230" y="85" width="60" height="30" rx="4" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="260" y="105" fill="#166534" font-size="8" text-anchor="middle">Create</text>
+  <rect x="300" y="85" width="60" height="30" rx="4" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="330" y="105" fill="#92400e" font-size="8" text-anchor="middle">Invite</text>
+  <!-- Arrow 2 -->
+  <path d="M400 80 L450 80" stroke="#64748b" stroke-width="2" marker-end="url(#bulkArrow)"/>
+  <!-- Users -->
+  <rect x="460" y="40" width="100" height="80" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="510" y="70" fill="#166534" font-size="11" text-anchor="middle" font-weight="bold">Users</text>
+  <text x="510" y="90" fill="#16a34a" font-size="9" text-anchor="middle">Creati/Invitati</text>
+  <defs><marker id="bulkArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/></marker></defs>
+</svg>
+
+<h3>Ruolo Prerequisito</h3>
+<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0;color:#166534;font-size:14px;"><strong>Ruolo minimo richiesto:</strong> <code style="background:#dcfce7;padding:2px 8px;border-radius:4px;">User Administrator</code></p>
+</div>
+
+<h3>Operazioni Disponibili</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Bulk Create</h4>
+    <p style="margin:0;color:#334155;font-size:13px;">Crea utenti da CSV. Ideale per onboarding massivo di nuovi dipendenti.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Bulk Invite</h4>
+    <p style="margin:0;color:#334155;font-size:13px;">Invita guest users esterni tramite B2B. Invia email di invito in massa.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#991b1b;font-size:15px;">Bulk Delete</h4>
+    <p style="margin:0;color:#334155;font-size:13px;">Elimina utenti in massa. <strong>Attenzione:</strong> irreversibile dopo 30gg.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">Download Users</h4>
+    <p style="margin:0;color:#334155;font-size:13px;">Esporta lista utenti in CSV per backup, audit o analisi.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Bulk Restore</h4>
+    <p style="margin:0;color:#334155;font-size:13px;">Ripristina utenti eliminati (entro 30 giorni) in massa.</p>
+  </div>
+</div>
+
+<h3>Formato CSV Obbligatorio</h3>
+<p>Il file CSV deve rispettare una struttura precisa. <strong>Scarica sempre il template dal portale</strong> per avere il formato corretto.</p>
+
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:12px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Struttura del template CSV</span>
+<span style="color:#f472b6;">Riga 1:</span> <span style="color:#fbbf24;">version:v1.0</span>                    <span style="color:#94a3b8;"># NON modificare</span>
+<span style="color:#f472b6;">Riga 2:</span> <span style="color:#fbbf24;">Intestazioni colonne</span>            <span style="color:#94a3b8;"># NON modificare</span>
+<span style="color:#f472b6;">Riga 3:</span> <span style="color:#a78bfa;">Esempio (da rimuovere)</span>         <span style="color:#94a3b8;"># RIMUOVERE prima dell'upload</span>
+<span style="color:#f472b6;">Riga 4+:</span> <span style="color:#38bdf8;">Dati utenti</span>                   <span style="color:#94a3b8;"># I tuoi dati</span>
+
+<span style="color:#94a3b8;"># Colonne obbligatorie per Bulk Create:</span>
+<span style="color:#fbbf24;">Name [displayName]</span>,<span style="color:#fbbf24;">User principal name [userPrincipalName]</span>,<span style="color:#fbbf24;">Initial password [passwordProfile]</span>,<span style="color:#fbbf24;">Block sign in [accountEnabled]</span>
+<span style="color:#a78bfa;">Mario Rossi</span>,<span style="color:#a78bfa;">mario.rossi@contoso.com</span>,<span style="color:#a78bfa;">TempPass123!</span>,<span style="color:#a78bfa;">No</span>
+<span style="color:#a78bfa;">Giulia Bianchi</span>,<span style="color:#a78bfa;">giulia.bianchi@contoso.com</span>,<span style="color:#a78bfa;">TempPass456!</span>,<span style="color:#a78bfa;">No</span></code></pre>
+</div>
+
+<h4>Regole Importanti per il CSV</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px;">
+    <div style="font-weight:600;color:#991b1b;font-size:13px;margin-bottom:4px;">NO spazi iniziali</div>
+    <div style="color:#7f1d1d;font-size:12px;">userPrincipalName, passwordProfile, accountEnabled non devono avere spazi iniziali</div>
+  </div>
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px;">
+    <div style="font-weight:600;color:#991b1b;font-size:13px;margin-bottom:4px;">Estensione .csv</div>
+    <div style="color:#7f1d1d;font-size:12px;">Il file DEVE avere estensione .csv (non .xlsx o altro)</div>
+  </div>
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px;">
+    <div style="font-weight:600;color:#991b1b;font-size:13px;margin-bottom:4px;">Prime 2 righe intatte</div>
+    <div style="color:#7f1d1d;font-size:12px;">NON modificare le prime 2 righe (versione e intestazioni)</div>
+  </div>
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px;">
+    <div style="font-weight:600;color:#991b1b;font-size:13px;margin-bottom:4px;">Password policy</div>
+    <div style="color:#7f1d1d;font-size:12px;">Le password devono rispettare la policy attiva del tenant</div>
+  </div>
+</div>
+
+<h3>Processo Step-by-Step</h3>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:20px 0;">
+  <div style="background:#4f46e5;color:white;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">1. Entra Admin Center</div>
+  <div style="color:#64748b;padding:10px 0;font-size:18px;">→</div>
+  <div style="background:#6366f1;color:white;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">2. Users → Bulk operations</div>
+  <div style="color:#64748b;padding:10px 0;font-size:18px;">→</div>
+  <div style="background:#8b5cf6;color:white;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">3. Download template</div>
+  <div style="color:#64748b;padding:10px 0;font-size:18px;">→</div>
+  <div style="background:#a78bfa;color:white;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">4. Compila CSV</div>
+  <div style="color:#64748b;padding:10px 0;font-size:18px;">→</div>
+  <div style="background:#c4b5fd;color:#4c1d95;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">5. Upload & Submit</div>
+  <div style="color:#64748b;padding:10px 0;font-size:18px;">→</div>
+  <div style="background:#16a34a;color:white;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;">6. Verifica risultati</div>
+</div>
+
+<h3>Limiti e Timeout</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#dc2626;">1 ora</div>
+    <div style="color:#64748b;font-size:12px;margin-top:4px;">Timeout massimo operazione</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#4f46e5;">50.000</div>
+    <div style="color:#64748b;font-size:12px;margin-top:4px;">Max record per file</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#f59e0b;">7 giorni</div>
+    <div style="color:#64748b;font-size:12px;margin-top:4px;">Risultati disponibili</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#16a34a;">CSV</div>
+    <div style="color:#64748b;font-size:12px;margin-top:4px;">Unico formato accettato</div>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 8px 0;color:#92400e;">Workaround per Timeout</h4>
+  <p style="margin:0;color:#78350f;font-size:14px;">Se hai molti utenti e rischi il timeout di 1 ora, <strong>dividi il file in batch più piccoli</strong> filtrando per:</p>
+  <ul style="margin:8px 0 0 0;padding-left:20px;color:#78350f;font-size:14px;">
+    <li>Dipartimento</li>
+    <li>Iniziale del cognome (A-M, N-Z)</li>
+    <li>Location</li>
+  </ul>
+</div>
+
+<h3>PowerShell per Automazione</h3>
+<p>Per scenari più complessi o integrazione con pipeline CI/CD, usa PowerShell con Microsoft Graph:</p>
+
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Connettersi a Microsoft Graph</span>
+<span style="color:#38bdf8;">Connect-MgGraph</span> <span style="color:#fbbf24;">-Scopes</span> "User.ReadWrite.All"
+
+<span style="color:#94a3b8;"># Importare utenti da CSV</span>
+<span style="color:#fbbf24;">$users</span> = <span style="color:#38bdf8;">Import-Csv</span> <span style="color:#fbbf24;">-Path</span> <span style="color:#a78bfa;">"users.csv"</span>
+
+<span style="color:#f472b6;">foreach</span> (<span style="color:#fbbf24;">$user</span> <span style="color:#f472b6;">in</span> <span style="color:#fbbf24;">$users</span>) {
+    <span style="color:#94a3b8;"># Crea oggetto password</span>
+    <span style="color:#fbbf24;">$PasswordProfile</span> = @{
+        Password = <span style="color:#fbbf24;">$user</span>.Password
+        ForceChangePasswordNextSignIn = <span style="color:#fbbf24;">$true</span>
+    }
+
+    <span style="color:#94a3b8;"># Crea utente</span>
+    <span style="color:#38bdf8;">New-MgUser</span> <span style="color:#fbbf24;">-DisplayName</span> <span style="color:#fbbf24;">$user</span>.DisplayName <span style="color:#a78bfa;">`</span>
+        <span style="color:#fbbf24;">-UserPrincipalName</span> <span style="color:#fbbf24;">$user</span>.UPN <span style="color:#a78bfa;">`</span>
+        <span style="color:#fbbf24;">-PasswordProfile</span> <span style="color:#fbbf24;">$PasswordProfile</span> <span style="color:#a78bfa;">`</span>
+        <span style="color:#fbbf24;">-AccountEnabled</span> <span style="color:#fbbf24;">$true</span> <span style="color:#a78bfa;">`</span>
+        <span style="color:#fbbf24;">-MailNickname</span> <span style="color:#fbbf24;">$user</span>.MailNickname <span style="color:#a78bfa;">`</span>
+        <span style="color:#fbbf24;">-UsageLocation</span> <span style="color:#a78bfa;">"IT"</span>  <span style="color:#94a3b8;"># Per assegnare licenze!</span>
+
+    <span style="color:#38bdf8;">Write-Host</span> <span style="color:#a78bfa;">"Created:"</span> <span style="color:#fbbf24;">$user</span>.UPN
+}
+
+<span style="color:#94a3b8;"># Verificare utenti creati</span>
+<span style="color:#38bdf8;">Get-MgUser</span> <span style="color:#fbbf24;">-Filter</span> <span style="color:#a78bfa;">"UserType eq 'Member'"</span> | <span style="color:#38bdf8;">Select-Object</span> DisplayName, UserPrincipalName</code></pre>
+</div>
+
+<h3>Azure CLI Alternative</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Loop su file CSV con bash</span>
+<span style="color:#f472b6;">while</span> IFS=, read -r name upn password; <span style="color:#f472b6;">do</span>
+    <span style="color:#38bdf8;">az ad user create</span> <span style="color:#a78bfa;">\</span>
+        <span style="color:#fbbf24;">--display-name</span> <span style="color:#a78bfa;">"$name"</span> <span style="color:#a78bfa;">\</span>
+        <span style="color:#fbbf24;">--user-principal-name</span> <span style="color:#a78bfa;">"$upn"</span> <span style="color:#a78bfa;">\</span>
+        <span style="color:#fbbf24;">--password</span> <span style="color:#a78bfa;">"$password"</span> <span style="color:#a78bfa;">\</span>
+        <span style="color:#fbbf24;">--force-change-password-next-sign-in</span> true
+<span style="color:#f472b6;">done</span> < users.csv</code></pre>
+</div>
+
+<h3>Gestione Errori</h3>
+<p>Dopo l'upload, puoi scaricare il file dei risultati che mostra:</p>
+<ul>
+  <li><strong>Success</strong>: Utenti creati correttamente</li>
+  <li><strong>Failed</strong>: Utenti non creati con motivo dell'errore</li>
+</ul>
+
+<h4>Errori Comuni</h4>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#dc2626,#b91c1c);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Errore</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Causa</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Soluzione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#fef2f2;">
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;font-weight:600;color:#991b1b;">UPN già esistente</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;">L'utente esiste già</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;">Verifica se è un duplicato o modifica UPN</td>
+      </tr>
+      <tr style="background:#fff7ed;">
+        <td style="padding:12px 16px;border-bottom:1px solid #fed7aa;font-weight:600;color:#c2410c;">Password non valida</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fed7aa;">Non rispetta la policy</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fed7aa;">Usa password più complessa</td>
+      </tr>
+      <tr style="background:#fef2f2;">
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;font-weight:600;color:#991b1b;">Dominio non valido</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;">Dominio non verificato nel tenant</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #fecaca;">Aggiungi e verifica il dominio</td>
+      </tr>
+      <tr style="background:#fff7ed;">
+        <td style="padding:12px 16px;font-weight:600;color:#c2410c;">Formato file errato</td>
+        <td style="padding:12px 16px;">Colonne mancanti o modificate</td>
+        <td style="padding:12px 16px;">Scarica nuovo template</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📥</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Usa sempre il template</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Scaricalo dal portale</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🧪</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Test con pochi utenti</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Prima di caricare migliaia</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📊</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Verifica risultati</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Scarica report errori</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔄</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Per sync continuo</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Usa Entra Connect</div>
+  </div>
+</div>
+
+<h3>Bulk Operations vs Azure AD Connect</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Scenario</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Soluzione Consigliata</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Onboarding una tantum (es. nuovi assunti)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#16a34a;">Bulk Create</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sincronizzazione continua da AD on-prem</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Entra Connect</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Invito massivo partner esterni</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#16a34a;">Bulk Invite</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;">Cleanup account obsoleti</td>
+        <td style="padding:12px 16px;font-weight:600;color:#16a34a;">Bulk Delete</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#92400e;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#78350f;font-size:14px;">
+        <li>Il formato file richiesto è <strong>CSV</strong> (non Excel, JSON o XML)</li>
+        <li>Scarica sempre il <strong>template</strong> dal portale per il formato corretto</li>
+        <li>I risultati delle operazioni restano disponibili per <strong>7 giorni</strong></li>
+        <li>Le operazioni hanno un <strong>timeout di 1 ora</strong> - dividi file grandi</li>
+        <li>Per sincronizzazione continua usa <strong>Entra Connect</strong> (non bulk ops)</li>
+        <li><strong>Non modificare</strong> le prime 2 righe del template</li>
+        <li><strong>Rimuovi</strong> la riga di esempio prima dell'upload</li>
+        <li>Le password devono rispettare la <strong>password policy</strong> del tenant</li>
+        <li>Ruolo minimo: <strong>User Administrator</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<h2>Scaling in AKS</h2>
+        <ul>
+          <li><strong>Cluster Autoscaler</strong>: Aggiunge/rimuove Nodi (VM) quando i Pod non hanno risorse sufficienti per essere schedulati.</li>
+          <li><strong>Horizontal Pod Autoscaler (HPA)</strong>: Aggiunge/rimuove Pod in base all'uso di CPU/RAM.</li>
+        </ul>
+
+        <h3>Comandi CLI Essenziali</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un cluster AKS (con Azure CNI)</span>
+<span style="color:#38bdf8;">az aks create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyAKSCluster <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--node-count</span> 3 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--network-plugin</span> azure <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--generate-ssh-keys</span>
+
+<span style="color:#94a3b8;"># Ottenere le credenziali per kubectl</span>
+<span style="color:#38bdf8;">az aks get-credentials</span> <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#fbbf24;">--name</span> MyAKSCluster
+
+<span style="color:#94a3b8;"># Aggiornare il cluster (es. abilitare autoscaler)</span>
+<span style="color:#38bdf8;">az aks update</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyAKSCluster <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--enable-cluster-autoscaler</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--min-count</span> 1 <span style="color:#fbbf24;">--max-count</span> 5</code></pre>
+        </div>

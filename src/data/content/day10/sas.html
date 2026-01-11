@@ -1,0 +1,140 @@
+<h2>Shared Access Signatures (SAS)</h2>
+        <p>Un <strong>SAS</strong> è un URI che concede diritti di accesso limitati a risorse Azure Storage. Include parametri che definiscono permessi, validità e restrizioni, firmati con una chiave.</p>
+
+        <svg viewBox="0 0 600 200" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+          <!-- Three SAS types -->
+          <rect x="20" y="30" width="170" height="150" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+          <text x="105" y="60" text-anchor="middle" font-weight="bold" fill="#d97706" font-size="12">Account SAS</text>
+          <text x="105" y="85" text-anchor="middle" fill="#64748b" font-size="10">Firmato con Account Key</text>
+          <text x="105" y="105" text-anchor="middle" fill="#64748b" font-size="10">Multi-servizio</text>
+          <text x="105" y="125" text-anchor="middle" fill="#64748b" font-size="10">Blob, File, Queue, Table</text>
+          <text x="105" y="155" text-anchor="middle" fill="#f59e0b" font-size="9">Meno granulare</text>
+
+          <rect x="210" y="30" width="170" height="150" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+          <text x="295" y="60" text-anchor="middle" font-weight="bold" fill="#2563eb" font-size="12">Service SAS</text>
+          <text x="295" y="85" text-anchor="middle" fill="#64748b" font-size="10">Firmato con Account Key</text>
+          <text x="295" y="105" text-anchor="middle" fill="#64748b" font-size="10">Singolo servizio</text>
+          <text x="295" y="125" text-anchor="middle" fill="#64748b" font-size="10">Container/Blob specifico</text>
+          <text x="295" y="155" text-anchor="middle" fill="#3b82f6" font-size="9">+ Stored Access Policy</text>
+
+          <rect x="400" y="30" width="170" height="150" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="485" y="60" text-anchor="middle" font-weight="bold" fill="#16a34a" font-size="12">User Delegation</text>
+          <text x="485" y="85" text-anchor="middle" fill="#64748b" font-size="10">Firmato con Azure AD</text>
+          <text x="485" y="105" text-anchor="middle" fill="#64748b" font-size="10">Solo Blob storage</text>
+          <text x="485" y="125" text-anchor="middle" fill="#64748b" font-size="10">Revoca con Azure AD</text>
+          <text x="485" y="155" text-anchor="middle" fill="#22c55e" font-size="9">Più sicuro</text>
+        </svg>
+
+        <h3>Tipi di SAS</h3>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Tipo</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Firmato con</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Scope</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Revoca</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Account SAS</strong></td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Account Key</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">1+ servizi storage</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Rigenerare key</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Service SAS</strong></td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Account Key</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">1 servizio specifico</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Stored Access Policy</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>User Delegation SAS</strong></td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Azure AD credentials</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Solo Blob storage</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Revoca Azure AD</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Parametri del SAS Token</h3>
+        <p>Un URL SAS contiene diversi parametri:</p>
+        <pre><code>https://mystorageaccount.blob.core.windows.net/container/blob.txt
+  ?sv=2021-06-08           # API version
+  &st=2024-01-01T00:00:00Z # Start time
+  &se=2024-01-02T00:00:00Z # Expiry time
+  &sr=b                    # Resource (b=blob, c=container)
+  &sp=r                    # Permissions (r=read, w=write, d=delete, l=list)
+  &sip=168.1.5.60-168.1.5.70  # IP range allowed
+  &spr=https               # Protocol (https only)
+  &sig=...                 # Signature</code></pre>
+
+        <h3>Generare SAS con Azure CLI</h3>
+        <pre><code># Generare Account SAS
+az storage account generate-sas \\
+  --account-name mystorageaccount \\
+  --account-key $ACCOUNT_KEY \\
+  --services b \\
+  --resource-types sco \\
+  --permissions rwdlacup \\
+  --expiry 2024-12-31
+
+# Generare Service SAS per un container
+az storage container generate-sas \\
+  --account-name mystorageaccount \\
+  --name mycontainer \\
+  --permissions rl \\
+  --expiry 2024-12-31
+
+# Generare User Delegation SAS (più sicuro)
+az storage blob generate-sas \\
+  --account-name mystorageaccount \\
+  --container-name mycontainer \\
+  --name myblob.txt \\
+  --permissions r \\
+  --expiry 2024-12-31 \\
+  --auth-mode login \\
+  --as-user</code></pre>
+
+        <h3>Stored Access Policy</h3>
+        <p>Una <strong>Stored Access Policy</strong> permette di controllare i Service SAS lato server:</p>
+        <ul>
+          <li>Definisce start time, expiry e permissions</li>
+          <li>Il SAS fa riferimento alla policy invece di includere i parametri</li>
+          <li><strong>Revocare/modificare la policy</strong> invalida tutti i SAS associati</li>
+          <li>Massimo <strong>5 policy</strong> per container</li>
+        </ul>
+
+        <pre><code># Creare una stored access policy
+az storage container policy create \\
+  --account-name mystorageaccount \\
+  --container-name mycontainer \\
+  --name mypolicy \\
+  --permissions rl \\
+  --expiry 2024-12-31
+
+# Generare SAS basato sulla policy
+az storage blob generate-sas \\
+  --account-name mystorageaccount \\
+  --container-name mycontainer \\
+  --name myblob.txt \\
+  --policy-name mypolicy</code></pre>
+
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Usa <strong>User Delegation SAS</strong> quando possibile (Azure AD)</li>
+          <li>Imposta <strong>expiry time breve</strong> (minuti/ore, non giorni/mesi)</li>
+          <li>Usa <strong>stored access policies</strong> per Service SAS per poterli revocare</li>
+          <li>Limita con <strong>IP restrictions</strong> quando possibile</li>
+          <li>Forza sempre <strong>HTTPS only</strong></li>
+          <li><strong>Minimum permissions</strong>: concedi solo i permessi necessari</li>
+        </ul>
+
+        <h3>Considerazioni per l'Esame</h3>
+        <ul>
+          <li><strong>User Delegation SAS</strong> è il più sicuro (Azure AD)</li>
+          <li>Solo <strong>Service SAS</strong> supporta Stored Access Policy</li>
+          <li>User Delegation SAS funziona <strong>solo per Blob storage</strong></li>
+          <li>Rigenerare la key <strong>invalida tutti i SAS</strong> firmati con quella key</li>
+          <li>Un SAS senza stored policy <strong>non può essere revocato</strong> prima della scadenza</li>
+        </ul>

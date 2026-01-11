@@ -1,40 +1,230 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #6366F1;
-  --color-primary-dark: #4F46E5;
-  --color-secondary: #10B981;
-  --color-background: #F8FAFC;
-  --color-card: #FFFFFF;
-  --color-text: #1E293B;
-  --color-text-light: #64748B;
+  --color-primary: #8b5cf6; /* Violet-500 */
+  --color-primary-dark: #7c3aed; /* Violet-600 */
+  --color-secondary: #10b981; /* Emerald-500 */
+  --color-background: #f8fafc;
+  --color-card: #ffffff;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--color-background);
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  background-color: #f3f4f6;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  background-attachment: fixed;
   color: var(--color-text);
+  min-height: 100vh;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-/* Custom scrollbar */
+/* Modern Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient Text */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, #4f46e5, #9333ea);
+}
+
+/* ========================================
+   Stili per il Contenuto HTML Dinamico
+   ======================================== */
+
+.topic-content {
+  color: #334155;
+  line-height: 1.75;
+}
+
+/* Titoli */
+.topic-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topic-content h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1.5rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 2px;
+}
+
+.topic-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid #8b5cf6;
+}
+
+.topic-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Paragrafi */
+.topic-content p {
+  margin-bottom: 1rem;
+  color: #475569;
+}
+
+/* Liste non ordinate */
+.topic-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+.topic-content ul li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.625rem;
+  color: #475569;
+}
+
+.topic-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.625rem;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 50%;
+}
+
+/* Liste ordinate */
+.topic-content ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0;
+  counter-reset: ordered-list;
+}
+
+.topic-content ol li {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #475569;
+  counter-increment: ordered-list;
+}
+
+.topic-content ol li::before {
+  content: counter(ordered-list);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Liste annidate */
+.topic-content ul ul,
+.topic-content ol ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.topic-content ul ul li::before {
+  width: 6px;
+  height: 6px;
   background: #94a3b8;
+}
+
+/* Strong e emphasis */
+.topic-content strong {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.topic-content em {
+  font-style: italic;
+  color: #64748b;
+}
+
+/* Link */
+.topic-content a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.topic-content a:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* Codice inline */
+.topic-content code:not(pre code) {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.375rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  color: #6366f1;
+  font-weight: 500;
 }

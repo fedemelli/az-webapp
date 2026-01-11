@@ -1,0 +1,353 @@
+<h2>Policy Initiatives (Policy Sets)</h2>
+
+<p>Una <strong>Policy Initiative</strong> (chiamata anche Policy Set) è una collezione di policy definitions raggruppate per semplificare la gestione, l'assignment e il tracking della compliance in modo unificato.</p>
+
+<!-- Diagramma Initiative Structure -->
+<svg viewBox="0 0 750 350" style="width:100%;max-width:750px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="initGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="policyGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#2563eb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Initiative Container -->
+  <rect x="20" y="20" width="710" height="310" rx="12" fill="#f8fafc" stroke="url(#initGrad)" stroke-width="3"/>
+  <text x="375" y="55" text-anchor="middle" font-size="16" font-weight="700" fill="#4f46e5">Policy Initiative: Security Baseline</text>
+  <text x="375" y="78" text-anchor="middle" font-size="12" fill="#64748b">Raggrupa multiple policy per un obiettivo comune</text>
+
+  <!-- Policy 1 -->
+  <rect x="50" y="100" width="200" height="90" rx="8" fill="url(#policyGrad2)"/>
+  <text x="150" y="130" text-anchor="middle" font-size="11" font-weight="600" fill="white">Policy Definition 1</text>
+  <text x="150" y="150" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Require HTTPS for</text>
+  <text x="150" y="165" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Storage Accounts</text>
+  <text x="150" y="180" text-anchor="middle" font-size="9" fill="#fbbf24">Effect: Deny</text>
+
+  <!-- Policy 2 -->
+  <rect x="275" y="100" width="200" height="90" rx="8" fill="url(#policyGrad2)"/>
+  <text x="375" y="130" text-anchor="middle" font-size="11" font-weight="600" fill="white">Policy Definition 2</text>
+  <text x="375" y="150" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Deploy Diagnostic</text>
+  <text x="375" y="165" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Settings to Log Analytics</text>
+  <text x="375" y="180" text-anchor="middle" font-size="9" fill="#fbbf24">Effect: DeployIfNotExists</text>
+
+  <!-- Policy 3 -->
+  <rect x="500" y="100" width="200" height="90" rx="8" fill="url(#policyGrad2)"/>
+  <text x="600" y="130" text-anchor="middle" font-size="11" font-weight="600" fill="white">Policy Definition 3</text>
+  <text x="600" y="150" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Allowed VM SKUs</text>
+  <text x="600" y="165" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">(Cost Control)</text>
+  <text x="600" y="180" text-anchor="middle" font-size="9" fill="#fbbf24">Effect: Deny</text>
+
+  <!-- More policies indicator -->
+  <text x="375" y="215" text-anchor="middle" font-size="12" fill="#64748b">+ altre policy definitions...</text>
+
+  <!-- Assignment Arrow -->
+  <path d="M375 240 L375 280" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Single Assignment -->
+  <rect x="250" y="280" width="250" height="40" rx="6" fill="#22c55e"/>
+  <text x="375" y="305" text-anchor="middle" font-size="12" font-weight="600" fill="white">1 Solo Assignment = Tutte le Policy</text>
+</svg>
+
+<h3>Quando Usare le Initiatives</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <strong style="color:#1e40af;">📦 Multiple Policy Correlate</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Hai diverse policy per uno stesso obiettivo di compliance</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);padding:1rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <strong style="color:#166534;">✓ Semplificare Assignment</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Un solo assignment invece di assegnare decine di policy</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;border-left:4px solid #f59e0b;">
+    <strong style="color:#b45309;">📋 Standard Normativi</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Rispettare ISO 27001, NIST, CIS, PCI-DSS, HIPAA</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);padding:1rem;border-radius:8px;border-left:4px solid #a855f7;">
+    <strong style="color:#7c3aed;">📊 Compliance Aggregata</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Visualizza score complessivo invece di valori singoli</p>
+  </div>
+</div>
+
+<h3>Built-in Initiatives più Importanti</h3>
+
+<p>Azure fornisce molte initiatives pre-configurate per i principali standard di sicurezza e compliance:</p>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Initiative</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Descrizione</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">N° Policy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Microsoft Cloud Security Benchmark</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Best practices di sicurezza Microsoft (ex Azure Security Benchmark)</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">200+</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">CIS Microsoft Azure Foundations</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Standard CIS per configurazioni sicure</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">150+</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">ISO 27001:2013</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Information Security Management</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">90+</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">NIST SP 800-53 Rev. 5</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Standard federale USA per la sicurezza</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">200+</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">PCI DSS v4.0</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Payment Card Industry Data Security</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">100+</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">HIPAA HITRUST 9.2</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Healthcare data compliance</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">100+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Struttura di una Custom Initiative</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code>{
+  <span style="color:#7dd3fc;">"name"</span>: <span style="color:#a5f3fc;">"security-baseline-custom"</span>,
+  <span style="color:#7dd3fc;">"properties"</span>: {
+    <span style="color:#7dd3fc;">"displayName"</span>: <span style="color:#a5f3fc;">"Custom Security Baseline"</span>,
+    <span style="color:#7dd3fc;">"description"</span>: <span style="color:#a5f3fc;">"Policy di sicurezza baseline per l'organizzazione"</span>,
+    <span style="color:#7dd3fc;">"metadata"</span>: {
+      <span style="color:#7dd3fc;">"category"</span>: <span style="color:#a5f3fc;">"Security"</span>,
+      <span style="color:#7dd3fc;">"version"</span>: <span style="color:#a5f3fc;">"1.0.0"</span>
+    },
+    <span style="color:#7dd3fc;">"policyDefinitions"</span>: [
+      {
+        <span style="color:#7dd3fc;">"policyDefinitionId"</span>: <span style="color:#a5f3fc;">"/providers/Microsoft.Authorization/policyDefinitions/xxx"</span>,
+        <span style="color:#7dd3fc;">"policyDefinitionReferenceId"</span>: <span style="color:#a5f3fc;">"RequireHTTPSStorage"</span>,
+        <span style="color:#7dd3fc;">"parameters"</span>: {
+          <span style="color:#7dd3fc;">"effect"</span>: { <span style="color:#7dd3fc;">"value"</span>: <span style="color:#a5f3fc;">"[parameters('storageEffect')]"</span> }
+        },
+        <span style="color:#7dd3fc;">"groupNames"</span>: [<span style="color:#a5f3fc;">"Storage"</span>]
+      },
+      {
+        <span style="color:#7dd3fc;">"policyDefinitionId"</span>: <span style="color:#a5f3fc;">"/providers/Microsoft.Authorization/policyDefinitions/yyy"</span>,
+        <span style="color:#7dd3fc;">"policyDefinitionReferenceId"</span>: <span style="color:#a5f3fc;">"AllowedLocations"</span>,
+        <span style="color:#7dd3fc;">"parameters"</span>: {
+          <span style="color:#7dd3fc;">"listOfAllowedLocations"</span>: { <span style="color:#7dd3fc;">"value"</span>: <span style="color:#a5f3fc;">"[parameters('allowedLocations')]"</span> }
+        },
+        <span style="color:#7dd3fc;">"groupNames"</span>: [<span style="color:#a5f3fc;">"General"</span>]
+      }
+    ],
+    <span style="color:#7dd3fc;">"policyDefinitionGroups"</span>: [
+      { <span style="color:#7dd3fc;">"name"</span>: <span style="color:#a5f3fc;">"Storage"</span>, <span style="color:#7dd3fc;">"displayName"</span>: <span style="color:#a5f3fc;">"Storage Security"</span> },
+      { <span style="color:#7dd3fc;">"name"</span>: <span style="color:#a5f3fc;">"General"</span>, <span style="color:#7dd3fc;">"displayName"</span>: <span style="color:#a5f3fc;">"General Settings"</span> }
+    ],
+    <span style="color:#7dd3fc;">"parameters"</span>: {
+      <span style="color:#7dd3fc;">"storageEffect"</span>: {
+        <span style="color:#7dd3fc;">"type"</span>: <span style="color:#a5f3fc;">"String"</span>,
+        <span style="color:#7dd3fc;">"defaultValue"</span>: <span style="color:#a5f3fc;">"Deny"</span>,
+        <span style="color:#7dd3fc;">"allowedValues"</span>: [<span style="color:#a5f3fc;">"Audit"</span>, <span style="color:#a5f3fc;">"Deny"</span>, <span style="color:#a5f3fc;">"Disabled"</span>]
+      },
+      <span style="color:#7dd3fc;">"allowedLocations"</span>: {
+        <span style="color:#7dd3fc;">"type"</span>: <span style="color:#a5f3fc;">"Array"</span>,
+        <span style="color:#7dd3fc;">"defaultValue"</span>: [<span style="color:#a5f3fc;">"westeurope"</span>, <span style="color:#a5f3fc;">"northeurope"</span>]
+      }
+    }
+  }
+}</code></pre>
+
+<h3>Policy Definition Groups</h3>
+
+<p>I <strong>groupNames</strong> permettono di organizzare le policy all'interno di un'initiative per categoria. Questo migliora la leggibilità nel compliance dashboard.</p>
+
+<div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;margin:1rem 0;">
+  <h4 style="margin:0 0 0.75rem 0;color:#334155;">Struttura Groups</h4>
+  <pre style="background:#1e293b;color:#e2e8f0;padding:1rem;border-radius:6px;font-size:0.85rem;margin:0;"><code>"policyDefinitionGroups": [
+  {
+    "name": "Network",
+    "displayName": "Network Security Controls",
+    "description": "Policies related to network security"
+  },
+  {
+    "name": "Storage",
+    "displayName": "Storage Security Controls"
+  },
+  {
+    "name": "Identity",
+    "displayName": "Identity and Access Management"
+  }
+]</code></pre>
+</div>
+
+<h3>Gestire Initiatives con Azure CLI</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Elencare initiatives built-in</span>
+az policy set-definition list \
+  --query "[?policyType=='BuiltIn']" \
+  --output table
+
+<span style="color:#94a3b8;"># Visualizzare una specifica initiative built-in</span>
+az policy set-definition show \
+  --name "1f3afdf9-d0c9-4c3d-847f-89da613e70a8" <span style="color:#94a3b8;"># Azure Security Benchmark</span>
+
+<span style="color:#94a3b8;"># Creare una custom initiative</span>
+az policy set-definition create \
+  --name "my-security-initiative" \
+  --display-name "My Security Initiative" \
+  --definitions definitions.json \
+  --params params.json \
+  --definition-groups groups.json
+
+<span style="color:#94a3b8;"># Assegnare un'initiative a una subscription</span>
+az policy assignment create \
+  --name "security-initiative-assignment" \
+  --display-name "Security Initiative Assignment" \
+  --scope "/subscriptions/{subscription-id}" \
+  --policy-set-definition "my-security-initiative" \
+  --params '{"storageEffect": {"value": "Audit"}}'
+
+<span style="color:#94a3b8;"># Assegnare a un Management Group</span>
+az policy assignment create \
+  --name "security-mg-assignment" \
+  --scope "/providers/Microsoft.Management/managementGroups/{mg-id}" \
+  --policy-set-definition "my-security-initiative"</code></pre>
+
+<h3>Gestire Initiatives con PowerShell</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Get all built-in initiatives</span>
+Get-AzPolicySetDefinition |
+  Where-Object { $_.Properties.PolicyType -eq "BuiltIn" } |
+  Select-Object Name, @{N="DisplayName";E={$_.Properties.DisplayName}}
+
+<span style="color:#94a3b8;"># Create custom initiative from JSON file</span>
+$definition = Get-Content -Path "initiative.json" | ConvertFrom-Json
+
+New-AzPolicySetDefinition `
+  -Name "custom-security-initiative" `
+  -DisplayName "Custom Security Initiative" `
+  -PolicyDefinition ($definition.policyDefinitions | ConvertTo-Json -Depth 10) `
+  -Parameter ($definition.parameters | ConvertTo-Json)
+
+<span style="color:#94a3b8;"># Assign initiative</span>
+$initiative = Get-AzPolicySetDefinition -Name "custom-security-initiative"
+
+New-AzPolicyAssignment `
+  -Name "security-assignment" `
+  -DisplayName "Security Initiative Assignment" `
+  -Scope "/subscriptions/{subscription-id}" `
+  -PolicySetDefinition $initiative
+
+<span style="color:#94a3b8;"># Get initiative compliance status</span>
+Get-AzPolicyState -PolicySetDefinitionName "custom-security-initiative" |
+  Group-Object -Property ComplianceState</code></pre>
+
+<h3>Vantaggi delle Initiatives</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Vantaggio</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Descrizione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Gestione Semplificata</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Un solo assignment invece di decine di singole policy</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Parametri Condivisi</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Configura una volta a livello initiative, applica a tutte le policy</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Compliance Aggregata</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Visualizza compliance score complessivo nel dashboard</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Versioning</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Aggiorna le policy dell'initiative in modo centralizzato</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Grouping Logico</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Organizza policy per categoria (network, storage, identity)</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Regulatory Compliance</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Mappatura automatica ai controlli normativi</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Initiative vs Singole Policy: Quando Usare Cosa</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">📋 Usa Initiatives quando:</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Hai 3+ policy correlate</li>
+      <li>Devi rispettare standard normativi</li>
+      <li>Vuoi un compliance score aggregato</li>
+      <li>Diverse subscription/RG con stesse regole</li>
+      <li>Team diversi gestiscono policy correlate</li>
+    </ul>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <h4 style="margin:0 0 0.75rem 0;color:#166534;">📄 Usa Singole Policy quando:</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Hai solo 1-2 policy semplici</li>
+      <li>Policy non correlate tra loro</li>
+      <li>Scope molto specifici e diversi</li>
+      <li>Testing rapido di una policy</li>
+      <li>Override specifici su un scope</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Best Practices per Initiatives</h3>
+
+<ul>
+  <li><strong>Usa built-in quando possibile</strong>: Le initiatives Microsoft sono testate e aggiornate automaticamente</li>
+  <li><strong>Testa in Audit mode</strong>: Prima di passare a Deny, monitora l'impatto in Audit</li>
+  <li><strong>Usa Definition Groups</strong>: Organizza le policy per categoria per facilitare il monitoring</li>
+  <li><strong>Versiona le custom initiatives</strong>: Usa la metadata.version per tracciare le modifiche</li>
+  <li><strong>Parametrizza gli effetti</strong>: Permette di passare da Audit a Deny senza modificare l'initiative</li>
+  <li><strong>Documenta lo scopo</strong>: Usa description chiare per ogni initiative e policy</li>
+</ul>
+
+<h3>Limiti delle Initiatives</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">500</div>
+    <div style="font-size:0.875rem;color:#64748b;">Policy Definitions per Initiative</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">20</div>
+    <div style="font-size:0.875rem;color:#64748b;">Parametri per Initiative</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">100</div>
+    <div style="font-size:0.875rem;color:#64748b;">Initiatives per Subscription</div>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1.25rem;border-radius:8px;margin:1.5rem 0;border-left:4px solid #3b82f6;">
+  <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">💡 Tip per l'Esame AZ-104</h4>
+  <ul style="margin:0;padding-left:1.25rem;font-size:0.9rem;color:#1e40af;">
+    <li>Un'<strong>Initiative</strong> è anche chiamata <strong>Policy Set Definition</strong> nelle API/CLI</li>
+    <li>Le built-in initiatives vengono <strong>aggiornate automaticamente</strong> da Microsoft</li>
+    <li>Puoi assegnare la stessa initiative a <strong>scope multipli</strong> con parametri diversi</li>
+    <li>I <strong>policyDefinitionGroups</strong> sono opzionali ma utili per il compliance dashboard</li>
+    <li>Per le custom initiatives, usa <strong>policyDefinitionReferenceId</strong> per identificare univocamente ogni policy</li>
+  </ul>
+</div>

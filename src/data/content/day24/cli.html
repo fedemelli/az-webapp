@@ -1,0 +1,14 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un App Gateway</span>
+<span style="color:#38bdf8;">az network application-gateway create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyAppGateway <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--location</span> eastus <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--sku</span> WAF_v2 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--capacity</span> 2 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vnet-name</span> MyVNet <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--subnet</span> MySubnet <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--public-ip-address</span> MyPublicIP <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--http-settings-cookie-based-affinity</span> Enabled</code></pre>
+        </div>

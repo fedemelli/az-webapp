@@ -1,0 +1,73 @@
+<h2>Strategie di Risparmio su Azure</h2>
+        <p>Azure offre diverse opzioni per ottimizzare i costi senza compromettere le prestazioni.</p>
+
+        <h3>Azure Reserved Instances (RI)</h3>
+        <p>Impegno di 1 o 3 anni per ottenere sconti significativi:</p>
+        <ul>
+          <li><strong>Sconto</strong>: Fino al 72% rispetto al pay-as-you-go</li>
+          <li><strong>Applicabile a</strong>: VM, SQL Database, Cosmos DB, Storage, e altri</li>
+          <li><strong>Flessibilità</strong>: Puoi scambiare o cancellare (con penali)</li>
+          <li><strong>Instance size flexibility</strong>: Lo sconto si applica a VM della stessa famiglia</li>
+        </ul>
+        <pre><code># Vedere le raccomandazioni per reserved instances
+az consumption reservation recommendation list</code></pre>
+
+        <h3>Azure Savings Plans</h3>
+        <p>Simili alle RI ma più flessibili:</p>
+        <ul>
+          <li>Impegno di spesa oraria invece che su specifiche risorse</li>
+          <li>Si applicano automaticamente alle risorse più costose</li>
+          <li>Più adatti a workload variabili</li>
+        </ul>
+
+        <h3>Azure Hybrid Benefit</h3>
+        <p>Usa licenze on-premises esistenti su Azure:</p>
+        <ul>
+          <li><strong>Windows Server</strong>: Usa licenze SA esistenti</li>
+          <li><strong>SQL Server</strong>: Risparmio fino al 55%</li>
+          <li><strong>Red Hat / SUSE</strong>: Porta le tue subscription</li>
+        </ul>
+        <p><strong>Attivazione</strong>: Seleziona "Azure Hybrid Benefit" durante la creazione della VM.</p>
+
+        <h3>Azure Spot VMs</h3>
+        <p>VM a prezzo scontato che possono essere interrotte:</p>
+        <ul>
+          <li><strong>Sconto</strong>: Fino al 90%</li>
+          <li><strong>Eviction</strong>: Azure può reclamare la VM con 30 secondi di preavviso</li>
+          <li><strong>Ideale per</strong>: Batch processing, CI/CD, dev/test, workload fault-tolerant</li>
+        </ul>
+
+        <h3>Right-Sizing</h3>
+        <p>Ridimensiona le risorse sottoutilizzate:</p>
+        <ul>
+          <li>Azure Advisor identifica VM sottoutilizzate</li>
+          <li>Riduci la dimensione di VM con CPU/RAM inutilizzata</li>
+          <li>Cambia tier di storage se l'accesso è raro</li>
+        </ul>
+
+        <h3>Dev/Test Pricing</h3>
+        <p>Prezzi ridotti per ambienti non-production:</p>
+        <ul>
+          <li>Richiede Visual Studio subscription</li>
+          <li>No costi di licenza Windows</li>
+          <li>Prezzi ridotti per PaaS</li>
+        </ul>
+
+        <h3>Auto-Shutdown</h3>
+        <p>Spegni automaticamente le VM non utilizzate:</p>
+        <pre><code># Abilitare auto-shutdown su una VM
+az vm auto-shutdown \\
+  --resource-group "my-rg" \\
+  --name "my-vm" \\
+  --time 1900</code></pre>
+
+        <h3>Altre Strategie</h3>
+        <ul>
+          <li><strong>Delete unused resources</strong>: Elimina dischi, IP, snapshot orfani</li>
+          <li><strong>Use cool/archive storage</strong>: Per dati ad accesso raro</li>
+          <li><strong>Consolidate workloads</strong>: Usa meno VM più grandi</li>
+          <li><strong>Use PaaS over IaaS</strong>: Spesso più conveniente</li>
+        </ul>
+
+        <h3>Azure Advisor Recommendations</h3>
+        <p>Controlla regolarmente Azure Advisor per suggerimenti di risparmio automatici.</p>

@@ -1,0 +1,23 @@
+<h2>Traffic Routing (Testing in Production)</h2>
+        <p>Puoi instradare una percentuale del traffico di produzione verso uno slot di staging per testare nuove funzionalità con utenti reali (Canary Deployment).</p>
+
+        <h3>Comandi CLI</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare uno slot di staging</span>
+<span style="color:#38bdf8;">az webapp deployment slot create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyUniqueApp <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--slot</span> staging
+
+<span style="color:#94a3b8;"># Configurare traffico al 10% su staging</span>
+<span style="color:#38bdf8;">az webapp traffic-routing set</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyUniqueApp <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--distribution</span> staging=10
+
+<span style="color:#94a3b8;"># Eseguire lo swap in produzione</span>
+<span style="color:#38bdf8;">az webapp deployment slot swap</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyUniqueApp <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--slot</span> staging <span style="color:#fbbf24;">--target-slot</span> production</code></pre>
+        </div>

@@ -1,0 +1,306 @@
+<h2>Custom Roles in Azure RBAC</h2>
+<p>Quando i ruoli built-in non soddisfano le esigenze specifiche dell'organizzazione, puoi creare <strong>custom roles</strong> con permessi personalizzati. I custom roles permettono di definire esattamente quali azioni sono consentite.</p>
+
+<h3>Quando Creare un Custom Role</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Nessun Built-in Adatto</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Quando nessun ruolo esistente corrisponde ai requisiti specifici del job.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Ruolo Più Restrittivo</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Serve un ruolo con meno permessi di quelli esistenti (principio least privilege).</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Combinare Permessi</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Devi unire permessi da più ruoli built-in in un unico ruolo.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">Esempio: VM Operator</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Può riavviare VM ma non può eliminarle o crearne di nuove.</p>
+  </div>
+</div>
+
+<h3>Struttura di un Custom Role (JSON)</h3>
+<p>Un custom role è definito da un documento JSON con le seguenti proprietà:</p>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code>{
+  <span style="color:#f472b6;">"Name"</span>: <span style="color:#a5f3fc;">"Virtual Machine Operator"</span>,
+  <span style="color:#f472b6;">"Id"</span>: <span style="color:#a5f3fc;">"88888888-8888-8888-8888-888888888888"</span>,
+  <span style="color:#f472b6;">"IsCustom"</span>: <span style="color:#34d399;">true</span>,
+  <span style="color:#f472b6;">"Description"</span>: <span style="color:#a5f3fc;">"Può avviare, fermare e riavviare VM"</span>,
+  <span style="color:#f472b6;">"Actions"</span>: [
+    <span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/start/action"</span>,
+    <span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/restart/action"</span>,
+    <span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/deallocate/action"</span>,
+    <span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/read"</span>,
+    <span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/instanceView/read"</span>
+  ],
+  <span style="color:#f472b6;">"NotActions"</span>: [],
+  <span style="color:#f472b6;">"DataActions"</span>: [],
+  <span style="color:#f472b6;">"NotDataActions"</span>: [],
+  <span style="color:#f472b6;">"AssignableScopes"</span>: [
+    <span style="color:#a5f3fc;">"/subscriptions/xxxx-xxxx-xxxx-xxxx"</span>
+  ]
+}</code></pre>
+</div>
+
+<h3>Proprietà del Custom Role</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Proprietà</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Obbligatoria</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Name</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Nome univoco nel tenant (max 128 caratteri)</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Id</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">GUID univoco, auto-generato se omesso</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">IsCustom</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Auto</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sempre <code>true</code> per custom roles</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Description</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Descrizione del ruolo (max 2048 caratteri)</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Actions</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì*</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Operazioni di <strong>management plane</strong> permesse</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">NotActions</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Operazioni da escludere dalle Actions</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">DataActions</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì*</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Operazioni di <strong>data plane</strong> permesse</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">NotDataActions</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Operazioni dati da escludere</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#6366f1;">AssignableScopes</td>
+        <td style="padding:12px 16px;">Sì</td>
+        <td style="padding:12px 16px;">Scope dove il ruolo può essere assegnato</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p style="font-size:13px;color:#64748b;">* Almeno Actions o DataActions deve contenere elementi</p>
+
+<h3>Control Plane vs Data Plane</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 12px 0;color:#1e40af;font-size:15px;">Control Plane (Actions)</h4>
+    <p style="margin:0 0 8px 0;color:#334155;font-size:14px;">Operazioni sulla <strong>risorsa stessa</strong>:</p>
+    <ul style="margin:0;padding-left:16px;color:#475569;font-size:13px;">
+      <li>Creare/eliminare storage account</li>
+      <li>Modificare configurazione VM</li>
+      <li>Gestire policy e accessi</li>
+      <li>Leggere proprietà risorse</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 12px 0;color:#166534;font-size:15px;">Data Plane (DataActions)</h4>
+    <p style="margin:0 0 8px 0;color:#334155;font-size:14px;">Operazioni sui <strong>dati contenuti</strong>:</p>
+    <ul style="margin:0;padding-left:16px;color:#475569;font-size:13px;">
+      <li>Leggere/scrivere blob</li>
+      <li>Inviare messaggi a queue</li>
+      <li>Eseguire query su database</li>
+      <li>Accedere a file share</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Wildcards nelle Actions</h3>
+<p>Puoi usare <code>*</code> come wildcard per includere più operazioni:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <code style="font-size:12px;background:#f1f5f9;padding:4px 8px;border-radius:4px;display:block;text-align:center;">*</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;text-align:center;">Tutte le operazioni (Full access)</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <code style="font-size:12px;background:#f1f5f9;padding:4px 8px;border-radius:4px;display:block;text-align:center;">Microsoft.Compute/*</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;text-align:center;">Tutte le azioni Compute</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <code style="font-size:12px;background:#f1f5f9;padding:4px 8px;border-radius:4px;display:block;text-align:center;">*/read</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;text-align:center;">Letture su tutti i provider</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <code style="font-size:12px;background:#f1f5f9;padding:4px 8px;border-radius:4px;display:block;text-align:center;">Microsoft.Storage/*/read</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;text-align:center;">Letture su tutto Storage</div>
+  </div>
+</div>
+
+<h3>Creare Custom Role con Azure CLI</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare da file JSON</span>
+<span style="color:#38bdf8;">az role definition create</span> <span style="color:#fbbf24;">--role-definition</span> @vm-operator.json
+
+<span style="color:#94a3b8;"># Elencare custom roles</span>
+<span style="color:#38bdf8;">az role definition list</span> <span style="color:#fbbf24;">--custom-role-only</span> true <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Visualizzare dettagli di un ruolo</span>
+<span style="color:#38bdf8;">az role definition list</span> <span style="color:#fbbf24;">--name</span> "Virtual Machine Operator"
+
+<span style="color:#94a3b8;"># Aggiornare un custom role</span>
+<span style="color:#38bdf8;">az role definition update</span> <span style="color:#fbbf24;">--role-definition</span> @vm-operator-updated.json
+
+<span style="color:#94a3b8;"># Eliminare un custom role</span>
+<span style="color:#38bdf8;">az role definition delete</span> <span style="color:#fbbf24;">--name</span> "Virtual Machine Operator"</code></pre>
+</div>
+
+<h3>Creare Custom Role con PowerShell</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Partire da un ruolo built-in esistente</span>
+<span style="color:#c084fc;">$role</span> = <span style="color:#38bdf8;">Get-AzRoleDefinition</span> <span style="color:#a5f3fc;">"Virtual Machine Contributor"</span>
+<span style="color:#c084fc;">$role</span>.Id = <span style="color:#c084fc;">$null</span>
+<span style="color:#c084fc;">$role</span>.Name = <span style="color:#a5f3fc;">"VM Operator"</span>
+<span style="color:#c084fc;">$role</span>.Description = <span style="color:#a5f3fc;">"Can start, stop, and restart VMs"</span>
+<span style="color:#c084fc;">$role</span>.IsCustom = <span style="color:#c084fc;">$true</span>
+
+<span style="color:#94a3b8;"># Pulire e aggiungere solo le azioni necessarie</span>
+<span style="color:#c084fc;">$role</span>.Actions.Clear()
+<span style="color:#c084fc;">$role</span>.Actions.Add(<span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/start/action"</span>)
+<span style="color:#c084fc;">$role</span>.Actions.Add(<span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/restart/action"</span>)
+<span style="color:#c084fc;">$role</span>.Actions.Add(<span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/deallocate/action"</span>)
+<span style="color:#c084fc;">$role</span>.Actions.Add(<span style="color:#a5f3fc;">"Microsoft.Compute/virtualMachines/read"</span>)
+
+<span style="color:#94a3b8;"># Definire gli scope</span>
+<span style="color:#c084fc;">$role</span>.AssignableScopes.Clear()
+<span style="color:#c084fc;">$role</span>.AssignableScopes.Add(<span style="color:#a5f3fc;">"/subscriptions/xxxx-xxxx-xxxx"</span>)
+
+<span style="color:#94a3b8;"># Creare il ruolo</span>
+<span style="color:#38bdf8;">New-AzRoleDefinition</span> <span style="color:#fbbf24;">-Role</span> <span style="color:#c084fc;">$role</span>
+
+<span style="color:#94a3b8;"># Aggiornare un ruolo esistente</span>
+<span style="color:#38bdf8;">Set-AzRoleDefinition</span> <span style="color:#fbbf24;">-Role</span> <span style="color:#c084fc;">$role</span>
+
+<span style="color:#94a3b8;"># Eliminare un ruolo</span>
+<span style="color:#38bdf8;">Remove-AzRoleDefinition</span> <span style="color:#fbbf24;">-Name</span> <span style="color:#a5f3fc;">"VM Operator"</span></code></pre>
+</div>
+
+<h3>AssignableScopes</h3>
+<p><strong>AssignableScopes</strong> definisce dove il custom role può essere assegnato. È diverso dallo scope del role assignment.</p>
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#92400e;font-size:15px;">Regole per AssignableScopes</h4>
+  <ul style="margin:0;padding-left:20px;color:#78350f;font-size:14px;">
+    <li>Può contenere: Management Groups, Subscriptions, o Resource Groups</li>
+    <li>Non può contenere singole risorse</li>
+    <li>Il ruolo può essere assegnato solo agli scope specificati o ai loro figli</li>
+    <li>Usare <code>/</code> (root) rende il ruolo disponibile ovunque (sconsigliato)</li>
+    <li>Max <strong>2000</strong> AssignableScopes per ruolo</li>
+  </ul>
+</div>
+
+<h3>Esempio Pratico: Storage Reader Custom</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code>{
+  <span style="color:#f472b6;">"Name"</span>: <span style="color:#a5f3fc;">"Storage Blob Reader Custom"</span>,
+  <span style="color:#f472b6;">"Description"</span>: <span style="color:#a5f3fc;">"Read blob data but not list containers"</span>,
+  <span style="color:#f472b6;">"Actions"</span>: [
+    <span style="color:#a5f3fc;">"Microsoft.Storage/storageAccounts/read"</span>
+  ],
+  <span style="color:#f472b6;">"DataActions"</span>: [
+    <span style="color:#a5f3fc;">"Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"</span>
+  ],
+  <span style="color:#f472b6;">"NotDataActions"</span>: [],
+  <span style="color:#f472b6;">"AssignableScopes"</span>: [
+    <span style="color:#a5f3fc;">"/subscriptions/xxxx/resourceGroups/storage-rg"</span>
+  ]
+}</code></pre>
+</div>
+
+<h3>Limiti e Requisiti</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">5000</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Custom Roles</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per tenant</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">2000</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">AssignableScopes</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per ruolo</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">4</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Management Groups</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max in AssignableScopes</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">128</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Caratteri</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max lunghezza Name</div>
+  </div>
+</div>
+
+<h3>Permessi Richiesti</h3>
+<div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0;color:#7f1d1d;font-size:14px;">Per creare custom roles serve il permesso:</p>
+  <code style="display:block;margin-top:12px;background:#1e293b;color:#e2e8f0;padding:12px;border-radius:8px;font-size:13px;">Microsoft.Authorization/roleDefinitions/write</code>
+  <p style="margin:12px 0 0 0;color:#7f1d1d;font-size:14px;">Ruoli che hanno questo permesso: <strong>Owner</strong> e <strong>User Access Administrator</strong></p>
+</div>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📦</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Built-in First</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Usa built-in quando possibile</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔒</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Least Privilege</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Solo azioni necessarie</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📝</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Documentazione</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Descrivi chiaramente il ruolo</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🎯</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Scope Limitato</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">AssignableScopes restrittivi</div>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>IsCustom</strong> è sempre <code>true</code> per custom roles</li>
+        <li><strong>AssignableScopes</strong> definisce DOVE il ruolo può essere assegnato, non dove si applica</li>
+        <li>Richiede permesso <code>Microsoft.Authorization/roleDefinitions/write</code></li>
+        <li>I custom roles si propagano verso il basso nello scope</li>
+        <li><strong>NotActions</strong> non è un deny - è solo un'esclusione dalle Actions</li>
+        <li>Max <strong>5000</strong> custom roles per tenant</li>
+        <li><strong>Actions</strong> = control plane, <strong>DataActions</strong> = data plane</li>
+        <li>Non puoi eliminare un ruolo se ha ancora role assignments attivi</li>
+      </ul>
+    </div>
+  </div>
+</div>

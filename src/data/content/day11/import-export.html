@@ -1,0 +1,137 @@
+<h2>Azure Import/Export Service</h2>
+        <p>Il servizio <strong>Azure Import/Export</strong> permette di trasferire grandi quantità di dati (terabyte o petabyte) verso o da Azure Storage utilizzando dischi fisici spediti ai datacenter Microsoft.</p>
+
+        <svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+          <!-- Import flow -->
+          <rect x="20" y="30" width="280" height="170" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+          <text x="160" y="55" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="13">Import Job</text>
+
+          <rect x="40" y="70" width="80" height="50" rx="5" fill="#f1f5f9"/>
+          <text x="80" y="100" text-anchor="middle" fill="#334155" font-size="10">Your Disks</text>
+
+          <text x="150" y="95" fill="#3b82f6" font-size="20">→</text>
+
+          <rect x="180" y="70" width="100" height="50" rx="5" fill="#3b82f6"/>
+          <text x="230" y="95" text-anchor="middle" fill="white" font-size="10">Azure Datacenter</text>
+
+          <text x="160" y="145" text-anchor="middle" fill="#64748b" font-size="10">Spedisci dischi → Azure copia dati</text>
+          <text x="160" y="165" text-anchor="middle" fill="#64748b" font-size="10">→ Restituisce dischi</text>
+          <text x="160" y="185" text-anchor="middle" fill="#3b82f6" font-size="10">Blob / Azure Files</text>
+
+          <!-- Export flow -->
+          <rect x="320" y="30" width="260" height="170" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="450" y="55" text-anchor="middle" font-weight="bold" fill="#166534" font-size="13">Export Job</text>
+
+          <rect x="340" y="70" width="100" height="50" rx="5" fill="#22c55e"/>
+          <text x="390" y="95" text-anchor="middle" fill="white" font-size="10">Azure Storage</text>
+
+          <text x="465" y="95" fill="#22c55e" font-size="20">→</text>
+
+          <rect x="495" y="70" width="65" height="50" rx="5" fill="#f1f5f9"/>
+          <text x="527" y="95" text-anchor="middle" fill="#334155" font-size="10">Disks</text>
+
+          <text x="450" y="145" text-anchor="middle" fill="#64748b" font-size="10">Azure copia su dischi</text>
+          <text x="450" y="165" text-anchor="middle" fill="#64748b" font-size="10">→ Spedisce a te</text>
+          <text x="450" y="185" text-anchor="middle" fill="#22c55e" font-size="10">Solo Blob</text>
+        </svg>
+
+        <h3>Quando Usarlo</h3>
+        <p>Il servizio Import/Export è ideale quando:</p>
+        <ul>
+          <li>Devi trasferire <strong>TB o PB di dati</strong></li>
+          <li>La <strong>connessione di rete è lenta</strong> o costosa</li>
+          <li>Il tempo di trasferimento via rete sarebbe <strong>troppo lungo</strong></li>
+          <li>Hai requisiti di <strong>compliance</strong> sulla crittografia dei dati</li>
+        </ul>
+
+        <h3>Processo di Import</h3>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Step</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Azione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;">1</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Installa <strong>WAImportExport tool</strong> su Windows</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;">2</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Prepara i dischi: copia dati + crittografia BitLocker</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;">3</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Crea <strong>Import Job</strong> nel portale Azure</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;">4</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Spedisci i dischi al datacenter Azure</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;">5</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Azure copia i dati nello storage account</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;">6</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">I dischi vengono restituiti (o smaltiti)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Preparazione Dischi con WAImportExport</h3>
+        <pre><code># Preparare un disco per import
+WAImportExport.exe PrepImport \\
+  /j:MyDriveJournal.jrn \\
+  /id:session1 \\
+  /sk:&lt;storage-account-key&gt; \\
+  /t:D \\
+  /srcdir:"C:\\Data" \\
+  /dstdir:importdata/ \\
+  /Encrypt</code></pre>
+
+        <h3>Requisiti dei Dischi</h3>
+        <ul>
+          <li>Solo <strong>SATA II o SATA III</strong> (SSD o HDD)</li>
+          <li>Singola partizione NTFS</li>
+          <li>Nessun volume dinamico o BitLocker pre-esistente</li>
+          <li>Capacità: 2.5" o 3.5" (qualsiasi dimensione supportata)</li>
+        </ul>
+
+        <h3>Import vs Export</h3>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caratteristica</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Import</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Export</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Destinazione</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Blob o Azure Files</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Solo Blob</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;">Chi prepara i dischi</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Tu</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Azure</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Chi spedisce prima</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Tu</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Azure</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Considerazioni per l'Esame</h3>
+        <ul>
+          <li>Export supporta <strong>solo Blob storage</strong> (non Azure Files)</li>
+          <li>I dischi devono essere <strong>crittografati con BitLocker</strong></li>
+          <li><strong>WAImportExport tool</strong> funziona solo su Windows</li>
+          <li>Devi fornire un <strong>return shipping carrier</strong> e tracking number</li>
+          <li>Per volumi ancora maggiori, considera <strong>Azure Data Box</strong></li>
+        </ul>

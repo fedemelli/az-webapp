@@ -1,0 +1,70 @@
+<h2>Azure Budgets</h2>
+        <p>I <strong>Budgets</strong> permettono di definire limiti di spesa e ricevere notifiche quando ci si avvicina o supera tali limiti.</p>
+
+        <h3>Configurazione di un Budget</h3>
+        <ul>
+          <li><strong>Name</strong>: Nome identificativo del budget</li>
+          <li><strong>Scope</strong>: Subscription, Resource Group, o Management Group</li>
+          <li><strong>Reset period</strong>: Mensile, Trimestrale, Annuale</li>
+          <li><strong>Amount</strong>: Importo in valuta</li>
+          <li><strong>Start date</strong>: Quando inizia il conteggio</li>
+          <li><strong>Expiration date</strong>: Quando scade il budget (opzionale)</li>
+        </ul>
+
+        <h3>Condizioni di Alert</h3>
+        <p>Puoi configurare alert per diverse soglie:</p>
+        <ul>
+          <li><strong>Actual</strong>: Basato sulla spesa effettiva già sostenuta</li>
+          <li><strong>Forecasted</strong>: Basato sulla previsione di spesa a fine periodo</li>
+        </ul>
+        <p>Esempio tipico: Alert al 50%, 80%, 100%, 120% del budget.</p>
+
+        <h3>Azioni degli Alert</h3>
+        <p>Quando un alert scatta, puoi:</p>
+        <ul>
+          <li><strong>Email notification</strong>: Invia email a utenti o gruppi</li>
+          <li><strong>Action Group</strong>: Trigger Azure Monitor action groups (SMS, webhook, runbook, etc.)</li>
+        </ul>
+
+        <h3>Creare Budget con CLI</h3>
+        <pre><code># Creare un budget mensile di $1000
+az consumption budget create \\
+  --budget-name "monthly-budget" \\
+  --amount 1000 \\
+  --time-grain Monthly \\
+  --start-date 2024-01-01 \\
+  --end-date 2024-12-31 \\
+  --resource-group "my-rg"
+
+# Elencare i budgets
+az consumption budget list --output table
+
+# Eliminare un budget
+az consumption budget delete --budget-name "monthly-budget"</code></pre>
+
+        <h3>Budget con Filtri</h3>
+        <p>Puoi creare budget filtrati per:</p>
+        <ul>
+          <li><strong>Resource Groups</strong>: Solo specifici RG</li>
+          <li><strong>Resources</strong>: Singole risorse</li>
+          <li><strong>Meters</strong>: Specifici tipi di consumo</li>
+          <li><strong>Tags</strong>: Risorse con specifici tag</li>
+        </ul>
+
+        <h3>Automazione con Runbooks</h3>
+        <p>Puoi automatizzare azioni quando il budget viene superato:</p>
+        <ul>
+          <li>Spegnere VM non critiche</li>
+          <li>Ridimensionare risorse</li>
+          <li>Inviare notifiche a Slack/Teams</li>
+          <li>Aprire ticket automaticamente</li>
+        </ul>
+
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Crea budget per <strong>ogni ambiente</strong> (Dev, Test, Prod)</li>
+          <li>Imposta alert <strong>progressivi</strong> (50%, 80%, 100%)</li>
+          <li>Usa <strong>forecasted alerts</strong> per anticipare i problemi</li>
+          <li>Combina budget con <strong>tag</strong> per tracciare costi per progetto</li>
+          <li>Rivedi i budget <strong>trimestralmente</strong></li>
+        </ul>

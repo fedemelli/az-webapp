@@ -1,0 +1,57 @@
+<h2>Azure Cost Management + Billing</h2>
+        <p><strong>Cost Management + Billing</strong> è il servizio Azure per monitorare, analizzare, allocare e ottimizzare i costi del cloud.</p>
+
+        <h3>Funzionalità Principali</h3>
+        <ul>
+          <li><strong>Cost Analysis</strong>: Visualizza e analizza i costi con grafici interattivi</li>
+          <li><strong>Budgets</strong>: Imposta limiti di spesa con notifiche automatiche</li>
+          <li><strong>Cost Alerts</strong>: Ricevi avvisi quando superi soglie definite</li>
+          <li><strong>Recommendations</strong>: Suggerimenti da Azure Advisor per ottimizzare</li>
+          <li><strong>Exports</strong>: Esporta dati di costo in storage account per analisi esterne</li>
+        </ul>
+
+        <h3>Cost Analysis</h3>
+        <p>Permette di analizzare i costi con diverse viste:</p>
+        <ul>
+          <li><strong>Accumulated costs</strong>: Costi cumulativi nel tempo</li>
+          <li><strong>Daily costs</strong>: Costi giornalieri</li>
+          <li><strong>Cost by service</strong>: Suddivisi per tipo di servizio</li>
+          <li><strong>Cost by resource</strong>: Costi per singola risorsa</li>
+          <li><strong>Cost by tag</strong>: Raggruppati per tag</li>
+        </ul>
+
+        <h3>Filtri e Raggruppamenti</h3>
+        <p>Puoi filtrare e raggruppare i dati per:</p>
+        <ul>
+          <li>Subscription, Resource Group, Resource</li>
+          <li>Service name, Service tier</li>
+          <li>Location (region)</li>
+          <li>Tag</li>
+          <li>Meter category</li>
+        </ul>
+
+        <h3>Accesso con CLI</h3>
+        <pre><code># Visualizzare i costi della subscription corrente
+az consumption usage list --output table
+
+# Esportare i costi in formato JSON
+az consumption usage list --output json > costs.json
+
+# Vedere il riepilogo di spesa
+az consumption budget list --output table</code></pre>
+
+        <h3>Exports Automatici</h3>
+        <p>Configura export schedulati verso uno Storage Account:</p>
+        <ul>
+          <li><strong>Daily</strong>: Export giornaliero dei costi</li>
+          <li><strong>Weekly</strong>: Export settimanale</li>
+          <li><strong>Monthly</strong>: Export mensile</li>
+        </ul>
+        <p>I file vengono salvati in formato CSV per analisi con Power BI, Excel o altri strumenti.</p>
+
+        <h3>Permessi Necessari</h3>
+        <ul>
+          <li><strong>Cost Management Reader</strong>: Visualizzare costi</li>
+          <li><strong>Cost Management Contributor</strong>: Gestire budgets e exports</li>
+          <li><strong>Billing Reader</strong>: Visualizzare informazioni di fatturazione</li>
+        </ul>

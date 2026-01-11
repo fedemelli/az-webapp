@@ -1,0 +1,126 @@
+<h2>Azure Storage Account</h2>
+        <p>Un <strong>Azure Storage Account</strong> fornisce uno spazio dei nomi univoco in Azure per i tuoi dati. È il contenitore di livello più alto per tutti i servizi di storage Azure.</p>
+
+        <h3>Servizi di Storage</h3>
+        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <rect x="50" y="20" width="500" height="160" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="8"/>
+          <text x="300" y="45" text-anchor="middle" font-weight="bold" fill="#0369a1">Storage Account</text>
+          <rect x="70" y="60" width="110" height="100" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="4"/>
+          <text x="125" y="100" text-anchor="middle" font-size="12" fill="#1e40af">Blob Storage</text>
+          <text x="125" y="120" text-anchor="middle" font-size="10" fill="#64748b">Objects/Files</text>
+          <rect x="190" y="60" width="110" height="100" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="4"/>
+          <text x="245" y="100" text-anchor="middle" font-size="12" fill="#166534">File Storage</text>
+          <text x="245" y="120" text-anchor="middle" font-size="10" fill="#64748b">SMB Shares</text>
+          <rect x="310" y="60" width="110" height="100" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="4"/>
+          <text x="365" y="100" text-anchor="middle" font-size="12" fill="#b45309">Queue Storage</text>
+          <text x="365" y="120" text-anchor="middle" font-size="10" fill="#64748b">Messages</text>
+          <rect x="430" y="60" width="110" height="100" fill="#fce7f3" stroke="#ec4899" stroke-width="2" rx="4"/>
+          <text x="485" y="100" text-anchor="middle" font-size="12" fill="#be185d">Table Storage</text>
+          <text x="485" y="120" text-anchor="middle" font-size="10" fill="#64748b">NoSQL Data</text>
+        </svg>
+
+        <h3>Tipi di Storage Account</h3>
+        <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 14px;">
+          <tr style="background: #f1f5f9;">
+            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Tipo</th>
+            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Servizi Supportati</th>
+            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Performance</th>
+            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Uso Tipico</th>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Standard GPv2</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Blob, File, Queue, Table</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Standard (HDD)</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Uso generale (raccomandato)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium Block Blobs</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Block Blobs</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Alta frequenza transazioni</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium File Shares</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Azure Files</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Enterprise file shares</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium Page Blobs</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Page Blobs</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Dischi VM non gestiti</td>
+          </tr>
+        </table>
+
+        <h3>Access Tiers (Solo Blob Storage)</h3>
+        <p>I tier di accesso bilanciano costi di storage e costi di accesso:</p>
+        <svg viewBox="0 0 600 150" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <defs>
+            <linearGradient id="hotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ef4444"/>
+              <stop offset="100%" style="stop-color:#f97316"/>
+            </linearGradient>
+            <linearGradient id="coolGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#3b82f6"/>
+              <stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <linearGradient id="coldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#0ea5e9"/>
+              <stop offset="100%" style="stop-color:#6366f1"/>
+            </linearGradient>
+            <linearGradient id="archiveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#6366f1"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="30" width="120" height="80" fill="url(#hotGrad)" rx="8"/>
+          <text x="80" y="65" text-anchor="middle" fill="white" font-weight="bold">HOT</text>
+          <text x="80" y="85" text-anchor="middle" fill="white" font-size="10">Accesso frequente</text>
+          <rect x="160" y="30" width="120" height="80" fill="url(#coolGrad)" rx="8"/>
+          <text x="220" y="65" text-anchor="middle" fill="white" font-weight="bold">COOL</text>
+          <text x="220" y="85" text-anchor="middle" fill="white" font-size="10">30+ giorni</text>
+          <rect x="300" y="30" width="120" height="80" fill="url(#coldGrad)" rx="8"/>
+          <text x="360" y="65" text-anchor="middle" fill="white" font-weight="bold">COLD</text>
+          <text x="360" y="85" text-anchor="middle" fill="white" font-size="10">90+ giorni</text>
+          <rect x="440" y="30" width="120" height="80" fill="url(#archiveGrad)" rx="8"/>
+          <text x="500" y="65" text-anchor="middle" fill="white" font-weight="bold">ARCHIVE</text>
+          <text x="500" y="85" text-anchor="middle" fill="white" font-size="10">180+ giorni</text>
+          <text x="80" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $$$</text>
+          <text x="220" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $$</text>
+          <text x="360" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $</text>
+          <text x="500" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: ¢</text>
+        </svg>
+
+        <ul>
+          <li><strong>Hot</strong>: Per dati ad accesso frequente. Costo storage più alto, costo accesso più basso.</li>
+          <li><strong>Cool</strong>: Per dati ad accesso infrequente (almeno 30 giorni). Costo storage minore, costo accesso maggiore.</li>
+          <li><strong>Cold</strong>: Per dati raramente acceduti (almeno 90 giorni). Ancora più economico per storage.</li>
+          <li><strong>Archive</strong>: Per dati di archiviazione a lungo termine (almeno 180 giorni). Costo storage minimo, ma richiede <strong>rehydration</strong> (ore/giorni) per accedere.</li>
+        </ul>
+
+        <h3>Creare Storage Account con CLI</h3>
+        <pre><code># Creare uno storage account Standard GPv2
+az storage account create \\
+  --name "mystorageaccount123" \\
+  --resource-group "my-rg" \\
+  --location "westeurope" \\
+  --sku "Standard_LRS" \\
+  --kind "StorageV2" \\
+  --access-tier "Hot"
+
+# Creare con tier Cool
+az storage account create \\
+  --name "myarchivest" \\
+  --resource-group "my-rg" \\
+  --location "westeurope" \\
+  --sku "Standard_GRS" \\
+  --access-tier "Cool"</code></pre>
+
+        <h3>Punti Chiave per l'Esame</h3>
+        <ul>
+          <li>Il tier <strong>Archive richiede rehydration</strong> prima dell'accesso</li>
+          <li><strong>Premium</strong> accounts non supportano access tiers</li>
+          <li>Il tier può essere impostato a livello di <strong>account</strong> o <strong>blob</strong></li>
+          <li>Il cambio tier ha <strong>costi early deletion</strong> se fatto prima del periodo minimo</li>
+        </ul>

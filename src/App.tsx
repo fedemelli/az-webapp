@@ -5,6 +5,7 @@ import { Header } from './components/Layout/Header';
 import { Sidebar } from './components/Layout/Sidebar';
 import { DayList } from './components/Day/DayList';
 import { DayDetail } from './components/Day/DayDetail';
+import { TopicDetail } from './components/Topic/TopicDetail';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,6 +24,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<DayList />} />
                 <Route path="/day/:dayId" element={<DayDetail />} />
+                <Route path="/day/:dayId/topic/:topicId" element={<TopicDetail />} />
               </Routes>
             </main>
           </div>

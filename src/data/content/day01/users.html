@@ -1,0 +1,327 @@
+<h2>Microsoft Entra ID (Azure AD)</h2>
+<p><strong>Microsoft Entra ID</strong> (precedentemente Azure Active Directory) è il servizio di gestione delle identità e degli accessi basato su cloud di Microsoft. È il cuore dell'autenticazione per tutti i servizi Azure e Microsoft 365.</p>
+
+<!-- Diagramma Entra ID -->
+<svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <defs>
+    <linearGradient id="entraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Centro: Entra ID -->
+  <circle cx="300" cy="110" r="50" fill="url(#entraGrad)"/>
+  <text x="300" y="105" fill="white" font-size="10" text-anchor="middle" font-weight="bold">Microsoft</text>
+  <text x="300" y="120" fill="white" font-size="10" text-anchor="middle" font-weight="bold">Entra ID</text>
+  <!-- Cloud Users -->
+  <rect x="80" y="40" width="100" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="130" y="65" fill="#1e40af" font-size="9" text-anchor="middle" font-weight="bold">Cloud Users</text>
+  <text x="130" y="80" fill="#3b82f6" font-size="8" text-anchor="middle">Nativi Azure AD</text>
+  <!-- Synced Users -->
+  <rect x="80" y="120" width="100" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="130" y="145" fill="#92400e" font-size="9" text-anchor="middle" font-weight="bold">Synced Users</text>
+  <text x="130" y="160" fill="#f59e0b" font-size="8" text-anchor="middle">Da AD on-prem</text>
+  <!-- Guest Users -->
+  <rect x="420" y="40" width="100" height="60" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="470" y="65" fill="#166534" font-size="9" text-anchor="middle" font-weight="bold">Guest Users</text>
+  <text x="470" y="80" fill="#16a34a" font-size="8" text-anchor="middle">B2B Collaboration</text>
+  <!-- Apps -->
+  <rect x="420" y="120" width="100" height="60" rx="8" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="470" y="145" fill="#6d28d9" font-size="9" text-anchor="middle" font-weight="bold">Applications</text>
+  <text x="470" y="160" fill="#8b5cf6" font-size="8" text-anchor="middle">SaaS, Enterprise</text>
+  <!-- Frecce -->
+  <path d="M185 70 L245 100" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M185 150 L245 120" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M355 100 L415 70" stroke="#16a34a" stroke-width="2"/>
+  <path d="M355 120 L415 150" stroke="#8b5cf6" stroke-width="2"/>
+</svg>
+
+<h3>Classificazione Completa degli Utenti</h3>
+<p>In Microsoft Entra ID esistono quattro tipi principali di utenti, classificati per <strong>origine</strong> e <strong>privilegi</strong>:</p>
+
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Tipo Utente</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Origine</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Autenticazione</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Privilegi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Internal Member</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Account nel tenant</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Credenziali Entra ID</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Accesso completo</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Internal Guest</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Account nel tenant</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Credenziali Entra ID</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Privilegi guest</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">External Member</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Tenant esterno federato</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Home tenant</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Accesso membro</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#6366f1;">External Guest</td>
+        <td style="padding:12px 16px;">Account esterno (B2B)</td>
+        <td style="padding:12px 16px;">Provider esterno</td>
+        <td style="padding:12px 16px;">Privilegi guest</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Tipi di Identità per Origine</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Cloud Identity</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Utenti creati e gestiti esclusivamente in Entra ID. L'account esiste solo nel cloud. Gestione password e credenziali interamente in Entra ID.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Synchronized Identity</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Utenti sincronizzati da AD on-premises tramite <strong>Entra Connect</strong> (ex Azure AD Connect). Password hash sync o pass-through auth.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Guest Users (B2B)</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Utenti esterni invitati per collaborazione. Usano le proprie credenziali (account Microsoft, Google, o federazione). Ricevono email di invito.</p>
+  </div>
+</div>
+
+<h3>Ruoli Minimi per Operazioni Utente</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#1e293b,#334155);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Operazione</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Ruolo Minimo Richiesto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f8fafc;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Creare nuovo utente</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#16a34a;">User Administrator</td>
+      </tr>
+      <tr style="background:#f1f5f9;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Invitare guest esterno</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#16a34a;">Guest Inviter</td>
+      </tr>
+      <tr style="background:#f8fafc;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Assegnare ruoli Entra ID</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#f59e0b;">Privileged Role Administrator</td>
+      </tr>
+      <tr style="background:#f1f5f9;">
+        <td style="padding:12px 16px;">Eliminare qualsiasi utente (inclusi admin)</td>
+        <td style="padding:12px 16px;font-weight:600;color:#dc2626;">Privileged Authentication Administrator</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Proprietà Utente durante la Creazione</h3>
+<p>Quando crei un utente, le proprietà sono organizzate in tab:</p>
+
+<h4>Tab "Basics" - Campi Obbligatori</h4>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Proprietà</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Obbligatoria</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">User Principal Name (UPN)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Identificativo univoco (es. mario@contoso.com). Deve essere unico nel tenant.</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Mail Nickname</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Derivato dall'UPN per default, può essere diverso.</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Display Name</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Nome visualizzato nell'interfaccia (es. "Mario Rossi")</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Password</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Auto-generata o manuale. Deve rispettare la password policy.</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#6366f1;">Account Enabled</td>
+        <td style="padding:12px 16px;">Sì</td>
+        <td style="padding:12px 16px;">Attivo per default. Deseleziona per bloccare sign-in.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h4>Tab "Properties" - 6 Categorie</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:20px;margin-bottom:8px;">👤</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Identity</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Nome, Cognome, User Type</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:20px;margin-bottom:8px;">💼</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Job Info</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Titolo, Dipartimento, Manager</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:20px;margin-bottom:8px;">📞</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Contact Info</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Email, Telefono, Indirizzo</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:20px;margin-bottom:8px;">⚙️</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Settings</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Usage Location (per licenze!)</div>
+  </div>
+</div>
+
+<h4>Tab "Assignments" - Limiti Importanti</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;padding:20px;text-align:center;">
+    <div style="font-size:32px;font-weight:700;color:#92400e;">20</div>
+    <div style="color:#78350f;font-size:13px;margin-top:4px;">Max gruppi/ruoli assegnabili alla creazione</div>
+  </div>
+  <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:10px;padding:20px;text-align:center;">
+    <div style="font-size:32px;font-weight:700;color:#1e40af;">1</div>
+    <div style="color:#1e3a8a;font-size:13px;margin-top:4px;">Max Administrative Unit per utente</div>
+  </div>
+</div>
+
+<h3>Invitare Guest Esterni (B2B)</h3>
+<p>Quando inviti un utente esterno, devi specificare:</p>
+<ul>
+  <li><strong>Email</strong>: L'indirizzo email dell'utente da invitare</li>
+  <li><strong>Display Name</strong>: Come apparirà nel tuo tenant</li>
+  <li><strong>Invitation Message</strong>: (Opzionale) Messaggio personalizzato</li>
+  <li><strong>Send invite</strong>: Checkbox per inviare l'email di invito</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#166534;">Stati dell'Invito B2B</h4>
+  <ul style="margin:0;padding-left:20px;color:#334155;font-size:14px;">
+    <li><strong>PendingAcceptance</strong>: L'utente non ha ancora accettato. Puoi usare "Resend invitation".</li>
+    <li><strong>Accepted</strong>: L'utente ha accettato e può accedere alle risorse condivise.</li>
+  </ul>
+</div>
+
+<h3>Comandi CLI</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un nuovo utente</span>
+<span style="color:#38bdf8;">az ad user create</span> <span style="color:#fbbf24;">--display-name</span> "Mario Rossi" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--user-principal-name</span> mario.rossi@contoso.com <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--password</span> "SecureP@ssw0rd!" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--force-change-password-next-sign-in</span> true
+
+<span style="color:#94a3b8;"># Visualizzare tutti gli utenti</span>
+<span style="color:#38bdf8;">az ad user list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Visualizzare solo Member users (esclude guest)</span>
+<span style="color:#38bdf8;">az ad user list</span> <span style="color:#fbbf24;">--filter</span> "userType eq 'Member'" <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Ottenere dettagli di un utente specifico</span>
+<span style="color:#38bdf8;">az ad user show</span> <span style="color:#fbbf24;">--id</span> mario.rossi@contoso.com
+
+<span style="color:#94a3b8;"># Aggiornare proprietà utente</span>
+<span style="color:#38bdf8;">az ad user update</span> <span style="color:#fbbf24;">--id</span> mario.rossi@contoso.com <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--department</span> "IT" <span style="color:#fbbf24;">--job-title</span> "Administrator"
+
+<span style="color:#94a3b8;"># Eliminare un utente (soft delete - 30 giorni)</span>
+<span style="color:#38bdf8;">az ad user delete</span> <span style="color:#fbbf24;">--id</span> mario.rossi@contoso.com</code></pre>
+</div>
+
+<h3>PowerShell con Microsoft Graph</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Connettersi a Microsoft Graph</span>
+<span style="color:#38bdf8;">Connect-MgGraph</span> <span style="color:#fbbf24;">-Scopes</span> "User.ReadWrite.All"
+
+<span style="color:#94a3b8;"># Creare un utente</span>
+<span style="color:#fbbf24;">$PasswordProfile</span> = @{ Password = "SecureP@ss123!" }
+<span style="color:#38bdf8;">New-MgUser</span> <span style="color:#fbbf24;">-DisplayName</span> "Mario Rossi" <span style="color:#a78bfa;">`</span>
+  <span style="color:#fbbf24;">-UserPrincipalName</span> "mario@contoso.com" <span style="color:#a78bfa;">`</span>
+  <span style="color:#fbbf24;">-PasswordProfile</span> <span style="color:#fbbf24;">$PasswordProfile</span> <span style="color:#a78bfa;">`</span>
+  <span style="color:#fbbf24;">-AccountEnabled</span> <span style="color:#fbbf24;">$true</span> <span style="color:#a78bfa;">`</span>
+  <span style="color:#fbbf24;">-MailNickname</span> "mario.rossi"
+
+<span style="color:#94a3b8;"># Ottenere utenti Member</span>
+<span style="color:#38bdf8;">Get-MgUser</span> <span style="color:#fbbf24;">-Filter</span> "UserType eq 'Member'"</code></pre>
+</div>
+
+<h3>Soft Delete e Recovery</h3>
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin-top:20px;">
+  <p style="margin:0 0 12px 0;color:#78350f;font-size:14px;"><strong>Quando elimini un utente:</strong></p>
+  <ul style="margin:0;padding-left:20px;color:#78350f;font-size:14px;">
+    <li>Viene spostato in <strong>"Deleted users"</strong> per <strong>30 giorni</strong></li>
+    <li>Durante questi 30 giorni può essere <strong>ripristinato completamente</strong></li>
+    <li>Dopo 30 giorni l'eliminazione diventa <strong>permanente e irreversibile</strong></li>
+    <li>Le <strong>licenze</strong> vengono liberate e disponibili per altri utenti</li>
+  </ul>
+</div>
+
+<h3>Domini Personalizzati</h3>
+<p>Per usare un dominio personalizzato negli UPN (es. @tuaazienda.com invece di @tuaazienda.onmicrosoft.com):</p>
+<ol>
+  <li>Vai su <strong>Entra ID > Custom domain names</strong></li>
+  <li>Aggiungi il tuo dominio</li>
+  <li>Verifica la proprietà aggiungendo un record TXT o MX nel DNS</li>
+  <li>Una volta verificato, puoi usarlo negli UPN</li>
+</ol>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📛</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Naming Conventions</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">UPN consistenti in tutta l'org</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔐</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">MFA Obbligatorio</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per tutti gli utenti, specialmente admin</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔄</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">SSPR Abilitato</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Self-Service Password Reset</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🧹</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Access Reviews</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Revisione periodica account</div>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>Usage Location</strong> è obbligatorio per assegnare licenze M365</li>
+        <li>Gli utenti eliminati restano nel cestino per <strong>30 giorni</strong></li>
+        <li>Guest users usano le proprie credenziali (B2B) - non gestisci le loro password</li>
+        <li><strong>User Administrator</strong> è il ruolo minimo per creare utenti</li>
+        <li><strong>Guest Inviter</strong> è il ruolo minimo per invitare guest esterni</li>
+        <li>Max <strong>20 gruppi/ruoli</strong> assegnabili al momento della creazione</li>
+        <li>Max <strong>1 Administrative Unit</strong> per utente</li>
+        <li>Per usare domini custom, devi prima verificarli via record DNS</li>
+      </ul>
+    </div>
+  </div>
+</div>

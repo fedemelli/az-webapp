@@ -1,0 +1,335 @@
+<h2>Resource Locks</h2>
+
+<p>I <strong>Resource Locks</strong> sono meccanismi di protezione che impediscono modifiche o eliminazioni accidentali delle risorse Azure, anche da parte degli utenti con ruolo Owner.</p>
+
+<!-- Diagramma Lock Types -->
+<svg viewBox="0 0 750 220" style="width:100%;max-width:750px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="deleteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+    <linearGradient id="readonlyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444"/>
+      <stop offset="100%" style="stop-color:#dc2626"/>
+    </linearGradient>
+  </defs>
+
+  <!-- CanNotDelete Lock -->
+  <rect x="30" y="30" width="320" height="160" rx="12" fill="#f8fafc" stroke="url(#deleteGrad)" stroke-width="3"/>
+  <text x="190" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#b45309">🔒 CanNotDelete (Delete)</text>
+
+  <rect x="50" y="80" width="120" height="35" rx="6" fill="#dcfce7"/>
+  <text x="110" y="103" text-anchor="middle" font-size="11" fill="#166534">✓ Read</text>
+
+  <rect x="50" y="125" width="120" height="35" rx="6" fill="#dcfce7"/>
+  <text x="110" y="148" text-anchor="middle" font-size="11" fill="#166534">✓ Modify</text>
+
+  <rect x="190" y="80" width="140" height="80" rx="6" fill="#fef2f2"/>
+  <text x="260" y="125" text-anchor="middle" font-size="11" fill="#dc2626">✗ Delete</text>
+
+  <!-- ReadOnly Lock -->
+  <rect x="400" y="30" width="320" height="160" rx="12" fill="#f8fafc" stroke="url(#readonlyGrad)" stroke-width="3"/>
+  <text x="560" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#dc2626">🔒 ReadOnly</text>
+
+  <rect x="420" y="80" width="120" height="35" rx="6" fill="#dcfce7"/>
+  <text x="480" y="103" text-anchor="middle" font-size="11" fill="#166534">✓ Read</text>
+
+  <rect x="420" y="125" width="120" height="35" rx="6" fill="#fef2f2"/>
+  <text x="480" y="148" text-anchor="middle" font-size="11" fill="#dc2626">✗ Modify</text>
+
+  <rect x="560" y="80" width="140" height="80" rx="6" fill="#fef2f2"/>
+  <text x="630" y="125" text-anchor="middle" font-size="11" fill="#dc2626">✗ Delete</text>
+</svg>
+
+<h3>Tipi di Lock</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Tipo Lock</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Read</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Modify</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Delete</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caso d'Uso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#fef3c7;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">CanNotDelete</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#22c55e;">✓ Permesso</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#22c55e;">✓ Permesso</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#ef4444;">✗ Bloccato</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Risorse critiche che devono poter essere aggiornate</td>
+    </tr>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">ReadOnly</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#22c55e;">✓ Permesso</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#ef4444;">✗ Bloccato</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;color:#ef4444;">✗ Bloccato</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Risorse che non devono mai cambiare</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Ereditarietà dei Lock</h3>
+
+<p>I lock si ereditano <strong>verso il basso</strong> nella gerarchia delle risorse Azure:</p>
+
+<!-- Inheritance Diagram -->
+<svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="lockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Subscription -->
+  <rect x="200" y="20" width="200" height="50" rx="8" fill="url(#lockGrad)"/>
+  <text x="300" y="50" text-anchor="middle" font-size="12" font-weight="600" fill="white">Subscription 🔒</text>
+
+  <path d="M300 70 L300 90" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M300 90 L150 90 L150 110" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M300 90 L450 90 L450 110" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Resource Groups -->
+  <rect x="50" y="110" width="200" height="50" rx="8" fill="#3b82f6"/>
+  <text x="150" y="140" text-anchor="middle" font-size="12" font-weight="600" fill="white">Resource Group 🔒</text>
+
+  <rect x="350" y="110" width="200" height="50" rx="8" fill="#3b82f6"/>
+  <text x="450" y="140" text-anchor="middle" font-size="12" font-weight="600" fill="white">Resource Group 🔒</text>
+
+  <!-- Resources -->
+  <path d="M150 160 L150 180 L100 180 L100 200" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M150 180 L200 180 L200 200" stroke="#94a3b8" stroke-width="2"/>
+
+  <rect x="50" y="200" width="100" height="45" rx="6" fill="#64748b"/>
+  <text x="100" y="227" text-anchor="middle" font-size="10" font-weight="600" fill="white">Resource 🔒</text>
+
+  <rect x="150" y="200" width="100" height="45" rx="6" fill="#64748b"/>
+  <text x="200" y="227" text-anchor="middle" font-size="10" font-weight="600" fill="white">Resource 🔒</text>
+
+  <path d="M450 160 L450 200" stroke="#94a3b8" stroke-width="2"/>
+
+  <rect x="400" y="200" width="100" height="45" rx="6" fill="#64748b"/>
+  <text x="450" y="227" text-anchor="middle" font-size="10" font-weight="600" fill="white">Resource 🔒</text>
+
+  <text x="300" y="270" text-anchor="middle" font-size="11" fill="#64748b">Lock ereditato automaticamente verso il basso</text>
+</svg>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #f59e0b;">
+  <strong style="color:#b45309;">⚠️ Importante:</strong>
+  <span style="color:#92400e;font-size:0.9rem;"> Un lock applicato a un livello superiore si applica a <strong>tutte</strong> le risorse sottostanti. Non puoi "annullare" un lock ereditato a livello inferiore.</span>
+</div>
+
+<h3>Chi Può Gestire i Lock</h3>
+
+<p>Per creare, modificare o eliminare i lock sono richieste le permission:</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#dcfce7;padding:1.25rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <h4 style="margin:0 0 0.75rem 0;color:#166534;">✓ Ruoli che possono gestire Lock</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#334155;">
+      <li><strong>Owner</strong></li>
+      <li><strong>User Access Administrator</strong></li>
+      <li>Custom role con <code>Microsoft.Authorization/locks/*</code></li>
+    </ul>
+  </div>
+  <div style="background:#fef2f2;padding:1.25rem;border-radius:8px;border-left:4px solid #ef4444;">
+    <h4 style="margin:0 0 0.75rem 0;color:#dc2626;">✗ Ruoli che NON possono gestire Lock</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#334155;">
+      <li><strong>Contributor</strong> - può gestire risorse ma non lock</li>
+      <li><strong>Reader</strong></li>
+      <li>Qualsiasi ruolo senza <code>locks/*</code></li>
+    </ul>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #3b82f6;">
+  <strong style="color:#1e40af;">💡 Nota:</strong>
+  <span style="color:#1e40af;font-size:0.9rem;"> Anche un <strong>Owner</strong> deve prima rimuovere il lock per poter eliminare una risorsa protetta!</span>
+</div>
+
+<h3>Gestire Lock con Azure CLI</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Creare un lock CanNotDelete su un resource group</span>
+az lock create \
+  --name "no-delete-prod" \
+  --lock-type CanNotDelete \
+  --resource-group "production-rg" \
+  --notes "Protezione risorse di produzione - non eliminare"
+
+<span style="color:#94a3b8;"># Creare un lock ReadOnly su una risorsa specifica</span>
+az lock create \
+  --name "readonly-config" \
+  --lock-type ReadOnly \
+  --resource-group "my-rg" \
+  --resource-name "configstorage" \
+  --resource-type "Microsoft.Storage/storageAccounts" \
+  --notes "Storage di configurazione - non modificare"
+
+<span style="color:#94a3b8;"># Creare un lock a livello subscription</span>
+az lock create \
+  --name "sub-level-lock" \
+  --lock-type CanNotDelete
+
+<span style="color:#94a3b8;"># Elencare tutti i lock in un resource group</span>
+az lock list --resource-group "production-rg" --output table
+
+<span style="color:#94a3b8;"># Elencare lock per una risorsa specifica</span>
+az lock list \
+  --resource-group "my-rg" \
+  --resource-name "mystorage" \
+  --resource-type "Microsoft.Storage/storageAccounts"
+
+<span style="color:#94a3b8;"># Visualizzare dettagli di un lock</span>
+az lock show \
+  --name "no-delete-prod" \
+  --resource-group "production-rg"
+
+<span style="color:#94a3b8;"># Eliminare un lock</span>
+az lock delete \
+  --name "no-delete-prod" \
+  --resource-group "production-rg"</code></pre>
+
+<h3>Gestire Lock con PowerShell</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Creare un lock CanNotDelete su un resource group</span>
+New-AzResourceLock `
+  -LockName "no-delete-prod" `
+  -LockLevel CanNotDelete `
+  -ResourceGroupName "production-rg" `
+  -LockNotes "Protezione risorse di produzione"
+
+<span style="color:#94a3b8;"># Creare un lock ReadOnly su una risorsa</span>
+New-AzResourceLock `
+  -LockName "readonly-storage" `
+  -LockLevel ReadOnly `
+  -ResourceGroupName "my-rg" `
+  -ResourceName "mystorage" `
+  -ResourceType "Microsoft.Storage/storageAccounts"
+
+<span style="color:#94a3b8;"># Elencare tutti i lock in un resource group</span>
+Get-AzResourceLock -ResourceGroupName "production-rg"
+
+<span style="color:#94a3b8;"># Elencare tutti i lock nella subscription</span>
+Get-AzResourceLock
+
+<span style="color:#94a3b8;"># Eliminare un lock</span>
+Remove-AzResourceLock `
+  -LockName "no-delete-prod" `
+  -ResourceGroupName "production-rg" `
+  -Force
+
+<span style="color:#94a3b8;"># Eliminare lock per ID</span>
+$lock = Get-AzResourceLock -LockName "no-delete-prod" -ResourceGroupName "production-rg"
+Remove-AzResourceLock -LockId $lock.LockId -Force</code></pre>
+
+<h3>Effetti Collaterali di ReadOnly</h3>
+
+<p>Il lock <strong>ReadOnly</strong> può causare comportamenti inattesi perché blocca <strong>tutte le operazioni POST</strong>, non solo le modifiche ovvie:</p>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#ef4444,#dc2626);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Resource Type</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Operazione Bloccata</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Impatto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Storage Account</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><code>listKeys</code></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non puoi ottenere le access keys!</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Virtual Machine</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Start / Stop / Restart</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non puoi avviare, fermare o riavviare la VM</td>
+    </tr>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">App Service</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Publishing / Deployment</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non puoi deployare il codice</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">SQL Database</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Configuration changes</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non puoi modificare tier o impostazioni</td>
+    </tr>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Automation Account</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Start Runbook</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non puoi eseguire runbook</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Resource Group</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Create/Delete resources</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Nessuna nuova risorsa può essere creata nel RG</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #f59e0b;">
+  <strong style="color:#b45309;">⚠️ Consiglio:</strong>
+  <span style="color:#92400e;font-size:0.9rem;"> Testa <strong>sempre</strong> l'effetto di ReadOnly in un ambiente di test prima di applicarlo in produzione. ReadOnly è molto più restrittivo di quanto sembri!</span>
+</div>
+
+<h3>Lock e Azure Blueprints</h3>
+
+<p>Azure Blueprints può applicare lock automaticamente alle risorse deployate:</p>
+
+<ul>
+  <li>I lock applicati da Blueprints hanno la modalità <strong>"Don't Lock"</strong>, <strong>"Do Not Delete"</strong> o <strong>"Read Only"</strong></li>
+  <li>Questi lock <strong>non possono essere rimossi</strong> dagli Owner normali</li>
+  <li>Solo chi ha il ruolo di <strong>Blueprint Contributor</strong> o gestisce il Blueprint può modificarli</li>
+  <li>Utile per garantire che le risorse di governance non vengano alterate</li>
+</ul>
+
+<h3>Lock vs Azure Policy</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #f59e0b;">
+    <h4 style="margin:0 0 0.75rem 0;color:#b45309;">🔒 Resource Locks</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Proteggono <strong>risorse specifiche</strong></li>
+      <li>Bloccano Delete o tutte le modifiche</li>
+      <li>Si applicano a risorse esistenti</li>
+      <li>Non prevengono la creazione di risorse non conformi</li>
+    </ul>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #6366f1;">
+    <h4 style="margin:0 0 0.75rem 0;color:#4f46e5;">📋 Azure Policy</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Impone <strong>regole su proprietà</strong> delle risorse</li>
+      <li>Può bloccare creazione di risorse non conformi</li>
+      <li>Può auto-correggere con Modify/DeployIfNotExists</li>
+      <li>Valuta compliance di tutte le risorse</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Best Practices per i Lock</h3>
+
+<ul>
+  <li><strong>Applica CanNotDelete</strong> a tutte le risorse critiche di produzione</li>
+  <li><strong>Usa ReadOnly con estrema cautela</strong> - testa sempre l'impatto prima</li>
+  <li><strong>Documenta il motivo</strong> nel campo <code>notes</code> del lock</li>
+  <li><strong>Crea procedure documentate</strong> per la rimozione temporanea dei lock</li>
+  <li><strong>Usa naming convention</strong> per identificare facilmente i lock (es. <code>nodelete-prod-*</code>)</li>
+  <li><strong>Combina con Azure Policy</strong> per una governance più completa</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1.25rem;border-radius:8px;margin:1.5rem 0;border-left:4px solid #3b82f6;">
+  <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">💡 Tip per l'Esame AZ-104</h4>
+  <ul style="margin:0;padding-left:1.25rem;font-size:0.9rem;color:#1e40af;">
+    <li><strong>Contributor</strong> non può gestire i lock - serve Owner o User Access Administrator</li>
+    <li>I lock si <strong>ereditano verso il basso</strong> ma non verso l'alto</li>
+    <li><strong>ReadOnly blocca listKeys</strong> su Storage Account - domanda frequente!</li>
+    <li>Anche l'<strong>Owner deve rimuovere</strong> il lock prima di eliminare la risorsa</li>
+    <li>I lock Blueprint sono gestiti solo da chi gestisce il Blueprint</li>
+    <li>Per gestire lock serve <code>Microsoft.Authorization/locks/*</code></li>
+  </ul>
+</div>

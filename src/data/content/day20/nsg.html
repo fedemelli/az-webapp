@@ -1,0 +1,38 @@
+<h2>Network Security Groups (NSG)</h2>
+        <p>Un <strong>NSG</strong> è un firewall stateful semplice che filtra il traffico di rete da e verso le risorse Azure in una VNet. Può essere associato a una <strong>Subnet</strong> o a una <strong>Network Interface (NIC)</strong>.</p>
+
+        <h3>Come funzionano le Regole</h3>
+        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+          <!-- NSG Box -->
+          <rect x="150" y="40" width="300" height="200" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+          <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Network Security Group</text>
+
+          <!-- Inbound Rules -->
+          <rect x="170" y="80" width="260" height="60" rx="8" fill="white" stroke="#22c55e"/>
+          <text x="300" y="100" text-anchor="middle" font-weight="bold" font-size="12" fill="#166534">Inbound Rules</text>
+          <text x="300" y="120" text-anchor="middle" font-size="10" fill="#14532d">100: Allow SSH (22)</text>
+          <text x="300" y="135" text-anchor="middle" font-size="10" fill="#14532d">65000: Deny All</text>
+
+          <!-- Outbound Rules -->
+          <rect x="170" y="160" width="260" height="60" rx="8" fill="white" stroke="#f59e0b"/>
+          <text x="300" y="180" text-anchor="middle" font-weight="bold" font-size="12" fill="#92400e">Outbound Rules</text>
+          <text x="300" y="200" text-anchor="middle" font-size="10" fill="#78350f">100: Allow SQL (1433)</text>
+          <text x="300" y="215" text-anchor="middle" font-size="10" fill="#78350f">65000: Allow Internet</text>
+
+          <!-- Traffic Arrows -->
+          <path d="M50 110 L150 110" stroke="#22c55e" stroke-width="4" marker-end="url(#arrow20)"/>
+          <text x="100" y="100" text-anchor="middle" font-size="11" fill="#166534">Traffic In</text>
+
+          <path d="M450 190 L550 190" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow20)"/>
+          <text x="500" y="180" text-anchor="middle" font-size="11" fill="#92400e">Traffic Out</text>
+
+          <defs><marker id="arrow20" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/></marker></defs>
+        </svg>
+
+        <h3>Elementi di una Regola</h3>
+        <ul>
+          <li><strong>Priority</strong>: Numero tra 100 e 4096. Numeri più bassi hanno priorità più alta (vengono processati prima).</li>
+          <li><strong>Source / Destination</strong>: IP, CIDR, Service Tag (es. <code>Internet</code>, <code>VirtualNetwork</code>) o ASG.</li>
+          <li><strong>Protocol</strong>: TCP, UDP, ICMP, Any.</li>
+          <li><strong>Action</strong>: Allow o Deny.</li>
+        </ul>

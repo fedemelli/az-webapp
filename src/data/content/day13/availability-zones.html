@@ -1,0 +1,87 @@
+<h2>Availability Zones</h2>
+        <p>Le <strong>Availability Zones</strong> sono datacenter fisicamente separati all'interno della stessa region Azure. Hanno alimentazione, raffreddamento e rete indipendenti.</p>
+
+        <svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+          <text x="300" y="30" text-anchor="middle" font-weight="bold" fill="#1e293b">Azure Region (es. West Europe)</text>
+          
+          <!-- Zone 1 -->
+          <rect x="30" y="50" width="160" height="140" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="110" y="75" text-anchor="middle" font-weight="bold" fill="#166534">Zone 1</text>
+          <rect x="50" y="90" width="120" height="80" rx="4" fill="white" stroke="#22c55e"/>
+          <text x="110" y="120" text-anchor="middle" font-size="10" fill="#166534">Datacenter A</text>
+          <text x="110" y="140" text-anchor="middle" font-size="10" fill="#166534">Power/Cooling</text>
+
+          <!-- Zone 2 -->
+          <rect x="220" y="50" width="160" height="140" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="300" y="75" text-anchor="middle" font-weight="bold" fill="#166534">Zone 2</text>
+          <rect x="240" y="90" width="120" height="80" rx="4" fill="white" stroke="#22c55e"/>
+          <text x="300" y="120" text-anchor="middle" font-size="10" fill="#166534">Datacenter B</text>
+          <text x="300" y="140" text-anchor="middle" font-size="10" fill="#166534">Power/Cooling</text>
+
+          <!-- Zone 3 -->
+          <rect x="410" y="50" width="160" height="140" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="490" y="75" text-anchor="middle" font-weight="bold" fill="#166534">Zone 3</text>
+          <rect x="430" y="90" width="120" height="80" rx="4" fill="white" stroke="#22c55e"/>
+          <text x="490" y="120" text-anchor="middle" font-size="10" fill="#166534">Datacenter C</text>
+          <text x="490" y="140" text-anchor="middle" font-size="10" fill="#166534">Power/Cooling</text>
+
+          <!-- Latency -->
+          <path d="M190 120 L220 120" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
+          <text x="205" y="110" text-anchor="middle" font-size="9" fill="#64748b">&lt; 2ms</text>
+        </svg>
+
+        <h3>Confronto: AvSet vs Zones</h3>
+        <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin:20px 0;">
+          <thead>
+            <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+              <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Caratteristica</th>
+              <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Availability Set</th>
+              <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Availability Zones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#faf5ff;">
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Protezione da</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Guasti Hardware (Rack)</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Guasti Datacenter</td>
+            </tr>
+            <tr style="background:#f5f3ff;">
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">SLA</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">99.95%</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;"><strong>99.99%</strong></td>
+            </tr>
+            <tr style="background:#faf5ff;">
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Latenza</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Minima (stesso DC)</td>
+              <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Bassa (&lt; 2ms)</td>
+            </tr>
+            <tr style="background:#f5f3ff;">
+              <td style="padding:12px 16px;font-weight:600;color:#6366f1;">Costo</td>
+              <td style="padding:12px 16px;">Gratuito</td>
+              <td style="padding:12px 16px;">Gratuito (traffico inter-zona a pagamento)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Servizi Zonali vs Regionali</h3>
+        <ul>
+          <li><strong>Zonal services</strong>: Risorsa pinnata a una zona specifica (es. VM, Managed Disk).</li>
+          <li><strong>Zone-redundant services</strong>: La piattaforma replica automaticamente su più zone (es. ZRS Storage, SQL Database).</li>
+          <li><strong>Regional services</strong>: Non dipendono da zone specifiche (es. Azure AD, Traffic Manager).</li>
+        </ul>
+
+        <h3>Comandi CLI</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare una VM in una zona specifica</span>
+<span style="color:#38bdf8;">az vm create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyZonalVM <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--zone</span> 1
+
+<span style="color:#94a3b8;"># Creare un IP pubblico Zone-Redundant</span>
+<span style="color:#38bdf8;">az network public-ip create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyPublicIP <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--sku</span> Standard <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--zone</span> 1 2 3</code></pre>
+        </div>

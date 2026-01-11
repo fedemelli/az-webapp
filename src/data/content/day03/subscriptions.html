@@ -1,0 +1,248 @@
+<h2>Azure Subscriptions</h2>
+<p>Una <strong>subscription</strong> (sottoscrizione) Azure è un contenitore logico che raggruppa risorse Azure per la fatturazione, la gestione degli accessi e l'organizzazione. È l'unità fondamentale per il billing in Azure.</p>
+
+<!-- Diagramma Subscription -->
+<svg viewBox="0 0 600 200" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Tenant -->
+  <rect x="30" y="20" width="540" height="160" rx="12" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="50" y="45" fill="#6d28d9" font-size="11" font-weight="bold">Azure AD Tenant</text>
+  <!-- Subscriptions -->
+  <rect x="60" y="60" width="150" height="100" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="135" y="85" fill="#1e40af" font-size="11" text-anchor="middle" font-weight="bold">Subscription A</text>
+  <text x="135" y="105" fill="#3b82f6" font-size="8" text-anchor="middle">Production</text>
+  <rect x="80" y="120" width="50" height="30" rx="4" fill="#eff6ff"/>
+  <text x="105" y="140" fill="#3b82f6" font-size="7" text-anchor="middle">RG 1</text>
+  <rect x="140" y="120" width="50" height="30" rx="4" fill="#eff6ff"/>
+  <text x="165" y="140" fill="#3b82f6" font-size="7" text-anchor="middle">RG 2</text>
+
+  <rect x="230" y="60" width="150" height="100" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="305" y="85" fill="#166534" font-size="11" text-anchor="middle" font-weight="bold">Subscription B</text>
+  <text x="305" y="105" fill="#16a34a" font-size="8" text-anchor="middle">Development</text>
+  <rect x="250" y="120" width="50" height="30" rx="4" fill="#f0fdf4"/>
+  <text x="275" y="140" fill="#16a34a" font-size="7" text-anchor="middle">RG 3</text>
+  <rect x="310" y="120" width="50" height="30" rx="4" fill="#f0fdf4"/>
+  <text x="335" y="140" fill="#16a34a" font-size="7" text-anchor="middle">RG 4</text>
+
+  <rect x="400" y="60" width="150" height="100" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="475" y="85" fill="#92400e" font-size="11" text-anchor="middle" font-weight="bold">Subscription C</text>
+  <text x="475" y="105" fill="#f59e0b" font-size="8" text-anchor="middle">Testing</text>
+  <rect x="420" y="120" width="50" height="30" rx="4" fill="#fef9c3"/>
+  <text x="445" y="140" fill="#f59e0b" font-size="7" text-anchor="middle">RG 5</text>
+  <rect x="480" y="120" width="50" height="30" rx="4" fill="#fef9c3"/>
+  <text x="505" y="140" fill="#f59e0b" font-size="7" text-anchor="middle">RG 6</text>
+</svg>
+
+<h3>Concetti Fondamentali</h3>
+<p>Una subscription rappresenta un "contratto" con Azure che ti permette di:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">💳</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Billing</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Fatturazione separata per ogni subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔒</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Access Control</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">RBAC e policy a livello subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📊</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Quotas</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Limiti di risorse per subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🏢</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Organization</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Separazione logica delle risorse</div>
+  </div>
+</div>
+
+<h3>Tipi di Subscription</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Tipo</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Crediti</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Caratteristiche</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Caso d'uso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Free Trial</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">$200 / 30 giorni</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">+ 12 mesi servizi free tier</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Esplorare Azure</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Pay-As-You-Go (PAYG)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Pay per use</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Nessun impegno, carta di credito</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Startup, piccoli progetti</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Enterprise Agreement (EA)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Prepagato</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sconti volume, impegno 1-3 anni</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Grandi enterprise</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">CSP (Cloud Solution Provider)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Via partner</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Fatturazione e supporto dal partner</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">PMI con partner IT</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Azure for Students</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">$100</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">No carta credito, email .edu</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Studenti universitari</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#6366f1;">Visual Studio Subscription</td>
+        <td style="padding:12px 16px;">$50-150/mese</td>
+        <td style="padding:12px 16px;">Incluso con VS subscription</td>
+        <td style="padding:12px 16px;">Sviluppatori con VS</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Subscription e Azure AD Tenant</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Relazione con Tenant</h4>
+    <ul style="margin:0;padding-left:16px;color:#475569;font-size:13px;">
+      <li>Una subscription è associata a <strong>un solo tenant</strong></li>
+      <li>Un tenant può avere <strong>multiple subscriptions</strong></li>
+      <li>Puoi <strong>trasferire</strong> subscription tra tenant</li>
+      <li>Puoi <strong>cambiare directory</strong> di una subscription</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Trust Relationship</h4>
+    <ul style="margin:0;padding-left:16px;color:#475569;font-size:13px;">
+      <li>La subscription <strong>trusts</strong> il tenant per autenticazione</li>
+      <li>Cambio directory rimuove tutti i role assignments</li>
+      <li>Le risorse mantengono i dati ma perdono accessi</li>
+      <li>Richiede Owner sulla subscription</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Limiti per Subscription (Quote)</h3>
+<p>Ogni subscription ha limiti sulle risorse. Alcuni limiti importanti per l'esame:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">250</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Storage Accounts</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per region per subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">980</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Resource Groups</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">25K</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Virtual Machines</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per region per subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">800</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Deployments</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per resource group</div>
+  </div>
+</div>
+<p style="font-size:13px;color:#64748b;text-align:center;">I limiti possono essere aumentati contattando il supporto Azure</p>
+
+<h3>Comandi CLI per Gestire Subscriptions</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Elencare le subscription disponibili</span>
+<span style="color:#38bdf8;">az account list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Vedere la subscription corrente</span>
+<span style="color:#38bdf8;">az account show</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Impostare la subscription attiva</span>
+<span style="color:#38bdf8;">az account set</span> <span style="color:#fbbf24;">--subscription</span> "My-Subscription-Name"
+
+<span style="color:#94a3b8;"># Oppure usare l'ID</span>
+<span style="color:#38bdf8;">az account set</span> <span style="color:#fbbf24;">--subscription</span> "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+<span style="color:#94a3b8;"># Vedere le quote/usage di una subscription</span>
+<span style="color:#38bdf8;">az vm list-usage</span> <span style="color:#fbbf24;">--location</span> westeurope <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Creare un alias per la subscription (semplifica i comandi)</span>
+<span style="color:#38bdf8;">az account alias create</span> \
+  <span style="color:#fbbf24;">--name</span> "Dev" \
+  <span style="color:#fbbf24;">--billing-scope</span> "/providers/Microsoft.Billing/..."</code></pre>
+</div>
+
+<h3>PowerShell per Subscriptions</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Elencare subscription</span>
+<span style="color:#38bdf8;">Get-AzSubscription</span>
+
+<span style="color:#94a3b8;"># Vedere subscription corrente</span>
+<span style="color:#38bdf8;">Get-AzContext</span>
+
+<span style="color:#94a3b8;"># Cambiare subscription</span>
+<span style="color:#38bdf8;">Set-AzContext</span> <span style="color:#fbbf24;">-SubscriptionName</span> "My-Subscription"
+
+<span style="color:#94a3b8;"># Verificare quote</span>
+<span style="color:#38bdf8;">Get-AzVMUsage</span> <span style="color:#fbbf24;">-Location</span> "westeurope"</code></pre>
+</div>
+
+<h3>Strategie di Organizzazione delle Subscriptions</h3>
+<p>Quando usare multiple subscriptions:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Per Ambiente</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Subscription separate per Dev, Test, Staging, Production. Isolamento completo tra ambienti.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Per Business Unit</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">IT, HR, Finance, Marketing con fatturazione separata. Chargeback facilitato.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Per Compliance</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Dati sensibili (PCI, HIPAA) in subscription dedicate con controlli specifici.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">Per Limiti di Quota</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Quando servono più risorse del limite singola subscription.</p>
+  </div>
+</div>
+
+<h3>Trasferire una Subscription</h3>
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#92400e;font-size:15px;">Tipi di Trasferimento</h4>
+  <ol style="margin:0;padding-left:20px;color:#78350f;font-size:14px;">
+    <li><strong>Trasferimento billing</strong>: Cambia chi paga (owner rimane stesso tenant)</li>
+    <li><strong>Cambio directory</strong>: Sposta subscription in altro Azure AD tenant</li>
+  </ol>
+  <p style="margin:12px 0 0 0;color:#78350f;font-size:13px;font-style:italic;">⚠️ Il cambio directory rimuove TUTTI i role assignments RBAC!</p>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Una subscription appartiene a <strong>un solo tenant</strong> alla volta</li>
+        <li>Un tenant può avere <strong>multiple subscriptions</strong></li>
+        <li>I limiti (quote) sono <strong>per region per subscription</strong></li>
+        <li>Max <strong>980</strong> resource groups per subscription</li>
+        <li>Max <strong>800</strong> deployments per resource group</li>
+        <li>Cambiare directory rimuove tutti i <strong>role assignments RBAC</strong></li>
+        <li>Per trasferire subscription serve essere <strong>Owner</strong></li>
+        <li>Le risorse continuano a funzionare anche dopo cambio directory</li>
+        <li>I limiti possono essere aumentati con richiesta al supporto</li>
+      </ul>
+    </div>
+  </div>
+</div>

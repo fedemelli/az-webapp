@@ -1,0 +1,90 @@
+<h2>Azure Blob Storage</h2>
+        <p><strong>Azure Blob Storage</strong> è ottimizzato per archiviare grandi quantità di dati non strutturati come testo, binari, immagini, video e log.</p>
+
+        <h3>Struttura Gerarchica</h3>
+        <svg viewBox="0 0 600 180" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <rect x="200" y="10" width="200" height="40" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
+          <text x="300" y="35" text-anchor="middle" font-weight="bold" fill="#1d4ed8">Storage Account</text>
+          <line x1="300" y1="50" x2="300" y2="70" stroke="#64748b" stroke-width="2"/>
+          <rect x="100" y="70" width="150" height="35" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="6"/>
+          <text x="175" y="92" text-anchor="middle" font-size="12" fill="#166534">Container A</text>
+          <rect x="350" y="70" width="150" height="35" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="6"/>
+          <text x="425" y="92" text-anchor="middle" font-size="12" fill="#166534">Container B</text>
+          <line x1="175" y1="105" x2="175" y2="125" stroke="#64748b" stroke-width="1"/>
+          <line x1="425" y1="105" x2="425" y2="125" stroke="#64748b" stroke-width="1"/>
+          <rect x="50" y="125" width="80" height="30" fill="#fef3c7" stroke="#f59e0b" rx="4"/>
+          <text x="90" y="145" text-anchor="middle" font-size="10" fill="#b45309">blob1.jpg</text>
+          <rect x="145" y="125" width="80" height="30" fill="#fef3c7" stroke="#f59e0b" rx="4"/>
+          <text x="185" y="145" text-anchor="middle" font-size="10" fill="#b45309">blob2.pdf</text>
+          <rect x="375" y="125" width="100" height="30" fill="#fef3c7" stroke="#f59e0b" rx="4"/>
+          <text x="425" y="145" text-anchor="middle" font-size="10" fill="#b45309">logs/app.log</text>
+        </svg>
+
+        <h3>Tipi di Blob</h3>
+        <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 13px;">
+          <tr style="background: #f1f5f9;">
+            <th style="padding: 8px; border: 1px solid #e2e8f0;">Tipo</th>
+            <th style="padding: 8px; border: 1px solid #e2e8f0;">Dimensione Max</th>
+            <th style="padding: 8px; border: 1px solid #e2e8f0;">Uso Tipico</th>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Block Blob</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">~190.7 TB</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">File, immagini, video, documenti (più comune)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Page Blob</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">8 TB</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Dischi VHD, random read/write</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Append Blob</strong></td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">~195 GB</td>
+            <td style="padding: 8px; border: 1px solid #e2e8f0;">Log files, dati append-only</td>
+          </tr>
+        </table>
+
+        <h3>Container Access Levels</h3>
+        <ul>
+          <li><strong>Private</strong>: Nessun accesso anonimo (default, più sicuro)</li>
+          <li><strong>Blob</strong>: Accesso anonimo in lettura ai blob singoli</li>
+          <li><strong>Container</strong>: Accesso anonimo in lettura a container e blob</li>
+        </ul>
+
+        <h3>Gestione Blob con CLI</h3>
+        <pre><code># Creare un container
+az storage container create \\
+  --name "mycontainer" \\
+  --account-name "mystorageaccount" \\
+  --public-access off
+
+# Uploadare un blob
+az storage blob upload \\
+  --account-name "mystorageaccount" \\
+  --container-name "mycontainer" \\
+  --name "myblob.txt" \\
+  --file "./local-file.txt"
+
+# Scaricare un blob
+az storage blob download \\
+  --account-name "mystorageaccount" \\
+  --container-name "mycontainer" \\
+  --name "myblob.txt" \\
+  --file "./downloaded.txt"
+
+# Listare blob
+az storage blob list \\
+  --account-name "mystorageaccount" \\
+  --container-name "mycontainer" --output table</code></pre>
+
+        <h3>Blob URL Format</h3>
+        <pre><code>https://[account].blob.core.windows.net/[container]/[blob]
+https://mystorageaccount.blob.core.windows.net/images/photo.jpg</code></pre>
+
+        <h3>Punti Chiave per l'Esame</h3>
+        <ul>
+          <li><strong>Block blob</strong> è il tipo più comune per file generici</li>
+          <li><strong>Page blob</strong> è usato per dischi VM non gestiti</li>
+          <li><strong>Append blob</strong> supporta solo operazioni di append</li>
+          <li>Container con accesso <strong>Private</strong> è il più sicuro</li>
+        </ul>

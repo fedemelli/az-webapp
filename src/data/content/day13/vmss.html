@@ -1,0 +1,57 @@
+<h2>Virtual Machine Scale Sets (VMSS)</h2>
+        <p>I <strong>VM Scale Sets</strong> permettono di creare e gestire un gruppo di VM identiche con bilanciamento del carico. Il numero di istanze può aumentare o diminuire automaticamente in risposta alla domanda o a una pianificazione.</p>
+
+        <h3>Orchestration Modes</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Uniform (Tradizionale)</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">VM identiche create da un'unica immagine. Ideale per workload stateless che scalano orizzontalmente.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Flexible (Consigliato)</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Offre alta disponibilità su scala. Puoi mischiare tipi di VM (Spot e On-Demand) e gestire le VM individualmente.</p>
+          </div>
+        </div>
+
+        <h3>Autoscaling</h3>
+        <p>Puoi definire regole per aggiungere (scale out) o rimuovere (scale in) istanze:</p>
+        <ul>
+          <li><strong>Metric-based</strong>: Es. "Se CPU > 75% per 5 min, aggiungi 1 VM".</li>
+          <li><strong>Schedule-based</strong>: Es. "Ogni Lunedì alle 8:00, imposta min 10 VM".</li>
+        </ul>
+
+        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚠️ Scale In Policy</h4>
+          <p style="margin:0;color:#78350f;font-size:14px;">Quando il carico scende, Azure deve decidere quale VM eliminare. Default: elimina la VM con l'ID più alto nella zona con più VM.</p>
+        </div>
+
+        <h3>Comandi CLI</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un VMSS (Flexible)</span>
+<span style="color:#38bdf8;">az vmss create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyVMSS <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--image</span> Ubuntu2204 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--orchestration-mode</span> Flexible <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--instance-count</span> 2
+
+<span style="color:#94a3b8;"># Aggiungere regola di autoscale</span>
+<span style="color:#38bdf8;">az monitor autoscale create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource</span> MyVMSS <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--min-count</span> 2 <span style="color:#fbbf24;">--max-count</span> 10 <span style="color:#fbbf24;">--count</span> 2
+
+<span style="color:#38bdf8;">az monitor autoscale rule create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--autoscale-name</span> MyAutoscale <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--condition</span> "Percentage CPU > 75 avg 5m" <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--scale</span> out 1</code></pre>
+        </div>
+
+        <h3>Considerazioni per l'Esame</h3>
+        <ul>
+          <li><strong>Availability Sets</strong> non proteggono da guasti dell'intero datacenter (usa Zones).</li>
+          <li><strong>SLA 99.99%</strong> richiede l'uso di Availability Zones.</li>
+          <li>VMSS Flexible permette di usare <strong>Spot VMs</strong> insieme a VM standard per risparmiare.</li>
+          <li>Per aggiornare l'OS image in un VMSS, devi fare un <strong>manual upgrade</strong> delle istanze (se policy è Manual).</li>
+        </ul>

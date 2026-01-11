@@ -1,0 +1,23 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Recovery Services Vault</span>
+<span style="color:#38bdf8;">az backup vault create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyVault <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--location</span> eastus
+
+<span style="color:#94a3b8;"># Creare una Policy di Backup</span>
+<span style="color:#38bdf8;">az backup policy create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vault-name</span> MyVault <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyPolicy <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--backup-management-type</span> AzureIaasVM <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--policy</span> policy.json
+
+<span style="color:#94a3b8;"># Abilitare il backup per una VM</span>
+<span style="color:#38bdf8;">az backup protection enable-for-vm</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vault-name</span> MyVault <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vm</span> MyVM <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--policy-name</span> MyPolicy</code></pre>
+        </div>

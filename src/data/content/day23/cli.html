@@ -1,0 +1,37 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Public IP Standard</span>
+<span style="color:#38bdf8;">az network public-ip create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyPublicIP <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--sku</span> Standard
+
+<span style="color:#94a3b8;"># Creare il Load Balancer</span>
+<span style="color:#38bdf8;">az network lb create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyLB <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--sku</span> Standard <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--public-ip-address</span> MyPublicIP <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--frontend-ip-name</span> MyFrontEnd <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--backend-pool-name</span> MyBackEndPool
+
+<span style="color:#94a3b8;"># Creare Health Probe</span>
+<span style="color:#38bdf8;">az network lb probe create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--lb-name</span> MyLB <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyProbe <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--protocol</span> tcp <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--port</span> 80
+
+<span style="color:#94a3b8;"># Creare Load Balancing Rule</span>
+<span style="color:#38bdf8;">az network lb rule create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--lb-name</span> MyLB <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyRule <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--protocol</span> tcp <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--frontend-port</span> 80 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--backend-port</span> 80 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--frontend-ip-name</span> MyFrontEnd <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--backend-pool-name</span> MyBackEndPool <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--probe-name</span> MyProbe</code></pre>
+        </div>

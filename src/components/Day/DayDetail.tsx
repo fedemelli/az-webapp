@@ -89,7 +89,7 @@ export function DayDetail() {
         <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Argomenti del giorno</h2>
         <div className="space-y-2 sm:space-y-3">
           {day.topics.map(topic => (
-            <TopicItem key={topic.id} topic={topic} />
+            <TopicItem key={topic.id} topic={topic} dayId={day.day} />
           ))}
         </div>
       </div>

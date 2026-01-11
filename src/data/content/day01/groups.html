@@ -1,0 +1,310 @@
+<h2>Gruppi in Microsoft Entra ID</h2>
+<p>I gruppi permettono di organizzare utenti e dispositivi per semplificare la gestione degli accessi alle risorse. Invece di assegnare permessi individualmente, crei un gruppo che applica permessi speciali a tutti i membri.</p>
+
+<!-- Diagramma Gruppi -->
+<svg viewBox="0 0 600 180" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Security Group -->
+  <rect x="40" y="30" width="240" height="120" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="160" y="55" fill="#1e40af" font-size="12" text-anchor="middle" font-weight="bold">Security Group</text>
+  <text x="160" y="75" fill="#3b82f6" font-size="9" text-anchor="middle">Accesso risorse Azure</text>
+  <rect x="60" y="90" width="60" height="40" rx="6" fill="white" stroke="#3b82f6"/>
+  <text x="90" y="115" fill="#3b82f6" font-size="8" text-anchor="middle">RBAC</text>
+  <rect x="130" y="90" width="60" height="40" rx="6" fill="white" stroke="#3b82f6"/>
+  <text x="160" y="115" fill="#3b82f6" font-size="8" text-anchor="middle">Licenze</text>
+  <rect x="200" y="90" width="60" height="40" rx="6" fill="white" stroke="#3b82f6"/>
+  <text x="230" y="115" fill="#3b82f6" font-size="8" text-anchor="middle">Apps</text>
+  <!-- M365 Group -->
+  <rect x="320" y="30" width="240" height="120" rx="12" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="440" y="55" fill="#6d28d9" font-size="12" text-anchor="middle" font-weight="bold">Microsoft 365 Group</text>
+  <text x="440" y="75" fill="#8b5cf6" font-size="9" text-anchor="middle">Collaborazione team</text>
+  <rect x="335" y="90" width="50" height="40" rx="6" fill="white" stroke="#8b5cf6"/>
+  <text x="360" y="115" fill="#8b5cf6" font-size="7" text-anchor="middle">Mailbox</text>
+  <rect x="390" y="90" width="50" height="40" rx="6" fill="white" stroke="#8b5cf6"/>
+  <text x="415" y="115" fill="#8b5cf6" font-size="7" text-anchor="middle">SharePoint</text>
+  <rect x="445" y="90" width="50" height="40" rx="6" fill="white" stroke="#8b5cf6"/>
+  <text x="470" y="115" fill="#8b5cf6" font-size="7" text-anchor="middle">Teams</text>
+  <rect x="500" y="90" width="50" height="40" rx="6" fill="white" stroke="#8b5cf6"/>
+  <text x="525" y="115" fill="#8b5cf6" font-size="7" text-anchor="middle">Planner</text>
+</svg>
+
+<h3>Ruoli Prerequisiti per Gestione Gruppi</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#1e293b,#334155);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Operazione</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Ruolo Richiesto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f8fafc;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Gestire membership gruppi</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#16a34a;">User Administrator o Groups Administrator</td>
+      </tr>
+      <tr style="background:#f1f5f9;">
+        <td style="padding:12px 16px;">Creare Role-Assignable Groups</td>
+        <td style="padding:12px 16px;font-weight:600;color:#f59e0b;">Privileged Role Administrator + P1/P2 License</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Tipi di Gruppo</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Security Group</h4>
+    <p style="margin:0 0 12px 0;color:#334155;font-size:14px;">Usato per gestire l'accesso a risorse Azure, app e servizi.</p>
+    <ul style="margin:0;padding-left:16px;color:#334155;font-size:13px;">
+      <li>Può essere assegnato a ruoli RBAC</li>
+      <li>Supporta nested groups (con limitazioni)</li>
+      <li>Supporta dynamic o assigned membership</li>
+      <li>Può essere usato per group-based licensing</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">Microsoft 365 Group</h4>
+    <p style="margin:0 0 12px 0;color:#334155;font-size:14px;">Usato per collaborazione team. Crea risorse condivise automaticamente.</p>
+    <ul style="margin:0;padding-left:16px;color:#334155;font-size:13px;">
+      <li>Include: Mailbox, SharePoint, Teams, Planner</li>
+      <li>Ha un indirizzo email del gruppo</li>
+      <li><strong>NON</strong> può contenere security groups</li>
+      <li><strong>NON</strong> può essere nested in altri gruppi</li>
+    </ul>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 8px 0;color:#991b1b;">Importante: Tipo Gruppo Non Modificabile</h4>
+  <p style="margin:0;color:#7f1d1d;font-size:14px;"><strong>Non puoi cambiare il tipo di gruppo dopo la creazione.</strong> Se sbagli, devi eliminare il gruppo e ricrearlo.</p>
+</div>
+
+<h3>Tipi di Membership</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Assigned</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Membri aggiunti manualmente dagli admin. Non richiede licenze premium. Best for: Team piccoli con membership statica.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Dynamic User</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Membership automatica basata su regole. <strong>Richiede Entra ID P1 o P2</strong>. Si aggiorna automaticamente quando cambiano gli attributi utente.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Dynamic Device</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Per dispositivi registrati. Utile per policy Intune. Si aggiorna in base agli attributi dei device.</p>
+  </div>
+</div>
+
+<h3>Sintassi Regole Dynamic Membership</h3>
+<p>Le regole usano proprietà utente o device con operatori logici:</p>
+
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Tutti gli utenti del dipartimento IT</span>
+<span style="color:#fbbf24;">user.department</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"IT"</span>
+
+<span style="color:#94a3b8;"># Job title che contiene "Manager"</span>
+<span style="color:#fbbf24;">user.jobTitle</span> <span style="color:#38bdf8;">-contains</span> <span style="color:#a78bfa;">"Manager"</span>
+
+<span style="color:#94a3b8;"># Job title che inizia con "Senior"</span>
+<span style="color:#fbbf24;">user.jobTitle</span> <span style="color:#38bdf8;">-startsWith</span> <span style="color:#a78bfa;">"Senior"</span>
+
+<span style="color:#94a3b8;"># Utenti con email che termina con @contoso.com</span>
+<span style="color:#fbbf24;">user.mail</span> <span style="color:#38bdf8;">-endsWith</span> <span style="color:#a78bfa;">"@contoso.com"</span>
+
+<span style="color:#94a3b8;"># Combinazione con AND</span>
+(<span style="color:#fbbf24;">user.department</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Sales"</span>) <span style="color:#f472b6;">-and</span> (<span style="color:#fbbf24;">user.country</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Italy"</span>)
+
+<span style="color:#94a3b8;"># Combinazione con OR</span>
+(<span style="color:#fbbf24;">user.department</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Sales"</span>) <span style="color:#f472b6;">-or</span> (<span style="color:#fbbf24;">user.department</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Marketing"</span>)
+
+<span style="color:#94a3b8;"># Escludere utenti guest</span>
+(<span style="color:#fbbf24;">user.userType</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Member"</span>)
+
+<span style="color:#94a3b8;"># Device con categoria Corporate</span>
+(<span style="color:#fbbf24;">device.deviceCategory</span> <span style="color:#38bdf8;">-eq</span> <span style="color:#a78bfa;">"Corporate"</span>)</code></pre>
+</div>
+
+<h4>Operatori Disponibili</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:20px 0;">
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-eq</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Uguale</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-ne</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Diverso</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-contains</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Contiene</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-startsWith</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Inizia con</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-endsWith</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Finisce con</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center;">
+    <code style="color:#6366f1;font-weight:600;">-match</code>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Regex</div>
+  </div>
+</div>
+
+<h3>Owners vs Members</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Ruolo</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Permessi</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Note Importanti</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#6366f1;">Owners</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Gestire membri, modificare proprietà gruppo, eliminare gruppo</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;color:#dc2626;font-weight:600;">NON sono automaticamente membri!</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#6366f1;">Members</td>
+        <td style="padding:12px 16px;">Beneficiano delle assegnazioni del gruppo (accesso risorse, licenze, ruoli)</td>
+        <td style="padding:12px 16px;">Non possono gestire il gruppo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0;color:#78350f;font-size:14px;"><strong>Best Practice:</strong> Assegna almeno <strong>2 owners</strong> per gruppo per evitare gruppi "orfani" se un owner lascia l'organizzazione.</p>
+</div>
+
+<h3>Nested Groups (Solo Security Groups)</h3>
+<p>Puoi aggiungere un security group come membro di un altro security group. Il gruppo figlio eredita gli scope di accesso del padre.</p>
+
+<div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#991b1b;">Limitazioni Nested Groups</h4>
+  <ul style="margin:0;padding-left:20px;color:#7f1d1d;font-size:14px;">
+    <li>NON puoi aggiungere gruppi sincronizzati da AD on-premises</li>
+    <li>NON puoi aggiungere security groups a Microsoft 365 groups</li>
+    <li>NON puoi aggiungere Microsoft 365 groups a security groups</li>
+    <li>I gruppi nested <strong>NON ereditano</strong> le assegnazioni di risorse condivise</li>
+    <li>NON puoi applicare licenze a nested security groups</li>
+    <li>NON puoi aggiungere distribution groups nel nesting</li>
+    <li>NON puoi aggiungere gruppi come membri di role-assignable groups</li>
+  </ul>
+</div>
+
+<h3>Role-Assignable Groups (Premium)</h3>
+<p>Permettono di assegnare ruoli Entra ID a un gruppo invece che a singoli utenti.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;padding:20px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔐</div>
+    <div style="font-weight:600;color:#92400e;font-size:13px;">Richiede P1/P2</div>
+    <div style="color:#78350f;font-size:11px;margin-top:4px;">Azure AD Premium</div>
+  </div>
+  <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:10px;padding:20px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">👤</div>
+    <div style="font-weight:600;color:#1e40af;font-size:13px;">Privileged Role Admin</div>
+    <div style="color:#1e3a8a;font-size:11px;margin-top:4px;">Ruolo richiesto</div>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:10px;padding:20px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">✋</div>
+    <div style="font-weight:600;color:#166534;font-size:13px;">Solo Assigned</div>
+    <div style="color:#14532d;font-size:11px;margin-top:4px;">No dynamic membership</div>
+  </div>
+</div>
+
+<h3>Group-Based Licensing</h3>
+<p>Puoi assegnare licenze M365 a un gruppo invece che a singoli utenti. Tutti i membri riceveranno automaticamente le licenze.</p>
+<ul>
+  <li>Richiede <strong>Entra ID P1</strong> o superiore</li>
+  <li>Funziona con security groups e M365 groups</li>
+  <li>Le licenze vengono rimosse automaticamente quando l'utente lascia il gruppo</li>
+  <li>Errori di assegnazione (es. licenze esaurite) vengono segnalati nel portale</li>
+</ul>
+
+<h3>Expiration Policy per Gruppi</h3>
+<p>Puoi configurare una policy di scadenza per i gruppi M365:</p>
+<ul>
+  <li>Imposta durata (30, 60, 90 giorni, ecc.)</li>
+  <li>Gli owner ricevono notifiche di rinnovo</li>
+  <li>Gruppi non rinnovati vengono eliminati (soft delete 30 giorni)</li>
+  <li>Configurata a livello tenant</li>
+</ul>
+
+<h3>Comandi CLI</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un security group</span>
+<span style="color:#38bdf8;">az ad group create</span> <span style="color:#fbbf24;">--display-name</span> "IT-Admins" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--mail-nickname</span> "it-admins"
+
+<span style="color:#94a3b8;"># Aggiungere un membro</span>
+<span style="color:#38bdf8;">az ad group member add</span> <span style="color:#fbbf24;">--group</span> "IT-Admins" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--member-id</span> &lt;user-object-id&gt;
+
+<span style="color:#94a3b8;"># Elencare i membri</span>
+<span style="color:#38bdf8;">az ad group member list</span> <span style="color:#fbbf24;">--group</span> "IT-Admins" <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Rimuovere un membro</span>
+<span style="color:#38bdf8;">az ad group member remove</span> <span style="color:#fbbf24;">--group</span> "IT-Admins" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--member-id</span> &lt;user-object-id&gt;
+
+<span style="color:#94a3b8;"># Verificare se un utente è membro</span>
+<span style="color:#38bdf8;">az ad group member check</span> <span style="color:#fbbf24;">--group</span> "IT-Admins" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--member-id</span> &lt;user-object-id&gt;
+
+<span style="color:#94a3b8;"># Aggiungere owner</span>
+<span style="color:#38bdf8;">az ad group owner add</span> <span style="color:#fbbf24;">--group</span> "IT-Admins" <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--owner-object-id</span> &lt;user-object-id&gt;
+
+<span style="color:#94a3b8;"># Eliminare un gruppo</span>
+<span style="color:#38bdf8;">az ad group delete</span> <span style="color:#fbbf24;">--group</span> "IT-Admins"</code></pre>
+</div>
+
+<h3>Naming Conventions Raccomandate</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #3b82f6;border-radius:10px;padding:16px;">
+    <code style="background:#eff6ff;padding:4px 8px;border-radius:4px;font-size:12px;color:#1e40af;">GRP-SEC-IT-Admins</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;">Security Group</div>
+  </div>
+  <div style="background:white;border:2px solid #8b5cf6;border-radius:10px;padding:16px;">
+    <code style="background:#faf5ff;padding:4px 8px;border-radius:4px;font-size:12px;color:#6d28d9;">GRP-M365-ProjectX</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;">Microsoft 365 Group</div>
+  </div>
+  <div style="background:white;border:2px solid #f59e0b;border-radius:10px;padding:16px;">
+    <code style="background:#fef3c7;padding:4px 8px;border-radius:4px;font-size:12px;color:#92400e;">GRP-DYN-Sales-IT</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;">Dynamic Group</div>
+  </div>
+  <div style="background:white;border:2px solid #dc2626;border-radius:10px;padding:16px;">
+    <code style="background:#fef2f2;padding:4px 8px;border-radius:4px;font-size:12px;color:#991b1b;">GRP-ROLE-GlobalAdmins</code>
+    <div style="color:#64748b;font-size:11px;margin-top:8px;">Role-Assignable</div>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0;color:#166534;font-size:14px;"><strong>Nota:</strong> I nomi dei gruppi <strong>non possono iniziare con uno spazio</strong>. Azure verifica l'unicità del nome.</p>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#92400e;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#78350f;font-size:14px;">
+        <li><strong>Dynamic membership</strong> richiede Entra ID Premium P1 o P2</li>
+        <li>Un owner <strong>non è automaticamente</strong> membro del gruppo</li>
+        <li>Assegna almeno <strong>2 owners</strong> per evitare gruppi orfani</li>
+        <li>M365 Groups includono mailbox, SharePoint, Teams, Planner</li>
+        <li><strong>Non puoi cambiare il tipo di gruppo</strong> dopo la creazione</li>
+        <li>I nomi gruppo <strong>non possono iniziare con spazi</strong></li>
+        <li><strong>Security groups</strong> possono essere nested, <strong>M365 groups NO</strong></li>
+        <li><strong>Role-assignable groups</strong> devono avere membership Assigned (no dynamic)</li>
+        <li>Le licenze NON possono essere applicate a nested groups</li>
+        <li>Conosci la sintassi delle regole: <code>-eq</code>, <code>-contains</code>, <code>-and</code>, <code>-or</code></li>
+      </ul>
+    </div>
+  </div>
+</div>

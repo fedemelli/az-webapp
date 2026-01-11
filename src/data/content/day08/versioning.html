@@ -1,0 +1,150 @@
+<h2>Protezione dei Dati in Azure Blob Storage</h2>
+        <p>Azure offre diverse funzionalità per proteggere i dati da eliminazioni accidentali, corruzioni e modifiche non volute. Queste funzionalità si complementano per offrire una protezione completa.</p>
+
+        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+          <!-- Background boxes -->
+          <rect x="30" y="20" width="170" height="240" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+          <rect x="215" y="20" width="170" height="240" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+          <rect x="400" y="20" width="170" height="240" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+
+          <!-- Headers -->
+          <text x="115" y="50" text-anchor="middle" font-weight="bold" fill="#16a34a" font-size="14">Soft Delete</text>
+          <text x="300" y="50" text-anchor="middle" font-weight="bold" fill="#2563eb" font-size="14">Versioning</text>
+          <text x="485" y="50" text-anchor="middle" font-weight="bold" fill="#d97706" font-size="14">Point-in-Time</text>
+
+          <!-- Soft Delete content -->
+          <text x="115" y="85" text-anchor="middle" fill="#64748b" font-size="11">Recupera blob</text>
+          <text x="115" y="100" text-anchor="middle" fill="#64748b" font-size="11">eliminati</text>
+          <rect x="55" y="115" width="120" height="35" rx="5" fill="#22c55e"/>
+          <text x="115" y="137" text-anchor="middle" fill="white" font-size="11">1-365 giorni</text>
+          <rect x="55" y="160" width="120" height="35" rx="5" fill="#86efac"/>
+          <text x="115" y="182" text-anchor="middle" fill="#166534" font-size="11">Blob + Container</text>
+          <text x="115" y="220" text-anchor="middle" fill="#64748b" font-size="10">Protezione da</text>
+          <text x="115" y="235" text-anchor="middle" fill="#64748b" font-size="10">eliminazione</text>
+
+          <!-- Versioning content -->
+          <text x="300" y="85" text-anchor="middle" fill="#64748b" font-size="11">Mantiene versioni</text>
+          <text x="300" y="100" text-anchor="middle" fill="#64748b" font-size="11">precedenti</text>
+          <rect x="240" y="115" width="120" height="35" rx="5" fill="#3b82f6"/>
+          <text x="300" y="137" text-anchor="middle" fill="white" font-size="11">Automatico</text>
+          <rect x="240" y="160" width="120" height="35" rx="5" fill="#93c5fd"/>
+          <text x="300" y="182" text-anchor="middle" fill="#1e40af" font-size="11">Ogni modifica</text>
+          <text x="300" y="220" text-anchor="middle" fill="#64748b" font-size="10">Protezione da</text>
+          <text x="300" y="235" text-anchor="middle" fill="#64748b" font-size="10">sovrascrittura</text>
+
+          <!-- Point-in-time content -->
+          <text x="485" y="85" text-anchor="middle" fill="#64748b" font-size="11">Ripristina stato</text>
+          <text x="485" y="100" text-anchor="middle" fill="#64748b" font-size="11">passato</text>
+          <rect x="425" y="115" width="120" height="35" rx="5" fill="#f59e0b"/>
+          <text x="485" y="137" text-anchor="middle" fill="white" font-size="11">Block blob only</text>
+          <rect x="425" y="160" width="120" height="35" rx="5" fill="#fcd34d"/>
+          <text x="485" y="182" text-anchor="middle" fill="#92400e" font-size="11">Richiede V + CF</text>
+          <text x="485" y="220" text-anchor="middle" fill="#64748b" font-size="10">Recovery</text>
+          <text x="485" y="235" text-anchor="middle" fill="#64748b" font-size="10">completo</text>
+        </svg>
+
+        <h3>Blob Versioning</h3>
+        <p>Il <strong>versioning</strong> mantiene automaticamente le versioni precedenti di un blob ogni volta che viene modificato o sovrascritto. Ogni versione ha un <strong>Version ID</strong> univoco.</p>
+
+        <h4>Come Funziona</h4>
+        <ul>
+          <li>Quando un blob viene sovrascritto, la versione precedente viene preservata</li>
+          <li>La versione corrente è sempre quella senza Version ID nell'URL</li>
+          <li>Le versioni precedenti sono accessibili tramite il loro Version ID</li>
+          <li>Puoi promuovere una versione precedente come versione corrente</li>
+        </ul>
+
+        <h4>Accesso alle Versioni</h4>
+        <pre><code># URL blob corrente
+https://mystorageaccount.blob.core.windows.net/container/myblob
+
+# URL versione specifica
+https://mystorageaccount.blob.core.windows.net/container/myblob?versionid=2023-06-15T10:30:00.0000000Z</code></pre>
+
+        <h3>Soft Delete</h3>
+        <p>Il <strong>soft delete</strong> permette di recuperare blob e container eliminati entro un periodo di retention configurabile.</p>
+
+        <h4>Tipi di Soft Delete</h4>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Tipo</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Retention</th>
+              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Cosa Protegge</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Blob soft delete</strong></td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">1-365 giorni</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Blob, snapshot e versioni eliminati</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Container soft delete</strong></td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">1-365 giorni</td>
+              <td style="padding:12px;border:1px solid #e2e8f0;">Container eliminati (con tutto il contenuto)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Configurazione con Azure CLI</h4>
+        <pre><code># Abilitare blob soft delete (7 giorni)
+az storage account blob-service-properties update \\
+  --account-name mystorageaccount \\
+  --resource-group myResourceGroup \\
+  --enable-delete-retention true \\
+  --delete-retention-days 7
+
+# Abilitare container soft delete
+az storage account blob-service-properties update \\
+  --account-name mystorageaccount \\
+  --resource-group myResourceGroup \\
+  --enable-container-delete-retention true \\
+  --container-delete-retention-days 7
+
+# Abilitare versioning
+az storage account blob-service-properties update \\
+  --account-name mystorageaccount \\
+  --resource-group myResourceGroup \\
+  --enable-versioning true</code></pre>
+
+        <h3>Point-in-Time Restore</h3>
+        <p>Permette di ripristinare i block blob a uno stato precedente, utile per il recovery da corruzione o eliminazioni massive.</p>
+
+        <h4>Prerequisiti</h4>
+        <ul>
+          <li><strong>Versioning</strong> deve essere abilitato</li>
+          <li><strong>Change Feed</strong> deve essere abilitato</li>
+          <li><strong>Blob soft delete</strong> deve essere abilitato</li>
+          <li>Funziona solo con <strong>block blob</strong></li>
+        </ul>
+
+        <h4>Limitazioni</h4>
+        <ul>
+          <li>Non supportato con NFS 3.0, SFTP o Data Lake Storage Gen2</li>
+          <li>Non ripristina container eliminati</li>
+          <li>Il periodo massimo di restore dipende dalla retention del change feed</li>
+        </ul>
+
+        <h3>Immutable Storage</h3>
+        <p>Per protezione ancora più forte, puoi usare <strong>Immutable Blob Storage</strong>:</p>
+        <ul>
+          <li><strong>Legal Hold</strong>: blocca modifiche/eliminazioni fino alla rimozione manuale</li>
+          <li><strong>Time-based Retention</strong>: blocca per un periodo specifico (WORM compliance)</li>
+        </ul>
+
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Abilita <strong>sia versioning che soft delete</strong> per protezione completa</li>
+          <li>Usa <strong>lifecycle policies</strong> per eliminare versioni vecchie e ridurre i costi</li>
+          <li>Per dati critici, considera <strong>immutable storage</strong></li>
+          <li>Testa periodicamente le procedure di recovery</li>
+        </ul>
+
+        <h3>Considerazioni per l'Esame</h3>
+        <ul>
+          <li>Point-in-Time Restore richiede <strong>versioning + change feed + soft delete</strong></li>
+          <li>Soft delete ha un costo storage per i dati mantenuti nel periodo di retention</li>
+          <li>Le versioni contano come dati separati ai fini della fatturazione</li>
+          <li>Container soft delete ripristina il container con tutti i blob al momento dell'eliminazione</li>
+        </ul>

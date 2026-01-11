@@ -1,0 +1,20 @@
+<h2>Azure Site Recovery (ASR)</h2>
+        <p><strong>Azure Site Recovery</strong> garantisce la continuità aziendale mantenendo le app e i carichi di lavoro in esecuzione durante le interruzioni. Replica i carichi di lavoro da un sito primario a una posizione secondaria.</p>
+
+        <h3>Scenari di Replica</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🌍 Azure to Azure</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Replica VM da una region Azure a un'altra (es. West Europe -> North Europe).</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🏢 On-Prem to Azure</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Replica server fisici o virtuali (VMware/Hyper-V) nel cloud Azure.</p>
+          </div>
+        </div>
+
+        <h3>RPO & RTO</h3>
+        <ul>
+          <li><strong>RPO (Recovery Point Objective)</strong>: Quanto dati puoi permetterti di perdere (es. 15 minuti).</li>
+          <li><strong>RTO (Recovery Time Objective)</strong>: Quanto tempo serve per tornare operativi (es. 2 ore).</li>
+        </ul>

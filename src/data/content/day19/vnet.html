@@ -1,0 +1,164 @@
+<div style="margin-bottom:32px">
+          <svg viewBox="0 0 800 380" style="width:100%;max-width:800px;background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)">
+            <defs>
+              <linearGradient id="vnetGrad19" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#3b82f6"/>
+                <stop offset="100%" style="stop-color:#1d4ed8"/>
+              </linearGradient>
+              <linearGradient id="subnetGrad19a" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#10b981"/>
+                <stop offset="100%" style="stop-color:#059669"/>
+              </linearGradient>
+              <linearGradient id="subnetGrad19b" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#8b5cf6"/>
+                <stop offset="100%" style="stop-color:#7c3aed"/>
+              </linearGradient>
+              <filter id="shadow19" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.2"/>
+              </filter>
+            </defs>
+            <!-- VNet Container -->
+            <rect x="50" y="30" width="700" height="320" rx="20" fill="url(#vnetGrad19)" filter="url(#shadow19)" opacity="0.15"/>
+            <rect x="50" y="30" width="700" height="320" rx="20" fill="none" stroke="url(#vnetGrad19)" stroke-width="3" stroke-dasharray="10,5"/>
+            <text x="400" y="60" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e40af">Azure Virtual Network: 10.0.0.0/16</text>
+
+            <!-- Subnet 1 -->
+            <rect x="80" y="90" width="190" height="110" rx="12" fill="url(#subnetGrad19a)" filter="url(#shadow19)"/>
+            <text x="175" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Frontend Subnet</text>
+            <text x="175" y="140" text-anchor="middle" font-size="11" fill="white" opacity="0.9">10.0.1.0/24</text>
+            <rect x="100" y="155" width="35" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="117" y="175" text-anchor="middle" font-size="9" fill="#059669">VM1</text>
+            <rect x="145" y="155" width="35" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="162" y="175" text-anchor="middle" font-size="9" fill="#059669">VM2</text>
+            <rect x="190" y="155" width="35" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="207" y="175" text-anchor="middle" font-size="9" fill="#059669">VM3</text>
+
+            <!-- Subnet 2 -->
+            <rect x="300" y="90" width="190" height="110" rx="12" fill="url(#subnetGrad19b)" filter="url(#shadow19)"/>
+            <text x="395" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Backend Subnet</text>
+            <text x="395" y="140" text-anchor="middle" font-size="11" fill="white" opacity="0.9">10.0.2.0/24</text>
+            <rect x="330" y="155" width="50" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="355" y="175" text-anchor="middle" font-size="9" fill="#7c3aed">App</text>
+            <rect x="390" y="155" width="50" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="415" y="175" text-anchor="middle" font-size="9" fill="#7c3aed">DB</text>
+
+            <!-- GatewaySubnet -->
+            <rect x="520" y="90" width="200" height="110" rx="12" fill="#f59e0b" filter="url(#shadow19)"/>
+            <text x="620" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="white">GatewaySubnet</text>
+            <text x="620" y="140" text-anchor="middle" font-size="11" fill="white" opacity="0.9">10.0.255.0/27</text>
+            <rect x="575" y="155" width="90" height="30" rx="5" fill="white" opacity="0.9"/>
+            <text x="620" y="175" text-anchor="middle" font-size="9" fill="#d97706">VPN Gateway</text>
+
+            <!-- Internet cloud -->
+            <ellipse cx="175" cy="280" rx="70" ry="40" fill="#0ea5e9" filter="url(#shadow19)"/>
+            <text x="175" y="285" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Internet</text>
+            <line x1="175" y1="240" x2="175" y2="200" stroke="#0ea5e9" stroke-width="3"/>
+            <polygon points="175,200 168,212 182,212" fill="#0ea5e9"/>
+
+            <!-- On-premises -->
+            <rect x="520" y="240" width="200" height="80" rx="10" fill="#64748b" filter="url(#shadow19)"/>
+            <text x="620" y="272" text-anchor="middle" font-size="12" font-weight="bold" fill="white">On-Premises DC</text>
+            <text x="620" y="295" text-anchor="middle" font-size="10" fill="white" opacity="0.8">192.168.0.0/16</text>
+            <line x1="620" y1="240" x2="620" y2="200" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8,4"/>
+          </svg>
+        </div>
+
+        <h3 style="color:#1e40af;margin-bottom:16px;font-size:20px">Cos'e una Virtual Network (VNet)?</h3>
+        <p style="font-size:16px;line-height:1.8;margin-bottom:24px">
+          Una <strong>Virtual Network (VNet)</strong> e il componente fondamentale per creare reti private isolate in Azure.
+          Rappresenta la tua rete nel cloud e ti permette di controllare completamente l'ambiente di rete, inclusi
+          range di indirizzi IP, subnets, route tables e gateway di rete.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:32px">
+          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px">
+            <h4 style="margin:0 0 12px 0;color:#1e40af">Isolamento Completo</h4>
+            <p style="margin:0;color:#1e3a8a;font-size:14px;line-height:1.6">
+              Ogni VNet e completamente isolata dalle altre. Le risorse in VNet diverse non possono comunicare senza configurazione esplicita (peering, VPN, etc.).
+            </p>
+          </div>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px">
+            <h4 style="margin:0 0 12px 0;color:#166534">Comunicazione Interna</h4>
+            <p style="margin:0;color:#14532d;font-size:14px;line-height:1.6">
+              Le risorse nella stessa VNet comunicano automaticamente tra loro. Puoi abilitare accesso a internet e connettere reti on-premises.
+            </p>
+          </div>
+          <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px">
+            <h4 style="margin:0 0 12px 0;color:#92400e">Integrazione Azure</h4>
+            <p style="margin:0;color:#78350f;font-size:14px;line-height:1.6">
+              VNet si integra con servizi Azure (Storage, SQL, App Service) tramite Service Endpoints e Private Endpoints.
+            </p>
+          </div>
+          <div style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border-left:4px solid #a855f7;border-radius:12px;padding:20px">
+            <h4 style="margin:0 0 12px 0;color:#6b21a8">Risorsa Regionale</h4>
+            <p style="margin:0;color:#581c87;font-size:14px;line-height:1.6">
+              Una VNet e associata a una sola region. Per connettere VNet in region diverse usa Global VNet Peering o VPN Gateway.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="color:#1e40af;margin-bottom:16px;font-size:20px">Range di Indirizzi IP Privati (RFC 1918)</h3>
+        <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:32px">
+          <thead>
+            <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed)">
+              <th style="padding:16px;text-align:left;color:white;font-weight:600">Classe</th>
+              <th style="padding:16px;text-align:left;color:white;font-weight:600">Range CIDR</th>
+              <th style="padding:16px;text-align:left;color:white;font-weight:600">Indirizzi</th>
+              <th style="padding:16px;text-align:left;color:white;font-weight:600">Uso Tipico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f8fafc">
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#4f46e5">Classe A</td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0"><code style="background:#e0e7ff;padding:4px 8px;border-radius:4px">10.0.0.0/8</code></td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0">16.7M</td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0">Enterprise, grandi org</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#4f46e5">Classe B</td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0"><code style="background:#e0e7ff;padding:4px 8px;border-radius:4px">172.16.0.0/12</code></td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0">1M</td>
+              <td style="padding:14px;border-bottom:1px solid #e2e8f0">Medie aziende</td>
+            </tr>
+            <tr style="background:#f8fafc">
+              <td style="padding:14px;font-weight:600;color:#4f46e5">Classe C</td>
+              <td style="padding:14px"><code style="background:#e0e7ff;padding:4px 8px;border-radius:4px">192.168.0.0/16</code></td>
+              <td style="padding:14px">65K</td>
+              <td style="padding:14px">Lab, dev, test</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="color:#1e40af;margin-bottom:16px;font-size:20px">Creare una VNet con Azure CLI</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin-bottom:32px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="color:#94a3b8;font-size:13px;font-family:monospace">Bash / Azure CLI</span>
+          </div>
+          <pre style="margin:0;color:#e2e8f0;font-size:14px;line-height:1.7;overflow-x:auto"><code><span style="color:#7dd3fc"># Creare un Resource Group</span>
+<span style="color:#c084fc">az group create</span> <span style="color:#fbbf24">--name</span> RG-Network <span style="color:#fbbf24">--location</span> westeurope
+
+<span style="color:#7dd3fc"># Creare una VNet con prima subnet</span>
+<span style="color:#c084fc">az network vnet create</span> \\
+  <span style="color:#fbbf24">--resource-group</span> RG-Network \\
+  <span style="color:#fbbf24">--name</span> VNet-Production \\
+  <span style="color:#fbbf24">--address-prefix</span> <span style="color:#34d399">10.0.0.0/16</span> \\
+  <span style="color:#fbbf24">--subnet-name</span> Frontend \\
+  <span style="color:#fbbf24">--subnet-prefix</span> <span style="color:#34d399">10.0.1.0/24</span>
+
+<span style="color:#7dd3fc"># Aggiungere subnet Backend</span>
+<span style="color:#c084fc">az network vnet subnet create</span> \\
+  <span style="color:#fbbf24">--resource-group</span> RG-Network \\
+  <span style="color:#fbbf24">--vnet-name</span> VNet-Production \\
+  <span style="color:#fbbf24">--name</span> Backend \\
+  <span style="color:#fbbf24">--address-prefix</span> <span style="color:#34d399">10.0.2.0/24</span></code></pre>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px">
+          <h4 style="margin:0 0 12px 0;color:#92400e">Tip per l'Esame AZ-104</h4>
+          <ul style="margin:0;padding-left:20px;color:#78350f">
+            <li style="margin-bottom:8px">Una VNet puo avere <strong>piu address spaces</strong> non contigui</li>
+            <li style="margin-bottom:8px">Gli address spaces di VNet in peering <strong>non devono sovrapporsi</strong></li>
+            <li style="margin-bottom:8px">Puoi modificare address spaces senza downtime (se non in uso)</li>
+            <li>La VNet e <strong>gratuita</strong>, paghi solo per gateway, peering traffic, etc.</li>
+          </ul>
+        </div>

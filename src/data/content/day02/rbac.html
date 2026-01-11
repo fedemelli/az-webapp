@@ -1,0 +1,329 @@
+<h2>Azure Role-Based Access Control (RBAC)</h2>
+<p><strong>Azure RBAC</strong> è il sistema di autorizzazione basato su Azure Resource Manager che fornisce una gestione granulare degli accessi alle risorse Azure. Permette di seguire il principio del <strong>least privilege</strong> assegnando solo i permessi necessari.</p>
+
+<!-- Diagramma RBAC -->
+<svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <defs>
+    <linearGradient id="rbacGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Centro: Role Assignment -->
+  <circle cx="300" cy="110" r="50" fill="url(#rbacGrad)"/>
+  <text x="300" y="105" fill="white" font-size="10" text-anchor="middle" font-weight="bold">Role</text>
+  <text x="300" y="120" fill="white" font-size="10" text-anchor="middle" font-weight="bold">Assignment</text>
+  <!-- Security Principal -->
+  <rect x="80" y="80" width="100" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="130" y="105" fill="#1e40af" font-size="9" text-anchor="middle" font-weight="bold">Security</text>
+  <text x="130" y="118" fill="#3b82f6" font-size="8" text-anchor="middle">Principal</text>
+  <!-- Role Definition -->
+  <rect x="80" y="20" width="100" height="50" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="130" y="45" fill="#92400e" font-size="9" text-anchor="middle" font-weight="bold">Role Definition</text>
+  <text x="130" y="58" fill="#f59e0b" font-size="8" text-anchor="middle">Permessi</text>
+  <!-- Scope -->
+  <rect x="420" y="80" width="100" height="60" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="470" y="105" fill="#166534" font-size="9" text-anchor="middle" font-weight="bold">Scope</text>
+  <text x="470" y="118" fill="#16a34a" font-size="8" text-anchor="middle">MG/Sub/RG/Res</text>
+  <!-- Frecce -->
+  <path d="M185 110 L245 110" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M185 50 L250 90" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M355 110 L415 110" stroke="#16a34a" stroke-width="2"/>
+</svg>
+
+<h3>I Quattro Componenti Fondamentali</h3>
+<p>Un <strong>Role Assignment</strong> è la combinazione di tre elementi:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">1. Security Principal</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Chi richiede l'accesso:</p>
+    <ul style="margin:8px 0 0 0;padding-left:16px;color:#475569;font-size:13px;">
+      <li><strong>User</strong> - singolo utente</li>
+      <li><strong>Group</strong> - gruppo di utenti</li>
+      <li><strong>Service Principal</strong> - identità per app</li>
+      <li><strong>Managed Identity</strong> - identità gestita Azure</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">2. Role Definition</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Collezione di permessi:</p>
+    <ul style="margin:8px 0 0 0;padding-left:16px;color:#475569;font-size:13px;">
+      <li><strong>Actions</strong> - operazioni permesse</li>
+      <li><strong>NotActions</strong> - esclusioni</li>
+      <li><strong>DataActions</strong> - operazioni dati</li>
+      <li><strong>NotDataActions</strong> - esclusioni dati</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">3. Scope</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Dove si applica (gerarchia):</p>
+    <ul style="margin:8px 0 0 0;padding-left:16px;color:#475569;font-size:13px;">
+      <li><strong>Management Group</strong></li>
+      <li><strong>Subscription</strong></li>
+      <li><strong>Resource Group</strong></li>
+      <li><strong>Resource</strong> (singola risorsa)</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">4. Role Assignment</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">L'unione dei tre elementi:</p>
+    <ul style="margin:8px 0 0 0;padding-left:16px;color:#475569;font-size:13px;">
+      <li>Security Principal +</li>
+      <li>Role Definition +</li>
+      <li>Scope =</li>
+      <li><strong>Accesso concesso!</strong></li>
+    </ul>
+  </div>
+</div>
+
+<h3>Ruoli Built-in Fondamentali</h3>
+<p>Azure include oltre <strong>120 ruoli built-in</strong>. I più importanti per l'esame:</p>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Ruolo</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Permessi</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Assegna Ruoli?</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Caso d'uso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#dc2626;">Owner</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Accesso completo + gestione accessi</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;color:#16a34a;font-weight:600;">✓ Sì</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Amministratori, proprietari subscription</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#f59e0b;">Contributor</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Crea e gestisce tutte le risorse</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;color:#dc2626;font-weight:600;">✗ No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Sviluppatori, DevOps</td>
+      </tr>
+      <tr style="background:#faf5ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#3b82f6;">Reader</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Solo visualizzazione (read-only)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;color:#dc2626;font-weight:600;">✗ No</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Auditor, utenti in sola lettura</td>
+      </tr>
+      <tr style="background:#f5f3ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#8b5cf6;">User Access Admin</td>
+        <td style="padding:12px 16px;">Solo gestione accessi utente</td>
+        <td style="padding:12px 16px;color:#16a34a;font-weight:600;">✓ Sì</td>
+        <td style="padding:12px 16px;">Delegare gestione permessi</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Ruoli Specifici per Risorse</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <div style="font-weight:600;color:#1e293b;font-size:14px;margin-bottom:8px;">Virtual Machine</div>
+    <ul style="margin:0;padding-left:16px;color:#64748b;font-size:12px;">
+      <li>VM Contributor</li>
+      <li>VM Administrator Login</li>
+      <li>VM User Login</li>
+    </ul>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <div style="font-weight:600;color:#1e293b;font-size:14px;margin-bottom:8px;">Storage</div>
+    <ul style="margin:0;padding-left:16px;color:#64748b;font-size:12px;">
+      <li>Storage Account Contributor</li>
+      <li>Storage Blob Data Owner</li>
+      <li>Storage Blob Data Reader</li>
+    </ul>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <div style="font-weight:600;color:#1e293b;font-size:14px;margin-bottom:8px;">Networking</div>
+    <ul style="margin:0;padding-left:16px;color:#64748b;font-size:12px;">
+      <li>Network Contributor</li>
+      <li>DNS Zone Contributor</li>
+      <li>Private DNS Zone Contributor</li>
+    </ul>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;">
+    <div style="font-weight:600;color:#1e293b;font-size:14px;margin-bottom:8px;">Monitoring</div>
+    <ul style="margin:0;padding-left:16px;color:#64748b;font-size:12px;">
+      <li>Monitoring Contributor</li>
+      <li>Monitoring Reader</li>
+      <li>Log Analytics Contributor</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Ereditarietà dei Ruoli (Scope Hierarchy)</h3>
+<p>I role assignment si <strong>ereditano verso il basso</strong> nella gerarchia. Un ruolo assegnato a livello superiore si applica automaticamente a tutti i livelli inferiori.</p>
+<div style="display:flex;flex-direction:column;gap:8px;margin:20px 0;padding:20px;background:linear-gradient(135deg,#f8fafc,#e2e8f0);border-radius:12px;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="background:linear-gradient(135deg,#dc2626,#ef4444);color:white;padding:12px 20px;border-radius:8px;font-weight:600;min-width:180px;text-align:center;">Management Group</div>
+    <div style="color:#64748b;font-size:13px;">→ Si propaga a tutte le subscription nel gruppo</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-left:30px;">
+    <div style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:white;padding:12px 20px;border-radius:8px;font-weight:600;min-width:180px;text-align:center;">Subscription</div>
+    <div style="color:#64748b;font-size:13px;">→ Si propaga a tutti i resource group</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-left:60px;">
+    <div style="background:linear-gradient(135deg,#3b82f6,#60a5fa);color:white;padding:12px 20px;border-radius:8px;font-weight:600;min-width:180px;text-align:center;">Resource Group</div>
+    <div style="color:#64748b;font-size:13px;">→ Si propaga a tutte le risorse</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-left:90px;">
+    <div style="background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:12px 20px;border-radius:8px;font-weight:600;min-width:180px;text-align:center;">Resource</div>
+    <div style="color:#64748b;font-size:13px;">← Livello più granulare</div>
+  </div>
+</div>
+
+<h3>Formato Scope</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.8;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Management Group</span>
+<span style="color:#a5f3fc;">/providers/Microsoft.Management/managementGroups/{mg-id}</span>
+
+<span style="color:#94a3b8;"># Subscription</span>
+<span style="color:#a5f3fc;">/subscriptions/{subscription-id}</span>
+
+<span style="color:#94a3b8;"># Resource Group</span>
+<span style="color:#a5f3fc;">/subscriptions/{sub-id}/resourceGroups/{rg-name}</span>
+
+<span style="color:#94a3b8;"># Resource (esempio Storage Account)</span>
+<span style="color:#a5f3fc;">/subscriptions/{sub-id}/resourceGroups/{rg-name}/providers/Microsoft.Storage/storageAccounts/{account-name}</span></code></pre>
+</div>
+
+<h3>Comandi CLI per Gestire RBAC</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Elencare tutti i ruoli built-in</span>
+<span style="color:#38bdf8;">az role definition list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Cercare ruoli per nome</span>
+<span style="color:#38bdf8;">az role definition list</span> <span style="color:#fbbf24;">--query</span> "[?contains(roleName, 'Virtual Machine')]"
+
+<span style="color:#94a3b8;"># Assegnare Contributor a un utente su subscription</span>
+<span style="color:#38bdf8;">az role assignment create</span> \
+  <span style="color:#fbbf24;">--assignee</span> mario.rossi@contoso.com \
+  <span style="color:#fbbf24;">--role</span> "Contributor" \
+  <span style="color:#fbbf24;">--scope</span> "/subscriptions/xxxx-xxxx-xxxx"
+
+<span style="color:#94a3b8;"># Assegnare Reader a un gruppo su resource group</span>
+<span style="color:#38bdf8;">az role assignment create</span> \
+  <span style="color:#fbbf24;">--assignee-object-id</span> &lt;group-object-id&gt; \
+  <span style="color:#fbbf24;">--assignee-principal-type</span> Group \
+  <span style="color:#fbbf24;">--role</span> "Reader" \
+  <span style="color:#fbbf24;">--resource-group</span> "my-rg"
+
+<span style="color:#94a3b8;"># Elencare le assegnazioni su una subscription</span>
+<span style="color:#38bdf8;">az role assignment list</span> \
+  <span style="color:#fbbf24;">--scope</span> "/subscriptions/xxxx-xxxx" \
+  <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Rimuovere un'assegnazione</span>
+<span style="color:#38bdf8;">az role assignment delete</span> \
+  <span style="color:#fbbf24;">--assignee</span> mario.rossi@contoso.com \
+  <span style="color:#fbbf24;">--role</span> "Contributor" \
+  <span style="color:#fbbf24;">--scope</span> "/subscriptions/xxxx-xxxx"</code></pre>
+</div>
+
+<h3>PowerShell per RBAC</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Ottenere tutti i ruoli</span>
+<span style="color:#38bdf8;">Get-AzRoleDefinition</span> | <span style="color:#38bdf8;">Select-Object</span> Name, IsCustom
+
+<span style="color:#94a3b8;"># Assegnare un ruolo</span>
+<span style="color:#38bdf8;">New-AzRoleAssignment</span> `
+  <span style="color:#fbbf24;">-SignInName</span> "mario@contoso.com" `
+  <span style="color:#fbbf24;">-RoleDefinitionName</span> "Contributor" `
+  <span style="color:#fbbf24;">-Scope</span> "/subscriptions/xxxx-xxxx"
+
+<span style="color:#94a3b8;"># Elencare assegnazioni per un utente</span>
+<span style="color:#38bdf8;">Get-AzRoleAssignment</span> <span style="color:#fbbf24;">-SignInName</span> "mario@contoso.com"
+
+<span style="color:#94a3b8;"># Rimuovere assegnazione</span>
+<span style="color:#38bdf8;">Remove-AzRoleAssignment</span> `
+  <span style="color:#fbbf24;">-SignInName</span> "mario@contoso.com" `
+  <span style="color:#fbbf24;">-RoleDefinitionName</span> "Contributor" `
+  <span style="color:#fbbf24;">-Scope</span> "/subscriptions/xxxx-xxxx"</code></pre>
+</div>
+
+<h3>Deny Assignments</h3>
+<div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#7f1d1d;font-size:15px;">Come funzionano i Deny</h4>
+  <ul style="margin:0;padding-left:20px;color:#7f1d1d;font-size:14px;">
+    <li><strong>Deny assignments</strong> bloccano specifiche azioni anche se un ruolo le consentirebbe</li>
+    <li>Le deny hanno <strong>precedenza sulle allow</strong> (Deny wins)</li>
+    <li>Non possono essere create direttamente dagli utenti</li>
+    <li>Sono usate principalmente da <strong>Azure Blueprints</strong> per proteggere risorse</li>
+    <li>Eccezione: le azioni con <code>DoNotApplyToChildScopes</code> non vengono negate</li>
+  </ul>
+</div>
+
+<h3>Limiti RBAC</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">4000</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Role Assignments</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per subscription</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">500</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Role Assignments</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per management group</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">5000</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Custom Roles</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per tenant</div>
+  </div>
+</div>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">👥</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Usa Gruppi</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Assegna a gruppi, non singoli utenti</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔒</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Least Privilege</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Solo permessi necessari</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📦</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Built-in First</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Preferisci ruoli built-in</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🎯</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Scope Ristretto</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Il più basso possibile</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">⏰</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">PIM per Admin</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Just-in-time per ruoli sensibili</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📋</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Access Reviews</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Revisione periodica accessi</div>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>Contributor</strong> NON può assegnare ruoli ad altri (serve Owner o User Access Admin)</li>
+        <li>I permessi si ereditano verso il basso nella gerarchia degli scope</li>
+        <li><strong>Deny assignments</strong> hanno sempre precedenza su allow</li>
+        <li>Usa <strong>PIM</strong> (Privileged Identity Management) per ruoli sensibili</li>
+        <li><strong>NotActions</strong> non è un deny esplicito, è solo un'esclusione dalle Actions</li>
+        <li>Max <strong>4000</strong> role assignments per subscription</li>
+        <li>Role assignment può richiedere fino a <strong>10 minuti</strong> per propagarsi</li>
+        <li>Per vedere le proprie autorizzazioni: <code>az role assignment list --assignee me</code></li>
+      </ul>
+    </div>
+  </div>
+</div>

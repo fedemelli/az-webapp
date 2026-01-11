@@ -1,0 +1,20 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Azure Container Registry</span>
+<span style="color:#38bdf8;">az acr create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyRegistry123 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--sku</span> Basic <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--admin-enabled</span> true
+
+<span style="color:#94a3b8;"># Costruire un'immagine con ACR Tasks (senza Docker locale)</span>
+<span style="color:#38bdf8;">az acr build</span> <span style="color:#fbbf24;">--registry</span> MyRegistry123 <span style="color:#fbbf24;">--image</span> myapp:v1 .
+
+<span style="color:#94a3b8;"># Eseguire un container in ACI</span>
+<span style="color:#38bdf8;">az container create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> mycontainer <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--image</span> MyRegistry123.azurecr.io/myapp:v1 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--dns-name-label</span> myapp-demo <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--ports</span> 80</code></pre>
+        </div>

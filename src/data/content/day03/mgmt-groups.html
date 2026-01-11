@@ -1,0 +1,256 @@
+<h2>Azure Management Groups</h2>
+<p>I <strong>Management Groups</strong> forniscono un livello di organizzazione superiore alle subscriptions. Permettono di applicare governance, policy e RBAC a multiple subscriptions contemporaneamente in modo gerarchico.</p>
+
+<!-- Diagramma Gerarchia -->
+<svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Root -->
+  <rect x="225" y="15" width="150" height="40" rx="8" fill="#dc2626" stroke="#b91c1c" stroke-width="2"/>
+  <text x="300" y="40" fill="white" font-size="11" text-anchor="middle" font-weight="bold">Root Management Group</text>
+  <!-- Livello 1 -->
+  <line x1="300" y1="55" x2="300" y2="70" stroke="#64748b" stroke-width="2"/>
+  <line x1="150" y1="70" x2="450" y2="70" stroke="#64748b" stroke-width="2"/>
+  <line x1="150" y1="70" x2="150" y2="85" stroke="#64748b" stroke-width="2"/>
+  <line x1="450" y1="70" x2="450" y2="85" stroke="#64748b" stroke-width="2"/>
+
+  <rect x="75" y="85" width="150" height="40" rx="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="150" y="110" fill="white" font-size="10" text-anchor="middle" font-weight="bold">MG: Production</text>
+
+  <rect x="375" y="85" width="150" height="40" rx="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="450" y="110" fill="white" font-size="10" text-anchor="middle" font-weight="bold">MG: Non-Production</text>
+
+  <!-- Livello 2 -->
+  <line x1="150" y1="125" x2="150" y2="145" stroke="#64748b" stroke-width="2"/>
+  <line x1="450" y1="125" x2="450" y2="140" stroke="#64748b" stroke-width="2"/>
+  <line x1="375" y1="140" x2="525" y2="140" stroke="#64748b" stroke-width="2"/>
+  <line x1="375" y1="140" x2="375" y2="155" stroke="#64748b" stroke-width="2"/>
+  <line x1="525" y1="140" x2="525" y2="155" stroke="#64748b" stroke-width="2"/>
+
+  <rect x="75" y="145" width="150" height="35" rx="6" fill="#3b82f6" stroke="#2563eb" stroke-width="2"/>
+  <text x="150" y="167" fill="white" font-size="9" text-anchor="middle" font-weight="bold">Sub: Prod-001</text>
+
+  <rect x="300" y="155" width="150" height="35" rx="6" fill="#16a34a" stroke="#15803d" stroke-width="2"/>
+  <text x="375" y="177" fill="white" font-size="9" text-anchor="middle" font-weight="bold">Sub: Dev-001</text>
+
+  <rect x="450" y="155" width="150" height="35" rx="6" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+  <text x="525" y="177" fill="white" font-size="9" text-anchor="middle" font-weight="bold">Sub: Test-001</text>
+
+  <!-- Resource Groups -->
+  <line x1="150" y1="180" x2="150" y2="200" stroke="#64748b" stroke-width="1"/>
+  <rect x="100" y="200" width="100" height="25" rx="4" fill="#dbeafe"/>
+  <text x="150" y="217" fill="#3b82f6" font-size="8" text-anchor="middle">Resource Groups</text>
+
+  <!-- Freccia ereditarietà -->
+  <text x="550" y="120" fill="#64748b" font-size="8" text-anchor="middle">Policy</text>
+  <text x="550" y="132" fill="#64748b" font-size="8" text-anchor="middle">RBAC ↓</text>
+</svg>
+
+<h3>Root Management Group</h3>
+<p>Il <strong>Root Management Group</strong> è il livello più alto della gerarchia. Ha caratteristiche speciali:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#7f1d1d;font-size:15px;">Caratteristiche Uniche</h4>
+    <ul style="margin:0;padding-left:16px;color:#7f1d1d;font-size:13px;">
+      <li>Ogni tenant ha <strong>un solo Root MG</strong></li>
+      <li><strong>Non può essere spostato o eliminato</strong></li>
+      <li>Tutte le subscription sono sotto di esso</li>
+      <li>Nome di default: "Tenant Root Group"</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Accesso al Root</h4>
+    <ul style="margin:0;padding-left:16px;color:#78350f;font-size:13px;">
+      <li>Global Admin può elevarsi per gestirlo</li>
+      <li>Policy al root si propagano a TUTTO</li>
+      <li>Usare con estrema cautela</li>
+      <li>Assegna solo policy essenziali</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Limiti e Quote</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">6</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Livelli di Profondità</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Escluso il root</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">10K</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Management Groups</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Max per directory</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">1</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Parent</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Ogni MG ha un solo parent</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:28px;font-weight:700;color:#6366f1;">∞</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Figli</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">MG o Subscriptions</div>
+  </div>
+</div>
+
+<h3>Ereditarietà</h3>
+<p>Tutto ciò che applichi a un management group viene <strong>ereditato verso il basso</strong> nella gerarchia:</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📋</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Azure Policy</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Si applica a tutte le subscription e risorse sotto</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔐</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">RBAC</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">I role assignments si propagano verso il basso</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">💰</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Cost Management</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Analizza costi aggregati</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🛡️</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Blueprints</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Deploy configurazioni standard</div>
+  </div>
+</div>
+
+<h3>Comandi CLI per Management Groups</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un management group</span>
+<span style="color:#38bdf8;">az account management-group create</span> \
+  <span style="color:#fbbf24;">--name</span> "IT-Department" \
+  <span style="color:#fbbf24;">--display-name</span> "IT Department"
+
+<span style="color:#94a3b8;"># Creare sotto un parent specifico</span>
+<span style="color:#38bdf8;">az account management-group create</span> \
+  <span style="color:#fbbf24;">--name</span> "IT-Production" \
+  <span style="color:#fbbf24;">--display-name</span> "IT Production" \
+  <span style="color:#fbbf24;">--parent</span> "IT-Department"
+
+<span style="color:#94a3b8;"># Spostare una subscription in un management group</span>
+<span style="color:#38bdf8;">az account management-group subscription add</span> \
+  <span style="color:#fbbf24;">--name</span> "IT-Production" \
+  <span style="color:#fbbf24;">--subscription</span> "subscription-id"
+
+<span style="color:#94a3b8;"># Elencare tutti i management groups</span>
+<span style="color:#38bdf8;">az account management-group list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Vedere la gerarchia completa</span>
+<span style="color:#38bdf8;">az account management-group show</span> \
+  <span style="color:#fbbf24;">--name</span> "IT-Department" \
+  <span style="color:#fbbf24;">--expand</span> \
+  <span style="color:#fbbf24;">--recurse</span>
+
+<span style="color:#94a3b8;"># Spostare un MG sotto un altro parent</span>
+<span style="color:#38bdf8;">az account management-group move</span> \
+  <span style="color:#fbbf24;">--name</span> "IT-Production" \
+  <span style="color:#fbbf24;">--new-parent</span> "New-Parent-MG"
+
+<span style="color:#94a3b8;"># Eliminare un MG (deve essere vuoto!)</span>
+<span style="color:#38bdf8;">az account management-group delete</span> <span style="color:#fbbf24;">--name</span> "IT-Production"</code></pre>
+</div>
+
+<h3>PowerShell per Management Groups</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un management group</span>
+<span style="color:#38bdf8;">New-AzManagementGroup</span> `
+  <span style="color:#fbbf24;">-GroupName</span> "IT-Department" `
+  <span style="color:#fbbf24;">-DisplayName</span> "IT Department"
+
+<span style="color:#94a3b8;"># Creare sotto un parent</span>
+<span style="color:#38bdf8;">New-AzManagementGroup</span> `
+  <span style="color:#fbbf24;">-GroupName</span> "IT-Production" `
+  <span style="color:#fbbf24;">-DisplayName</span> "IT Production" `
+  <span style="color:#fbbf24;">-ParentId</span> "/providers/Microsoft.Management/managementGroups/IT-Department"
+
+<span style="color:#94a3b8;"># Aggiungere subscription a MG</span>
+<span style="color:#38bdf8;">New-AzManagementGroupSubscription</span> `
+  <span style="color:#fbbf24;">-GroupName</span> "IT-Production" `
+  <span style="color:#fbbf24;">-SubscriptionId</span> "xxxx-xxxx-xxxx"
+
+<span style="color:#94a3b8;"># Elencare MG</span>
+<span style="color:#38bdf8;">Get-AzManagementGroup</span></code></pre>
+</div>
+
+<h3>Strutture di Esempio</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 12px 0;color:#1e40af;font-size:15px;">Per Ambiente</h4>
+    <pre style="margin:0;font-size:12px;color:#334155;background:#f1f5f9;padding:12px;border-radius:8px;">Root
+├── Production
+│   ├── Sub: Prod-Web
+│   └── Sub: Prod-Data
+└── Non-Production
+    ├── Development
+    └── Testing</pre>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 12px 0;color:#166534;font-size:15px;">Per Business Unit</h4>
+    <pre style="margin:0;font-size:12px;color:#334155;background:#f1f5f9;padding:12px;border-radius:8px;">Root
+├── IT
+│   ├── Sub: IT-Infrastructure
+│   └── Sub: IT-Development
+├── Finance
+│   └── Sub: Finance-Apps
+└── Marketing
+    └── Sub: Marketing-Web</pre>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 12px 0;color:#92400e;font-size:15px;">Per Region</h4>
+    <pre style="margin:0;font-size:12px;color:#334155;background:#f1f5f9;padding:12px;border-radius:8px;">Root
+├── Europe
+│   ├── Sub: EU-Production
+│   └── Sub: EU-Development
+├── Americas
+│   └── Sub: US-Production
+└── Asia-Pacific
+    └── Sub: APAC-Production</pre>
+  </div>
+</div>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📐</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Pianifica Prima</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Progetta la struttura prima di creare</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📊</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Max 2-3 Livelli</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Non creare troppi livelli</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">📛</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Naming Convention</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Nomi consistenti e descrittivi</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">⬆️</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Policy al Top</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Applica policy al livello più alto possibile</div>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Max <strong>6 livelli</strong> di profondità (escluso root)</li>
+        <li>Ogni MG può avere <strong>un solo parent</strong></li>
+        <li>Il <strong>Root MG non può essere eliminato</strong> o spostato</li>
+        <li>Policy e RBAC si <strong>ereditano verso il basso</strong></li>
+        <li>Global Admin deve <strong>elevarsi</strong> per gestire il root</li>
+        <li>Per eliminare un MG, deve essere <strong>vuoto</strong></li>
+        <li>Max <strong>10.000 MG</strong> per directory</li>
+        <li>Le subscription nuove vanno sotto il root di default</li>
+        <li>Usa MG per applicare policy a multiple subscription insieme</li>
+      </ul>
+    </div>
+  </div>
+</div>

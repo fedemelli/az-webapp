@@ -1,0 +1,25 @@
+<h2>Azure VM Extensions</h2>
+        <p>Le <strong>VM Extensions</strong> sono piccole applicazioni che forniscono configurazione e automazione post-deployment sulle macchine virtuali Azure. Sono gestite dall'Azure VM Agent.</p>
+
+        <h3>Estensioni Comuni</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">📜 Custom Script Extension</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Scarica ed esegue script (PowerShell o Bash) sulla VM. Utile per bootstrap rapido.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">⚙️ DSC Extension</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Applica configurazioni PowerShell DSC (Desired State Configuration) per gestire lo stato della VM.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">📊 Azure Monitor Agent</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Raccoglie log e metriche e li invia a Log Analytics o Azure Monitor.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">🛡️ Antimalware Extension</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Installa e configura Microsoft Antimalware o soluzioni di terze parti (Symantec, TrendMicro).</p>
+          </div>
+        </div>
+
+        <h3>Gestione Estensioni</h3>
+        <p>Le estensioni possono essere gestite via portale, CLI, PowerShell o template ARM. L'agente VM deve essere installato e funzionante.</p>

@@ -1,0 +1,116 @@
+<h2>Storage Redundancy</h2>
+        <p>Azure Storage mantiene sempre <strong>multiple copie</strong> dei tuoi dati per proteggerli da guasti hardware, interruzioni di rete e disastri naturali.</p>
+
+        <h3>Opzioni di Ridondanza - Region Primaria</h3>
+        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <text x="300" y="20" text-anchor="middle" font-weight="bold" fill="#1e293b">Region Primaria</text>
+          <!-- LRS -->
+          <rect x="30" y="40" width="250" height="140" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="8"/>
+          <text x="155" y="60" text-anchor="middle" font-weight="bold" fill="#b45309">LRS - Datacenter Singolo</text>
+          <rect x="50" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
+          <text x="80" y="105" text-anchor="middle" font-size="10">Copy 1</text>
+          <rect x="125" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
+          <text x="155" y="105" text-anchor="middle" font-size="10">Copy 2</text>
+          <rect x="200" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
+          <text x="230" y="105" text-anchor="middle" font-size="10">Copy 3</text>
+          <text x="155" y="160" text-anchor="middle" font-size="11" fill="#78716c">11 nines (99.999999999%)</text>
+          <!-- ZRS -->
+          <rect x="320" y="40" width="250" height="140" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
+          <text x="445" y="60" text-anchor="middle" font-weight="bold" fill="#1d4ed8">ZRS - 3 Zone Disponibilità</text>
+          <rect x="340" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
+          <text x="370" y="105" text-anchor="middle" font-size="10">Zone 1</text>
+          <rect x="415" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
+          <text x="445" y="105" text-anchor="middle" font-size="10">Zone 2</text>
+          <rect x="490" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
+          <text x="520" y="105" text-anchor="middle" font-size="10">Zone 3</text>
+          <text x="445" y="160" text-anchor="middle" font-size="11" fill="#78716c">12 nines (99.9999999999%)</text>
+        </svg>
+
+        <h3>Opzioni di Ridondanza - Con Region Secondaria</h3>
+        <svg viewBox="0 0 600 180" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <!-- Primary Region -->
+          <rect x="30" y="30" width="240" height="120" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="8"/>
+          <text x="150" y="50" text-anchor="middle" font-weight="bold" fill="#166534">Region Primaria</text>
+          <rect x="50" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
+          <rect x="110" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
+          <rect x="170" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
+          <text x="150" y="130" text-anchor="middle" font-size="10" fill="#166534">Read + Write</text>
+          <!-- Arrow -->
+          <path d="M 280 90 L 320 90" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <text x="300" y="80" text-anchor="middle" font-size="10" fill="#64748b">Async</text>
+          <!-- Secondary Region -->
+          <rect x="330" y="30" width="240" height="120" fill="#e0e7ff" stroke="#6366f1" stroke-width="2" rx="8"/>
+          <text x="450" y="50" text-anchor="middle" font-weight="bold" fill="#4338ca">Region Secondaria</text>
+          <rect x="350" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
+          <rect x="410" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
+          <rect x="470" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
+          <text x="450" y="130" text-anchor="middle" font-size="10" fill="#4338ca">RA-*: Read Only</text>
+        </svg>
+
+        <h3>Confronto Opzioni</h3>
+        <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 13px;">
+          <tr style="background: #f1f5f9;">
+            <th style="padding: 6px; border: 1px solid #e2e8f0;">Opzione</th>
+            <th style="padding: 6px; border: 1px solid #e2e8f0;">Copie</th>
+            <th style="padding: 6px; border: 1px solid #e2e8f0;">Durabilità</th>
+            <th style="padding: 6px; border: 1px solid #e2e8f0;">Read dalla Secondaria</th>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>LRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">3 nello stesso DC</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">11 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">N/A</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>ZRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">3 in 3 zone</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">12 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">N/A</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>GRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">LRS + 3 in region secondaria</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">Solo dopo failover</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>RA-GRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">Come GRS</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">✅ Sempre</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>GZRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">ZRS + 3 in region secondaria</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">Solo dopo failover</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>RA-GZRS</strong></td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">Come GZRS</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
+            <td style="padding: 6px; border: 1px solid #e2e8f0;">✅ Sempre</td>
+          </tr>
+        </table>
+
+        <h3>Failover</h3>
+        <p>Con GRS/GZRS puoi eseguire un <strong>failover manuale</strong> alla region secondaria:</p>
+        <pre><code># Iniziare failover
+az storage account failover --name "mystorageaccount"
+
+# Verificare lo stato del failover
+az storage account show --name "mystorageaccount" \\
+  --query "failoverInProgress"</code></pre>
+        <p><strong>Attenzione</strong>: Il failover può causare perdita di dati (RPO ~15 minuti).</p>
+
+        <h3>Endpoint Secondario (RA-*)</h3>
+        <p>Con RA-GRS/RA-GZRS, l'endpoint secondario è:</p>
+        <pre><code>https://[accountname]-secondary.blob.core.windows.net</code></pre>
+
+        <h3>Punti Chiave per l'Esame</h3>
+        <ul>
+          <li><strong>ZRS</strong> richiede che la region supporti le Availability Zones</li>
+          <li><strong>Premium storage</strong> supporta solo LRS e ZRS</li>
+          <li>La replica verso la region secondaria è <strong>asincrona</strong></li>
+          <li>Puoi cambiare tipo di replica dopo la creazione (con alcune limitazioni)</li>
+        </ul>

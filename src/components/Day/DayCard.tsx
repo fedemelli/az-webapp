@@ -24,15 +24,14 @@ export function DayCard({ day }: DayCardProps) {
   return (
     <Link
       to={`/day/${day.day}`}
-      className="group block bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all"
+      className="group block glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-indigo-300/50"
     >
       <div className="flex items-start justify-between mb-3 sm:mb-4">
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center font-bold text-base sm:text-lg ${
-            isComplete
-              ? 'bg-emerald-500 text-white'
-              : 'bg-indigo-100 text-indigo-600'
-          }`}>
+          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center font-bold text-base sm:text-lg ${isComplete
+              ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+              : 'bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-600'
+            }`}>
             {isComplete ? <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" /> : day.day}
           </div>
           <div>
@@ -65,9 +64,10 @@ export function DayCard({ day }: DayCardProps) {
       <div className="relative">
         <div className="w-full h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              isComplete ? 'bg-emerald-500' : 'bg-indigo-500'
-            }`}
+            className={`h-full rounded-full transition-all duration-1000 ease-out ${isComplete
+                ? 'bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.4)]'
+                : 'bg-gradient-to-r from-indigo-500 to-purple-600'
+              }`}
             style={{ width: `${progressPercentage}%` }}
           />
         </div>

@@ -2,7 +2,7 @@ export interface Topic {
   id: string;
   title: string;
   description: string;
-  content: string;
+  content?: string; // Ora opzionale - caricato dinamicamente da contentLoader
   msLearnUrl: string;
   duration: number; // minuti stimati
 }

@@ -21,7 +21,7 @@ export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <header className="glass sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -32,11 +32,13 @@ export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
             >
               {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <div className="bg-indigo-600 p-1.5 sm:p-2 rounded-lg">
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-1.5 sm:p-2 rounded-xl shadow-lg shadow-indigo-500/20">
               <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-base sm:text-xl font-bold text-slate-900">AZ-104 Study Plan</h1>
+              <h1 className="text-base sm:text-xl font-bold text-slate-900 tracking-tight">
+                <span className="text-gradient">AZ-104</span> Study Plan
+              </h1>
               <p className="text-xs sm:text-sm text-slate-500 hidden sm:block">30 giorni per la certificazione</p>
             </div>
           </div>
@@ -59,9 +61,9 @@ export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
                 <p className="text-sm font-medium text-slate-900">{progressPercentage}% completato</p>
                 <p className="text-xs text-slate-500">{completedCount} di {totalTopics} argomenti</p>
               </div>
-              <div className="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div className="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden shadow-inner border border-slate-200/50">
                 <div
-                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(16,185,129,0.3)]"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>

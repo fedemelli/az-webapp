@@ -1,0 +1,62 @@
+<h2>Azure Monitor</h2>
+        <p><strong>Azure Monitor</strong> è una soluzione completa per raccogliere, analizzare e agire sulla telemetria dai tuoi ambienti cloud e on-premises.</p>
+
+        <h3>Metrics vs Logs</h3>
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;">
+          <thead>
+            <tr style="background-color:#f1f5f9;text-align:left;">
+              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Caratteristica</th>
+              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Metrics</th>
+              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Logs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Dati</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Numerici (serie temporali)</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Testuali (eventi, tracce)</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Struttura</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Leggera, real-time</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Ricca, dettagliata</td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Uso</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Alerting rapido (CPU > 90%)</td>
+              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Troubleshooting profondo</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Architettura di Raccolta</h3>
+        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+          <!-- Sources -->
+          <rect x="40" y="40" width="100" height="60" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+          <text x="90" y="75" text-anchor="middle" font-size="11" fill="#475569">Applications</text>
+
+          <rect x="40" y="110" width="100" height="60" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+          <text x="90" y="145" text-anchor="middle" font-size="11" fill="#475569">OS / VM</text>
+
+          <rect x="40" y="180" width="100" height="60" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+          <text x="90" y="215" text-anchor="middle" font-size="11" fill="#475569">Azure Resources</text>
+
+          <!-- Azure Monitor -->
+          <circle cx="300" cy="140" r="60" fill="#3b82f6" stroke="white" stroke-width="4"/>
+          <text x="300" y="145" text-anchor="middle" font-weight="bold" fill="white" font-size="14">Azure Monitor</text>
+
+          <!-- Data Stores -->
+          <rect x="460" y="60" width="100" height="60" rx="8" fill="#dcfce7" stroke="#22c55e"/>
+          <text x="510" y="95" text-anchor="middle" font-weight="bold" fill="#166534">Metrics DB</text>
+
+          <rect x="460" y="160" width="100" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+          <text x="510" y="195" text-anchor="middle" font-weight="bold" fill="#92400e">Log Analytics</text>
+
+          <!-- Arrows -->
+          <path d="M140 70 L240 120" stroke="#94a3b8" stroke-width="2"/>
+          <path d="M140 140 L240 140" stroke="#94a3b8" stroke-width="2"/>
+          <path d="M140 210 L240 160" stroke="#94a3b8" stroke-width="2"/>
+
+          <path d="M360 120 L460 90" stroke="#3b82f6" stroke-width="2"/>
+          <path d="M360 160 L460 190" stroke="#3b82f6" stroke-width="2"/>
+        </svg>

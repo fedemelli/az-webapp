@@ -1,0 +1,87 @@
+<h2>Configurazione Storage Account</h2>
+        <p>Quando crei uno storage account, devi configurare diverse opzioni importanti per sicurezza, networking e prestazioni.</p>
+
+        <h3>Naming Convention</h3>
+        <p>Il nome dello storage account ha regole rigide:</p>
+        <ul>
+          <li>Lunghezza: <strong>3-24 caratteri</strong></li>
+          <li>Solo <strong>lettere minuscole</strong> e <strong>numeri</strong></li>
+          <li>Deve essere <strong>globalmente univoco</strong> in tutto Azure</li>
+          <li>Diventa parte dell'URL: <code>https://[name].blob.core.windows.net</code></li>
+        </ul>
+
+        <h3>Opzioni di Networking</h3>
+        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
+          <!-- Internet -->
+          <ellipse cx="100" cy="100" rx="60" ry="40" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+          <text x="100" y="105" text-anchor="middle" font-size="12" fill="#b91c1c">Internet</text>
+          <!-- Storage -->
+          <rect x="380" y="60" width="180" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
+          <text x="470" y="105" text-anchor="middle" font-size="12" fill="#1d4ed8">Storage Account</text>
+          <!-- All Networks -->
+          <path d="M 160 80 L 370 80" stroke="#22c55e" stroke-width="2" stroke-dasharray="5,5"/>
+          <text x="265" y="70" text-anchor="middle" font-size="10" fill="#22c55e">All Networks ✓</text>
+          <!-- Selected Networks -->
+          <path d="M 160 100 L 370 100" stroke="#f59e0b" stroke-width="2"/>
+          <text x="265" y="95" text-anchor="middle" font-size="10" fill="#f59e0b">Firewall/VNet</text>
+          <!-- Private Endpoint -->
+          <rect x="220" y="120" width="100" height="30" fill="#e0e7ff" stroke="#6366f1" stroke-width="2" rx="4"/>
+          <text x="270" y="140" text-anchor="middle" font-size="10" fill="#4338ca">Private Endpoint</text>
+          <path d="M 320 135 L 370 135" stroke="#6366f1" stroke-width="2"/>
+        </svg>
+
+        <ul>
+          <li><strong>Public endpoint (all networks)</strong>: Accessibile da internet. Meno sicuro.</li>
+          <li><strong>Public endpoint (selected networks)</strong>: Accessibile solo da IP/VNet specifici. Configuri un firewall.</li>
+          <li><strong>Private endpoint</strong>: Accessibile solo tramite Private Link. Il più sicuro.</li>
+        </ul>
+
+        <h3>Configurare Firewall con CLI</h3>
+        <pre><code># Abilitare accesso solo da VNet specifiche
+az storage account network-rule add \\
+  --account-name "mystorageaccount" \\
+  --vnet-name "myVNet" \\
+  --subnet "mySubnet"
+
+# Aggiungere IP al whitelist
+az storage account network-rule add \\
+  --account-name "mystorageaccount" \\
+  --ip-address "203.0.113.0/24"
+
+# Impostare default action a Deny
+az storage account update \\
+  --name "mystorageaccount" \\
+  --default-action Deny</code></pre>
+
+        <h3>Encryption</h3>
+        <p>Azure Storage crittografa automaticamente tutti i dati:</p>
+        <ul>
+          <li><strong>Encryption at rest</strong>: AES-256, sempre attiva</li>
+          <li><strong>Microsoft-managed keys</strong>: Default, gestite da Azure</li>
+          <li><strong>Customer-managed keys (CMK)</strong>: Chiavi in Azure Key Vault</li>
+          <li><strong>Customer-provided keys</strong>: Chiavi fornite per ogni richiesta</li>
+        </ul>
+
+        <h3>Altre Opzioni Importanti</h3>
+        <ul>
+          <li><strong>Secure transfer required</strong>: Forza HTTPS (raccomandato ON)</li>
+          <li><strong>Allow Blob public access</strong>: Permetti accesso anonimo ai container</li>
+          <li><strong>Minimum TLS version</strong>: TLS 1.2 raccomandato</li>
+          <li><strong>Large file shares</strong>: Per file shares > 5 TiB</li>
+          <li><strong>Hierarchical namespace</strong>: Abilita Azure Data Lake Storage Gen2</li>
+        </ul>
+
+        <h3>Endpoint URLs</h3>
+        <pre><code>Blob:    https://[account].blob.core.windows.net
+File:    https://[account].file.core.windows.net
+Queue:   https://[account].queue.core.windows.net
+Table:   https://[account].table.core.windows.net
+Data Lake: https://[account].dfs.core.windows.net</code></pre>
+
+        <h3>Punti Chiave per l'Esame</h3>
+        <ul>
+          <li>Il nome deve essere <strong>globalmente univoco</strong></li>
+          <li><strong>Secure transfer</strong> richiede HTTPS per tutte le operazioni</li>
+          <li><strong>Private endpoint</strong> è l'opzione più sicura per accesso</li>
+          <li>La crittografia è <strong>sempre attiva</strong> e non può essere disabilitata</li>
+        </ul>

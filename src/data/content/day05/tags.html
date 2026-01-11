@@ -1,0 +1,325 @@
+<h2>Resource Tags</h2>
+
+<p>I <strong>Resource Tags</strong> sono metadati sotto forma di coppie nome-valore che permettono di categorizzare, organizzare e gestire le risorse Azure per scopi di governance, fatturazione, automazione e reporting.</p>
+
+<!-- Diagramma Tag Structure -->
+<svg viewBox="0 0 750 260" style="width:100%;max-width:750px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="tagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Resource with Tags -->
+  <rect x="20" y="30" width="300" height="200" rx="12" fill="#f8fafc" stroke="url(#tagGrad)" stroke-width="3"/>
+  <text x="170" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">Storage Account</text>
+  <text x="170" y="82" text-anchor="middle" font-size="11" fill="#64748b">mystorage123</text>
+
+  <!-- Tags -->
+  <rect x="40" y="100" width="260" height="35" rx="6" fill="#dbeafe"/>
+  <text x="55" y="123" font-size="11" fill="#1e40af">Environment</text>
+  <text x="155" y="123" font-size="11" fill="#64748b">=</text>
+  <text x="175" y="123" font-size="11" font-weight="600" fill="#1e40af">Production</text>
+
+  <rect x="40" y="145" width="260" height="35" rx="6" fill="#dcfce7"/>
+  <text x="55" y="168" font-size="11" fill="#166534">CostCenter</text>
+  <text x="155" y="168" font-size="11" fill="#64748b">=</text>
+  <text x="175" y="168" font-size="11" font-weight="600" fill="#166534">CC-12345</text>
+
+  <rect x="40" y="190" width="260" height="35" rx="6" fill="#fef3c7"/>
+  <text x="55" y="213" font-size="11" fill="#b45309">Owner</text>
+  <text x="155" y="213" font-size="11" fill="#64748b">=</text>
+  <text x="175" y="213" font-size="11" font-weight="600" fill="#b45309">team@company.com</text>
+
+  <!-- Uses of Tags -->
+  <rect x="400" y="30" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="470" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">Cost Management</text>
+
+  <rect x="400" y="95" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="470" y="125" text-anchor="middle" font-size="11" font-weight="600" fill="white">Automation</text>
+
+  <rect x="400" y="160" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="470" y="190" text-anchor="middle" font-size="11" font-weight="600" fill="white">Governance</text>
+
+  <rect x="570" y="30" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="640" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">Reporting</text>
+
+  <rect x="570" y="95" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="640" y="125" text-anchor="middle" font-size="11" font-weight="600" fill="white">Azure Policy</text>
+
+  <rect x="570" y="160" width="140" height="50" rx="6" fill="url(#tagGrad)"/>
+  <text x="640" y="190" text-anchor="middle" font-size="11" font-weight="600" fill="white">RBAC Filtering</text>
+
+  <!-- Arrows -->
+  <path d="M320 130 L400 55" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M320 130 L400 120" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M320 130 L400 185" stroke="#94a3b8" stroke-width="1.5"/>
+</svg>
+
+<h3>Perché Usare i Tag</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);padding:1rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <strong style="color:#166534;">💰 Cost Management</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Raggruppa e analizza i costi per progetto, dipartimento, ambiente</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <strong style="color:#1e40af;">⚙️ Automazione</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Azioni automatiche basate sui tag (es. auto-shutdown VM)</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;border-left:4px solid #f59e0b;">
+    <strong style="color:#b45309;">👤 Ownership</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Identifica proprietari, progetti, team responsabili</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);padding:1rem;border-radius:8px;border-left:4px solid #a855f7;">
+    <strong style="color:#7c3aed;">📋 Compliance</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Traccia risorse soggette a requisiti normativi specifici</p>
+  </div>
+</div>
+
+<h3>Limiti dei Tag</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">50</div>
+    <div style="font-size:0.875rem;color:#64748b;">Tag per Risorsa/RG/Subscription</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">512</div>
+    <div style="font-size:0.875rem;color:#64748b;">Caratteri max per Nome Tag</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#6366f1;">256</div>
+    <div style="font-size:0.875rem;color:#64748b;">Caratteri max per Valore Tag</div>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;text-align:center;border:1px solid #e2e8f0;">
+    <div style="font-size:2rem;font-weight:700;color:#ef4444;">128</div>
+    <div style="font-size:0.875rem;color:#64748b;">Max Nome Tag per Storage</div>
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #f59e0b;">
+  <strong style="color:#b45309;">⚠️ Importante:</strong>
+  <span style="color:#92400e;font-size:0.9rem;"> I tag <strong>NON sono ereditati automaticamente</strong> dai Resource Group alle risorse. Usa Azure Policy per l'ereditarietà automatica.</span>
+</div>
+
+<h3>Tag Comunemente Usati (Tagging Strategy)</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Tag Name</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Scopo</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Valori Esempio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">Environment</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Identificare l'ambiente</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Dev, Test, Staging, Production</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">CostCenter</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Allocazione costi</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">CC-12345, FIN-001</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">Owner</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Responsabile della risorsa</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">team@company.com, John Doe</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">Project</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Progetto associato</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">AZ104-Study, E-Commerce</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">Department</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Dipartimento proprietario</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">IT, HR, Finance, Marketing</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">CreatedBy</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Chi ha creato la risorsa</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Terraform, ARM, user@company.com</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">ExpirationDate</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Data eliminazione prevista</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">2025-12-31</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;font-family:monospace;">ApplicationName</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Applicazione servita</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">WebApp, API, Database</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Gestire Tag con Azure CLI</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Aggiungere tag a un resource group</span>
+az group update \
+  --name "production-rg" \
+  --tags Environment=Production CostCenter=CC-12345 Owner=team@company.com
+
+<span style="color:#94a3b8;"># Aggiungere tag a una risorsa specifica</span>
+az resource tag \
+  --tags Environment=Dev Project=AZ104 \
+  --ids "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/Microsoft.Storage/storageAccounts/mystorage"
+
+<span style="color:#94a3b8;"># Aggiungere un singolo tag senza rimuovere gli esistenti (merge)</span>
+az resource update \
+  --set tags.NewTag=NewValue \
+  --ids "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/Microsoft.Storage/storageAccounts/mystorage"
+
+<span style="color:#94a3b8;"># Elencare risorse con un tag specifico</span>
+az resource list --tag Environment=Production --output table
+
+<span style="color:#94a3b8;"># Elencare tutte le risorse con qualsiasi valore per un tag</span>
+az resource list --tag Environment --output table
+
+<span style="color:#94a3b8;"># Rimuovere tutti i tag da una risorsa</span>
+az resource update \
+  --set tags={} \
+  --ids "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/..."
+
+<span style="color:#94a3b8;"># Rimuovere un singolo tag</span>
+az resource update \
+  --remove tags.TagName \
+  --ids "/subscriptions/{sub-id}/resourceGroups/my-rg/providers/..."
+
+<span style="color:#94a3b8;"># Ottenere tutti i tag usati nella subscription</span>
+az tag list --output table</code></pre>
+
+<h3>Gestire Tag con PowerShell</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Aggiungere tag a un resource group</span>
+$tags = @{
+  "Environment" = "Production"
+  "CostCenter" = "CC-12345"
+  "Owner" = "team@company.com"
+}
+Set-AzResourceGroup -Name "production-rg" -Tag $tags
+
+<span style="color:#94a3b8;"># Aggiungere tag a una risorsa</span>
+$resource = Get-AzResource -Name "mystorage" -ResourceGroupName "my-rg"
+Set-AzResource -Tag @{"Environment"="Dev"} -ResourceId $resource.Id -Force
+
+<span style="color:#94a3b8;"># Merge tags (aggiungere senza rimuovere)</span>
+$resource = Get-AzResource -Name "mystorage" -ResourceGroupName "my-rg"
+$newTags = $resource.Tags
+$newTags["NewTag"] = "NewValue"
+Set-AzResource -Tag $newTags -ResourceId $resource.Id -Force
+
+<span style="color:#94a3b8;"># Trovare risorse con un tag specifico</span>
+Get-AzResource -TagName "Environment" -TagValue "Production"
+
+<span style="color:#94a3b8;"># Ottenere tutti i tag definiti nella subscription</span>
+Get-AzTag
+
+<span style="color:#94a3b8;"># Rimuovere un tag da una risorsa</span>
+$resource = Get-AzResource -Name "mystorage" -ResourceGroupName "my-rg"
+$tags = $resource.Tags
+$tags.Remove("TagToRemove")
+Set-AzResource -Tag $tags -ResourceId $resource.Id -Force</code></pre>
+
+<h3>Ereditarietà dei Tag con Azure Policy</h3>
+
+<p>Usa Azure Policy per propagare automaticamente i tag dal Resource Group alle risorse:</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">Inherit a tag from the resource group</h4>
+    <p style="font-size:0.875rem;color:#64748b;margin:0;">Policy built-in che copia un tag specifico dal RG a tutte le risorse create nel RG. Effect: <strong>Modify</strong></p>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <h4 style="margin:0 0 0.75rem 0;color:#166534;">Require a tag on resources</h4>
+    <p style="font-size:0.875rem;color:#64748b;margin:0;">Blocca la creazione di risorse che non hanno un tag specifico. Effect: <strong>Deny</strong></p>
+  </div>
+</div>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Assegnare policy "Inherit a tag from the resource group"</span>
+az policy assignment create \
+  --name "inherit-costcenter-tag" \
+  --display-name "Inherit CostCenter tag from RG" \
+  --scope "/subscriptions/{sub-id}/resourceGroups/my-rg" \
+  --policy "cd3aa116-8754-49c9-a813-ad46512ece54" \
+  --params '{"tagName": {"value": "CostCenter"}}'
+
+<span style="color:#94a3b8;"># Assegnare policy "Require a tag on resources"</span>
+az policy assignment create \
+  --name "require-environment-tag" \
+  --display-name "Require Environment tag" \
+  --scope "/subscriptions/{sub-id}" \
+  --policy "96670d01-0a4d-4649-9c89-2d3abc0a5025" \
+  --params '{"tagName": {"value": "Environment"}}'</code></pre>
+
+<h3>Tag per Cost Management</h3>
+
+<p>I tag sono fondamentali per l'analisi dei costi in Azure Cost Management:</p>
+
+<ul>
+  <li><strong>Filtra costi</strong>: Visualizza i costi filtrati per Environment, Project, CostCenter</li>
+  <li><strong>Crea budget</strong>: Imposta budget per specifici tag (es. budget per progetto)</li>
+  <li><strong>Genera report</strong>: Report di spesa mensile per team/dipartimento</li>
+  <li><strong>Alert</strong>: Notifiche quando un progetto supera il budget</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;margin:1rem 0;border-left:4px solid #f59e0b;">
+  <strong style="color:#b45309;">⚠️ Nota:</strong>
+  <span style="color:#92400e;font-size:0.9rem;"> Non tutti i tipi di risorsa supportano i tag in Cost Management. I costi di alcune risorse (come bandwidth) potrebbero non essere taggabili. Verifica la documentazione.</span>
+</div>
+
+<h3>Tag e Case Sensitivity</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Contesto</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Case Sensitivity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;">Tag Name (storage)</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Case-sensitive</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Tag Name (altre risorse)</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Case-insensitive</strong> per operazioni</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;">Tag Value</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Case-sensitive</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Cost Management filtering</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Case-insensitive</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Best Practices per i Tag</h3>
+
+<ul>
+  <li><strong>Definisci una naming convention</strong>: PascalCase (CostCenter) o kebab-case (cost-center) - scegli e mantieni</li>
+  <li><strong>Crea una lista di tag obbligatori</strong>: Documenta i tag richiesti e applicali con Azure Policy</li>
+  <li><strong>Limita i valori ammessi</strong>: Usa Azure Policy per limitare i valori (es. Environment = Dev|Test|Prod)</li>
+  <li><strong>Automatizza il tagging</strong>: Integra i tag nei template ARM/Bicep e nelle pipeline CI/CD</li>
+  <li><strong>Revisiona periodicamente</strong>: Identifica risorse senza tag o con tag obsoleti</li>
+  <li><strong>Usa tag consistent</strong>: Stessi nomi e valori in tutte le subscription</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1.25rem;border-radius:8px;margin:1.5rem 0;border-left:4px solid #3b82f6;">
+  <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">💡 Tip per l'Esame AZ-104</h4>
+  <ul style="margin:0;padding-left:1.25rem;font-size:0.9rem;color:#1e40af;">
+    <li>I tag <strong>non sono ereditati</strong> automaticamente - usa Azure Policy per l'ereditarietà</li>
+    <li>Max <strong>50 tag</strong> per risorsa - ricordalo!</li>
+    <li>Per <strong>Storage Accounts</strong> il limite del nome tag è 128 caratteri (non 512)</li>
+    <li>I tag sono utili per <strong>Cost Management</strong> ma non tutti i resource type li supportano per i costi</li>
+    <li>Usa <code>az resource tag</code> per taggare, <code>az resource update --set tags.X=Y</code> per merge</li>
+  </ul>
+</div>

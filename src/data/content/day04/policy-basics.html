@@ -1,0 +1,392 @@
+<h2>Azure Policy - Fondamenti</h2>
+
+<p><strong>Azure Policy</strong> è il servizio centrale di governance che permette di creare, assegnare e gestire policy per imporre standard aziendali e valutare la compliance delle risorse Azure in tempo reale.</p>
+
+<!-- Diagramma Azure Policy Flow -->
+<svg viewBox="0 0 800 320" style="width:100%;max-width:800px;margin:1.5rem auto;display:block;">
+  <defs>
+    <linearGradient id="policyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="denyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444"/>
+      <stop offset="100%" style="stop-color:#dc2626"/>
+    </linearGradient>
+    <linearGradient id="allowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Resource Request -->
+  <rect x="20" y="120" width="140" height="80" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+  <text x="90" y="155" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Resource</text>
+  <text x="90" y="175" text-anchor="middle" font-size="11" fill="#64748b">Create/Update</text>
+
+  <!-- Arrow to Policy Engine -->
+  <path d="M160 160 L220 160" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Policy Engine -->
+  <rect x="220" y="100" width="180" height="120" rx="10" fill="url(#policyGrad)"/>
+  <text x="310" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="white">Azure Policy Engine</text>
+  <text x="310" y="165" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.9)">Valutazione in tempo reale</text>
+  <text x="310" y="185" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.9)">vs Policy Definitions</text>
+
+  <!-- Arrows to outcomes -->
+  <path d="M400 130 L480 90" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M400 190 L480 230" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Compliant -->
+  <rect x="480" y="50" width="140" height="70" rx="8" fill="url(#allowGrad)"/>
+  <text x="550" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="white">✓ Compliant</text>
+  <text x="550" y="100" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.9)">Risorsa creata</text>
+
+  <!-- Non-Compliant -->
+  <rect x="480" y="200" width="140" height="70" rx="8" fill="url(#denyGrad)"/>
+  <text x="550" y="230" text-anchor="middle" font-size="12" font-weight="600" fill="white">✗ Non-Compliant</text>
+  <text x="550" y="250" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.9)">Deny / Audit</text>
+
+  <!-- Effects List -->
+  <rect x="650" y="80" width="130" height="160" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="715" y="105" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">Effetti Disponibili</text>
+  <text x="665" y="130" font-size="10" fill="#64748b">• Deny</text>
+  <text x="665" y="150" font-size="10" fill="#64748b">• Audit</text>
+  <text x="665" y="170" font-size="10" fill="#64748b">• Append</text>
+  <text x="665" y="190" font-size="10" fill="#64748b">• Modify</text>
+  <text x="665" y="210" font-size="10" fill="#64748b">• DeployIfNotExists</text>
+  <text x="665" y="230" font-size="10" fill="#64748b">• Disabled</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+</svg>
+
+<h3>Perché Usare Azure Policy</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1rem;border-radius:8px;border-left:4px solid #3b82f6;">
+    <strong style="color:#1e40af;">🏛️ Governance</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Imponi standard organizzativi e architetturali su tutte le risorse Azure</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);padding:1rem;border-radius:8px;border-left:4px solid #22c55e;">
+    <strong style="color:#166534;">✓ Compliance</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Rispetta requisiti normativi: GDPR, HIPAA, PCI-DSS, ISO 27001</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);padding:1rem;border-radius:8px;border-left:4px solid #f59e0b;">
+    <strong style="color:#b45309;">🔒 Sicurezza</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Previeni configurazioni non sicure prima che vengano deployate</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);padding:1rem;border-radius:8px;border-left:4px solid #a855f7;">
+    <strong style="color:#7c3aed;">💰 Cost Control</strong>
+    <p style="font-size:0.875rem;margin-top:0.5rem;color:#334155;">Limita SKU costosi, region specifiche o resource types</p>
+  </div>
+</div>
+
+<h3>Componenti di Azure Policy</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Componente</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Descrizione</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Esempio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Policy Definition</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Regola JSON che definisce cosa valutare e quale effetto applicare</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">"Allowed Locations"</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Initiative (Policy Set)</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Gruppo di policy correlate da assegnare insieme</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">"Azure Security Benchmark"</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Assignment</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Applicazione di policy/initiative a uno scope specifico</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Assign a subscription o RG</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Exemption</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Esclusione temporanea o permanente dalla valutazione</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Waiver per legacy system</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;">Parameters</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Valori configurabili per rendere le policy riutilizzabili</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Lista di location permesse</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Effetti delle Policy (Policy Effects)</h3>
+
+<p>L'<strong>effetto</strong> determina cosa succede quando una risorsa viene valutata dalla policy. È fondamentale per l'esame AZ-104 conoscere ogni effetto:</p>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Effetto</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Comportamento</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Quando Usarlo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#fef2f2;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#dc2626;">Deny</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Blocca la creazione/modifica della risorsa non conforme</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Enforcement attivo dopo il test</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#f59e0b;">Audit</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Crea warning nell'activity log, risorsa creata comunque</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Fase di test, monitoraggio</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#f59e0b;">AuditIfNotExists</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Audit se una risorsa correlata <strong>non</strong> esiste</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Verificare che VM abbia extension</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#3b82f6;">Append</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Aggiunge proprietà alla risorsa durante la creazione</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Aggiungere tag automaticamente</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#3b82f6;">Modify</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Aggiunge, aggiorna o rimuove tag/proprietà (anche esistenti)</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Correggere tag, aggiungere identity</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#22c55e;">DeployIfNotExists</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Deploy automatico di risorse correlate se mancanti</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Installare diagnostic settings</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;font-weight:600;color:#64748b;">Disabled</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">La policy non viene valutata</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Disabilitazione temporanea</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Ordine di Valutazione degli Effetti</h3>
+
+<p>Azure valuta gli effetti in un ordine specifico. <strong>Importante per l'esame!</strong></p>
+
+<!-- Ordine di Valutazione Diagram -->
+<svg viewBox="0 0 700 100" style="width:100%;max-width:700px;margin:1.5rem auto;display:block;">
+  <rect x="10" y="30" width="100" height="50" rx="6" fill="#94a3b8"/>
+  <text x="60" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">1. Disabled</text>
+
+  <path d="M110 55 L130 55" stroke="#64748b" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <rect x="130" y="30" width="100" height="50" rx="6" fill="#3b82f6"/>
+  <text x="180" y="55" text-anchor="middle" font-size="11" font-weight="600" fill="white">2. Append</text>
+  <text x="180" y="70" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">Modify</text>
+
+  <path d="M230 55 L250 55" stroke="#64748b" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <rect x="250" y="30" width="100" height="50" rx="6" fill="#ef4444"/>
+  <text x="300" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">3. Deny</text>
+
+  <path d="M350 55 L370 55" stroke="#64748b" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <rect x="370" y="30" width="100" height="50" rx="6" fill="#f59e0b"/>
+  <text x="420" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">4. Audit</text>
+
+  <path d="M470 55 L490 55" stroke="#64748b" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <rect x="490" y="30" width="130" height="50" rx="6" fill="#22c55e"/>
+  <text x="555" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="white">5. AuditIfNotExists</text>
+  <text x="555" y="68" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">DeployIfNotExists</text>
+
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
+
+<h3>Policy Mode</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0;">
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;">
+    <h4 style="margin:0 0 0.75rem 0;color:#334155;">Mode: All</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Valuta <strong>tutti</strong> i tipi di risorsa</li>
+      <li>Include Resource Groups</li>
+      <li>Include Subscriptions</li>
+      <li>Usato per policy su resource groups</li>
+    </ul>
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem;border-radius:8px;border:1px solid #e2e8f0;">
+    <h4 style="margin:0 0 0.75rem 0;color:#334155;">Mode: Indexed (Default)</h4>
+    <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:#64748b;">
+      <li>Solo risorse che supportano <strong>tags</strong> e <strong>location</strong></li>
+      <li>Più performante</li>
+      <li>Il più comune per le policy</li>
+      <li>Non include RG e subscriptions</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Struttura di una Policy Definition</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code>{
+  <span style="color:#7dd3fc;">"properties"</span>: {
+    <span style="color:#7dd3fc;">"displayName"</span>: <span style="color:#a5f3fc;">"Allowed locations"</span>,
+    <span style="color:#7dd3fc;">"description"</span>: <span style="color:#a5f3fc;">"Restrict resource deployment to specific Azure regions"</span>,
+    <span style="color:#7dd3fc;">"mode"</span>: <span style="color:#a5f3fc;">"Indexed"</span>,
+    <span style="color:#7dd3fc;">"metadata"</span>: {
+      <span style="color:#7dd3fc;">"version"</span>: <span style="color:#a5f3fc;">"1.0.0"</span>,
+      <span style="color:#7dd3fc;">"category"</span>: <span style="color:#a5f3fc;">"General"</span>
+    },
+    <span style="color:#7dd3fc;">"parameters"</span>: {
+      <span style="color:#7dd3fc;">"allowedLocations"</span>: {
+        <span style="color:#7dd3fc;">"type"</span>: <span style="color:#a5f3fc;">"Array"</span>,
+        <span style="color:#7dd3fc;">"metadata"</span>: {
+          <span style="color:#7dd3fc;">"displayName"</span>: <span style="color:#a5f3fc;">"Allowed locations"</span>,
+          <span style="color:#7dd3fc;">"strongType"</span>: <span style="color:#a5f3fc;">"location"</span>
+        }
+      }
+    },
+    <span style="color:#7dd3fc;">"policyRule"</span>: {
+      <span style="color:#7dd3fc;">"if"</span>: {
+        <span style="color:#7dd3fc;">"not"</span>: {
+          <span style="color:#7dd3fc;">"field"</span>: <span style="color:#a5f3fc;">"location"</span>,
+          <span style="color:#7dd3fc;">"in"</span>: <span style="color:#a5f3fc;">"[parameters('allowedLocations')]"</span>
+        }
+      },
+      <span style="color:#7dd3fc;">"then"</span>: {
+        <span style="color:#7dd3fc;">"effect"</span>: <span style="color:#a5f3fc;">"deny"</span>
+      }
+    }
+  }
+}</code></pre>
+
+<h3>Policy Alias</h3>
+
+<p>Gli <strong>alias</strong> permettono di accedere alle proprietà delle risorse nelle policy. Non tutte le proprietà hanno un alias.</p>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Trovare alias disponibili per un resource type</span>
+az provider show --namespace Microsoft.Storage \
+  --query "resourceTypes[?resourceType=='storageAccounts'].aliases[].name" \
+  --output table
+
+<span style="color:#94a3b8;"># Alias comuni:</span>
+<span style="color:#94a3b8;"># Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly</span>
+<span style="color:#94a3b8;"># Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType</span>
+<span style="color:#94a3b8;"># Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]</span></code></pre>
+
+<h3>Gestire Policy con Azure CLI</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Visualizzare policy definitions built-in</span>
+az policy definition list \
+  --query "[?policyType=='BuiltIn']" \
+  --output table
+
+<span style="color:#94a3b8;"># Creare una custom policy definition</span>
+az policy definition create \
+  --name "require-tag-department" \
+  --display-name "Require Department Tag" \
+  --description "Requires a Department tag on resources" \
+  --rules policy-rule.json \
+  --params policy-params.json \
+  --mode Indexed
+
+<span style="color:#94a3b8;"># Creare un assignment</span>
+az policy assignment create \
+  --name "allowed-locations-assignment" \
+  --display-name "Allowed Locations - West Europe" \
+  --scope "/subscriptions/{subscription-id}" \
+  --policy "/providers/Microsoft.Authorization/policyDefinitions/e56962a6..." \
+  --params '{"allowedLocations": {"value": ["westeurope", "northeurope"]}}'
+
+<span style="color:#94a3b8;"># Verificare compliance</span>
+az policy state list \
+  --resource-group "my-rg" \
+  --query "[?complianceState=='NonCompliant']"</code></pre>
+
+<h3>Gestire Policy con PowerShell</h3>
+
+<pre style="background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;overflow-x:auto;font-size:0.875rem;"><code><span style="color:#94a3b8;"># Get built-in policy definitions</span>
+Get-AzPolicyDefinition | Where-Object { $_.Properties.PolicyType -eq "BuiltIn" }
+
+<span style="color:#94a3b8;"># Get specific policy definition</span>
+$definition = Get-AzPolicyDefinition -Name "e56962a6-4747-49cd-b67b-bf8b01975c4c"
+
+<span style="color:#94a3b8;"># Create policy assignment</span>
+$params = @{
+  "allowedLocations" = @("westeurope", "northeurope")
+}
+
+New-AzPolicyAssignment `
+  -Name "allowed-locations" `
+  -DisplayName "Allowed Locations" `
+  -Scope "/subscriptions/{subscription-id}" `
+  -PolicyDefinition $definition `
+  -PolicyParameterObject $params
+
+<span style="color:#94a3b8;"># Get non-compliant resources</span>
+Get-AzPolicyState -Filter "complianceState eq 'NonCompliant'"</code></pre>
+
+<h3>Built-in Policy più Importanti per AZ-104</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem;">
+  <thead>
+    <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+      <th style="padding:10px;text-align:left;border:1px solid #e2e8f0;">Policy Name</th>
+      <th style="padding:10px;text-align:left;border:1px solid #e2e8f0;">Categoria</th>
+      <th style="padding:10px;text-align:left;border:1px solid #e2e8f0;">Effetto Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f8fafc;">
+      <td style="padding:10px;border:1px solid #e2e8f0;">Allowed locations</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">General</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Deny</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Allowed virtual machine SKUs</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Compute</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Deny</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:10px;border:1px solid #e2e8f0;">Require a tag on resources</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Tags</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Deny</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Inherit a tag from the resource group</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Tags</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Modify</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:10px;border:1px solid #e2e8f0;">Storage accounts should use HTTPS</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Storage</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Audit/Deny</td>
+    </tr>
+    <tr>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Deploy Diagnostic Settings</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">Monitoring</td>
+      <td style="padding:10px;border:1px solid #e2e8f0;">DeployIfNotExists</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);padding:1.25rem;border-radius:8px;margin:1.5rem 0;border-left:4px solid #3b82f6;">
+  <h4 style="margin:0 0 0.75rem 0;color:#1e40af;">💡 Tip per l'Esame AZ-104</h4>
+  <ul style="margin:0;padding-left:1.25rem;font-size:0.9rem;color:#1e40af;">
+    <li><strong>Deny</strong> blocca prima che la risorsa venga creata - non dopo</li>
+    <li><strong>DeployIfNotExists</strong> e <strong>Modify</strong> richiedono Managed Identity</li>
+    <li>Le policy si ereditano lungo la gerarchia: Management Group → Subscription → Resource Group</li>
+    <li>Per testare sempre usare prima <strong>Audit</strong>, poi passare a <strong>Deny</strong></li>
+    <li>Le policy non sono retroattive: risorse esistenti rimangono, ma vengono marcate non-compliant</li>
+  </ul>
+</div>

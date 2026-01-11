@@ -1,0 +1,27 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare una Public DNS Zone</span>
+<span style="color:#38bdf8;">az network dns zone create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> contoso.com
+
+<span style="color:#94a3b8;"># Creare un Record A</span>
+<span style="color:#38bdf8;">az network dns record-set a add-record</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--zone-name</span> contoso.com <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--record-set-name</span> www <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--ipv4-address</span> 20.45.12.34
+
+<span style="color:#94a3b8;"># Creare una Private DNS Zone</span>
+<span style="color:#38bdf8;">az network private-dns zone create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> app.internal
+
+<span style="color:#94a3b8;"># Linkare una VNet con Auto-registration</span>
+<span style="color:#38bdf8;">az network private-dns link vnet create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--zone-name</span> app.internal <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyLink <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--virtual-network</span> MyVNet <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--registration-enabled</span> true</code></pre>
+        </div>

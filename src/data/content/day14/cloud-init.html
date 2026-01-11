@@ -1,0 +1,29 @@
+<h2>Cloud-init</h2>
+        <p><strong>Cloud-init</strong> è lo standard industriale per la personalizzazione delle istanze Linux al primo avvio. Permette di installare pacchetti, creare utenti e scrivere file prima che l'utente acceda.</p>
+
+        <h3>Esempio Configurazione (cloud-config)</h3>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin:20px 0;">
+          <pre style="margin:0;color:#334155;font-size:13px;font-family:'Consolas','Monaco',monospace;"><code>#cloud-config
+package_upgrade: true
+packages:
+  - nginx
+  - nodejs
+write_files:
+  - owner: www-data:www-data
+  - path: /var/www/html/index.html
+  - content: |
+      &lt;h1&gt;Hello from Azure Cloud-init!&lt;/h1&gt;
+runcmd:
+  - service nginx restart</code></pre>
+        </div>
+
+        <h3>Uso con Azure CLI</h3>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare una VM Linux con cloud-init</span>
+<span style="color:#38bdf8;">az vm create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> MyLinuxVM <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--image</span> UbuntuLTS <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--custom-data</span> cloud-init.txt <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--generate-ssh-keys</span></code></pre>
+        </div>

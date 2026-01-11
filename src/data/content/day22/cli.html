@@ -1,0 +1,23 @@
+<h2>Comandi CLI Essenziali</h2>
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare Peering da VNet1 a VNet2</span>
+<span style="color:#38bdf8;">az network vnet peering create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> VNet1ToVNet2 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vnet-name</span> VNet1 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--remote-vnet</span> VNet2ID <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--allow-vnet-access</span>
+
+<span style="color:#94a3b8;"># Creare Peering da VNet2 a VNet1 (Necessario!)</span>
+<span style="color:#38bdf8;">az network vnet peering create</span> <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--name</span> VNet2ToVNet1 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--vnet-name</span> VNet2 <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--remote-vnet</span> VNet1ID <span style="color:#a78bfa;">\\</span>
+  <span style="color:#fbbf24;">--allow-vnet-access</span></code></pre>
+        </div>
+        
+        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚠️ Importante</h4>
+          <p style="margin:0;color:#78350f;font-size:14px;">Il peering deve essere configurato in <strong>entrambe le direzioni</strong> per funzionare. Se configuri solo un lato, lo stato rimarrà "Initiated" invece di "Connected".</p>
+        </div>

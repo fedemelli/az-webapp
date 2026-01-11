@@ -1,0 +1,43 @@
+<h2>Azure App Service</h2>
+        <p><strong>Azure App Service</strong> è un servizio PaaS (Platform as a Service) basato su HTTP per l'hosting di applicazioni web, API REST e back-end per dispositivi mobili. Gestisce automaticamente l'infrastruttura, il bilanciamento del carico e l'applicazione di patch.</p>
+
+        <h3>Architettura</h3>
+        <svg viewBox="0 0 600 240" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+          <!-- App Service Plan -->
+          <rect x="100" y="40" width="400" height="160" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+          <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">App Service Plan (Server Farm)</text>
+          
+          <!-- Web App 1 -->
+          <rect x="130" y="80" width="100" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2"/>
+          <text x="180" y="110" text-anchor="middle" font-weight="bold" fill="#1e3a8a">Web App A</text>
+          <text x="180" y="130" text-anchor="middle" font-size="10" fill="#64748b">.NET Core</text>
+
+          <!-- Web App 2 -->
+          <rect x="250" y="80" width="100" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2"/>
+          <text x="300" y="110" text-anchor="middle" font-weight="bold" fill="#1e3a8a">API App B</text>
+          <text x="300" y="130" text-anchor="middle" font-size="10" fill="#64748b">Node.js</text>
+
+          <!-- Web App 3 -->
+          <rect x="370" y="80" width="100" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2"/>
+          <text x="420" y="110" text-anchor="middle" font-weight="bold" fill="#1e3a8a">Mobile App C</text>
+          <text x="420" y="130" text-anchor="middle" font-size="10" fill="#64748b">Python</text>
+
+          <!-- Compute Resources -->
+          <text x="300" y="185" text-anchor="middle" font-size="11" fill="#3b82f6">Risorse condivise (CPU, RAM)</text>
+        </svg>
+
+        <h3>Caratteristiche Chiave</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🌍 Multi-Language</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Supporto nativo per .NET, Java, Ruby, Node.js, PHP e Python. Supporta anche container Docker custom.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#fff1f2,#ffe4e6);border-left:4px solid #e11d48;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#9f1239;font-size:15px;">🚀 DevOps Integration</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Integrazione continua con Azure DevOps, GitHub, BitBucket, Docker Hub e Azure Container Registry.</p>
+          </div>
+          <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+            <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">📈 Scaling Globale</h4>
+            <p style="margin:0;color:#334155;font-size:14px;">Scale up (più risorse) o Scale out (più istanze) manuale o automatico. Alta disponibilità con SLA fino al 99.95%.</p>
+          </div>
+        </div>

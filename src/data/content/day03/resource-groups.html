@@ -1,0 +1,227 @@
+<h2>Azure Resource Groups</h2>
+<p>Un <strong>Resource Group</strong> è un contenitore logico che raggruppa risorse Azure correlate. È l'unità fondamentale per organizzare, gestire e controllare l'accesso alle risorse in Azure.</p>
+
+<!-- Diagramma Resource Groups -->
+<svg viewBox="0 0 600 180" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Resource Group 1 -->
+  <rect x="30" y="20" width="250" height="140" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="155" y="45" fill="#1e40af" font-size="12" text-anchor="middle" font-weight="bold">rg-webapp-prod</text>
+  <text x="155" y="60" fill="#3b82f6" font-size="9" text-anchor="middle">Location: West Europe (metadata)</text>
+  <!-- Resources -->
+  <rect x="50" y="75" width="70" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="85" y="97" fill="#334155" font-size="8" text-anchor="middle">App Service</text>
+  <rect x="130" y="75" width="70" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="165" y="97" fill="#334155" font-size="8" text-anchor="middle">SQL Database</text>
+  <rect x="210" y="75" width="55" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="237" y="97" fill="#334155" font-size="8" text-anchor="middle">Storage</text>
+  <rect x="90" y="120" width="100" height="30" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="140" y="140" fill="#334155" font-size="8" text-anchor="middle">Key Vault</text>
+
+  <!-- Resource Group 2 -->
+  <rect x="320" y="20" width="250" height="140" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="445" y="45" fill="#166534" font-size="12" text-anchor="middle" font-weight="bold">rg-network-shared</text>
+  <text x="445" y="60" fill="#16a34a" font-size="9" text-anchor="middle">Location: West Europe</text>
+  <!-- Resources -->
+  <rect x="340" y="75" width="80" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="380" y="97" fill="#334155" font-size="8" text-anchor="middle">VNet</text>
+  <rect x="430" y="75" width="60" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="460" y="97" fill="#334155" font-size="8" text-anchor="middle">NSG</text>
+  <rect x="500" y="75" width="55" height="35" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="527" y="97" fill="#334155" font-size="8" text-anchor="middle">Public IP</text>
+  <rect x="380" y="120" width="110" height="30" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="435" y="140" fill="#334155" font-size="8" text-anchor="middle">Application Gateway</text>
+</svg>
+
+<h3>Regole Fondamentali</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Membership Obbligatoria</h4>
+    <ul style="margin:0;padding-left:16px;color:#475569;font-size:13px;">
+      <li><strong>Ogni risorsa</strong> deve appartenere a un RG</li>
+      <li>Una risorsa può stare in <strong>un solo RG</strong></li>
+      <li>Risorse in RG possono essere in <strong>region diverse</strong></li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Location del RG</h4>
+    <ul style="margin:0;padding-left:16px;color:#78350f;font-size:13px;">
+      <li>Il RG ha una <strong>location per i metadata</strong></li>
+      <li>Risorse interne possono essere ovunque</li>
+      <li>Importante per <strong>compliance</strong> dei dati</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Ciclo di Vita del Resource Group</h3>
+<div style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:4px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#7f1d1d;font-size:15px;">⚠️ Eliminazione di un Resource Group</h4>
+  <p style="margin:0 0 12px 0;color:#7f1d1d;font-size:14px;">Eliminando un RG vengono eliminate <strong>TUTTE le risorse contenute</strong> in modo permanente!</p>
+  <ul style="margin:0;padding-left:20px;color:#7f1d1d;font-size:14px;">
+    <li>L'operazione è <strong>asincrona</strong> e può richiedere tempo</li>
+    <li>Non c'è un <strong>"cestino"</strong> per i resource groups</li>
+    <li>Alcune risorse hanno protezioni (es. Recovery Services Vault)</li>
+    <li>I <strong>Resource Locks</strong> bloccano l'eliminazione</li>
+  </ul>
+</div>
+
+<h3>Comandi CLI per Resource Groups</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un resource group</span>
+<span style="color:#38bdf8;">az group create</span> \
+  <span style="color:#fbbf24;">--name</span> "rg-webapp-prod" \
+  <span style="color:#fbbf24;">--location</span> "westeurope" \
+  <span style="color:#fbbf24;">--tags</span> "Environment=Production" "Project=WebApp"
+
+<span style="color:#94a3b8;"># Elencare resource groups</span>
+<span style="color:#38bdf8;">az group list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Vedere dettagli di un RG</span>
+<span style="color:#38bdf8;">az group show</span> <span style="color:#fbbf24;">--name</span> "rg-webapp-prod"
+
+<span style="color:#94a3b8;"># Elencare risorse in un RG</span>
+<span style="color:#38bdf8;">az resource list</span> \
+  <span style="color:#fbbf24;">--resource-group</span> "rg-webapp-prod" \
+  <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Aggiornare tags</span>
+<span style="color:#38bdf8;">az group update</span> \
+  <span style="color:#fbbf24;">--name</span> "rg-webapp-prod" \
+  <span style="color:#fbbf24;">--tags</span> "Environment=Production" "CostCenter=IT"
+
+<span style="color:#94a3b8;"># Eliminare RG (ATTENZIONE!)</span>
+<span style="color:#38bdf8;">az group delete</span> \
+  <span style="color:#fbbf24;">--name</span> "rg-webapp-prod" \
+  <span style="color:#fbbf24;">--yes</span> \
+  <span style="color:#fbbf24;">--no-wait</span>
+
+<span style="color:#94a3b8;"># Esportare template ARM dal RG</span>
+<span style="color:#38bdf8;">az group export</span> \
+  <span style="color:#fbbf24;">--name</span> "rg-webapp-prod" > template.json</code></pre>
+</div>
+
+<h3>PowerShell per Resource Groups</h3>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare resource group</span>
+<span style="color:#38bdf8;">New-AzResourceGroup</span> `
+  <span style="color:#fbbf24;">-Name</span> "rg-webapp-prod" `
+  <span style="color:#fbbf24;">-Location</span> "westeurope" `
+  <span style="color:#fbbf24;">-Tag</span> @{Environment="Production"; Project="WebApp"}
+
+<span style="color:#94a3b8;"># Elencare resource groups</span>
+<span style="color:#38bdf8;">Get-AzResourceGroup</span>
+
+<span style="color:#94a3b8;"># Ottenere risorse in un RG</span>
+<span style="color:#38bdf8;">Get-AzResource</span> <span style="color:#fbbf24;">-ResourceGroupName</span> "rg-webapp-prod"
+
+<span style="color:#94a3b8;"># Eliminare RG</span>
+<span style="color:#38bdf8;">Remove-AzResourceGroup</span> <span style="color:#fbbf24;">-Name</span> "rg-webapp-prod" <span style="color:#fbbf24;">-Force</span></code></pre>
+</div>
+
+<h3>Spostare Risorse tra Resource Groups</h3>
+<p>Puoi spostare risorse tra resource groups (e anche tra subscription):</p>
+<div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Spostare risorse tra RG</span>
+<span style="color:#38bdf8;">az resource move</span> \
+  <span style="color:#fbbf24;">--destination-group</span> "rg-target" \
+  <span style="color:#fbbf24;">--ids</span> "/subscriptions/.../resourceGroups/rg-source/providers/..."
+
+<span style="color:#94a3b8;"># PowerShell</span>
+<span style="color:#38bdf8;">Move-AzResource</span> `
+  <span style="color:#fbbf24;">-DestinationResourceGroupName</span> "rg-target" `
+  <span style="color:#fbbf24;">-ResourceId</span> $resourceId</code></pre>
+</div>
+
+<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 12px 0;color:#92400e;font-size:15px;">Risorse che NON supportano lo spostamento</h4>
+  <ul style="margin:0;padding-left:20px;color:#78350f;font-size:14px;">
+    <li>Azure Active Directory resources</li>
+    <li>Recovery Services vault (con backup items)</li>
+    <li>Classic deployment resources</li>
+    <li>Alcune risorse di networking con dipendenze</li>
+  </ul>
+  <p style="margin:12px 0 0 0;color:#78350f;font-size:13px;font-style:italic;">Verifica sempre la documentazione prima di spostare!</p>
+</div>
+
+<h3>Strategie di Raggruppamento</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">Per Ciclo di Vita ✓</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Risorse create e eliminate insieme. <strong>Approccio più comune e consigliato.</strong></p>
+  </div>
+  <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #16a34a;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">Per Applicazione</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Tutte le risorse di un'app (web, db, storage) nello stesso RG.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">Per Ambiente</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">RG separati per Dev, Test, Prod. Facilita isolamento.</p>
+  </div>
+  <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid #8b5cf6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#6d28d9;font-size:15px;">Per Tipo Risorsa ✗</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Tutte le VM in un RG, tutti gli storage in un altro. <strong>Meno consigliato.</strong></p>
+  </div>
+</div>
+
+<h3>Naming Conventions</h3>
+<div style="background:linear-gradient(135deg,#f8fafc,#e2e8f0);border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 12px 0;color:#334155;font-size:14px;font-weight:600;">Formati consigliati:</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+    <div style="background:white;border-radius:8px;padding:12px;">
+      <code style="font-size:12px;color:#6366f1;">rg-&lt;app&gt;-&lt;env&gt;-&lt;region&gt;</code>
+      <div style="color:#64748b;font-size:11px;margin-top:4px;">es. rg-webapp-prod-westeurope</div>
+    </div>
+    <div style="background:white;border-radius:8px;padding:12px;">
+      <code style="font-size:12px;color:#6366f1;">&lt;project&gt;-&lt;env&gt;-rg</code>
+      <div style="color:#64748b;font-size:11px;margin-top:4px;">es. az104-dev-rg</div>
+    </div>
+    <div style="background:white;border-radius:8px;padding:12px;">
+      <code style="font-size:12px;color:#6366f1;">rg-&lt;workload&gt;-&lt;###&gt;</code>
+      <div style="color:#64748b;font-size:11px;margin-top:4px;">es. rg-networking-001</div>
+    </div>
+  </div>
+</div>
+
+<h3>Best Practices</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0;">
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔄</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Ciclo di Vita</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Raggruppa risorse con stesso lifecycle</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🏷️</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Usa Tags</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Per metadata aggiuntivi (cost center, owner)</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔐</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">RBAC a Livello RG</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Gestisci accessi per gruppo di risorse</div>
+  </div>
+  <div style="background:white;border:2px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px;">🔒</div>
+    <div style="font-weight:600;color:#1e293b;font-size:13px;">Resource Locks</div>
+    <div style="color:#64748b;font-size:11px;margin-top:4px;">Proteggi RG critici da eliminazione</div>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Considerazioni per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Ogni risorsa deve stare in <strong>un solo RG</strong></li>
+        <li>La <strong>location del RG</strong> è per i metadata, non per le risorse</li>
+        <li>Eliminando un RG si eliminano <strong>tutte le risorse</strong></li>
+        <li>Le risorse possono essere <strong>spostate</strong> tra RG (non tutte)</li>
+        <li>Max <strong>800 deployments</strong> per resource group</li>
+        <li>Max <strong>980 resource groups</strong> per subscription</li>
+        <li>Il RG eredita policy e RBAC dalla subscription</li>
+        <li>Usa <strong>Resource Locks</strong> per proteggere RG critici</li>
+        <li>I <strong>tags</strong> del RG non vengono ereditati dalle risorse</li>
+      </ul>
+    </div>
+  </div>
+</div>
