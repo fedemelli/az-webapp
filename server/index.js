@@ -8,8 +8,18 @@ import { signToken, requireAuth, requireAdmin } from './auth.js';
 const app = express();
 const db = initDb();
 
-const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
-app.use(cors({ origin: clientOrigin }));
+const clientOriginEnv = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+const allowedOrigins = clientOriginEnv.split(',').map((origin) => origin.trim()).filter(Boolean);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+  }),
+);
 app.use(express.json());
 
 app.get('/api/health', (_req, res) => {
