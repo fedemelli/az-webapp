@@ -1,63 +1,66 @@
 <h2>Crittografia in Azure Storage</h2>
-        <p>Azure Storage offre protezione crittografica sia per i dati archiviati (<strong>at rest</strong>) che per i dati in transito (<strong>in transit</strong>).</p>
+<p>Azure Storage offre protezione crittografica sia per i dati archiviati (<strong>at rest</strong>) che per i dati in
+  transito (<strong>in transit</strong>).</p>
 
-        <svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:20px auto;display:block;">
-          <!-- At Rest box -->
-          <rect x="30" y="30" width="260" height="170" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="160" y="60" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="14">Encryption at Rest</text>
-          <text x="160" y="85" text-anchor="middle" fill="#3b82f6" font-size="11">AES 256-bit</text>
+<svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+  <!-- At Rest box -->
+  <rect x="30" y="30" width="260" height="170" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="160" y="60" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="14">Encryption at Rest</text>
+  <text x="160" y="85" text-anchor="middle" fill="#3b82f6" font-size="11">AES 256-bit</text>
 
-          <rect x="50" y="100" width="220" height="30" rx="5" fill="#93c5fd"/>
-          <text x="160" y="120" text-anchor="middle" fill="#1e40af" font-size="10">Microsoft-managed keys (default)</text>
+  <rect x="50" y="100" width="220" height="30" rx="5" fill="#93c5fd" />
+  <text x="160" y="120" text-anchor="middle" fill="#1e40af" font-size="10">Microsoft-managed keys (default)</text>
 
-          <rect x="50" y="140" width="220" height="30" rx="5" fill="#60a5fa"/>
-          <text x="160" y="160" text-anchor="middle" fill="white" font-size="10">Customer-managed keys (Key Vault)</text>
+  <rect x="50" y="140" width="220" height="30" rx="5" fill="#60a5fa" />
+  <text x="160" y="160" text-anchor="middle" fill="white" font-size="10">Customer-managed keys (Key Vault)</text>
 
-          <!-- In Transit box -->
-          <rect x="310" y="30" width="260" height="170" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="440" y="60" text-anchor="middle" font-weight="bold" fill="#166534" font-size="14">Encryption in Transit</text>
-          <text x="440" y="85" text-anchor="middle" fill="#22c55e" font-size="11">TLS 1.2+</text>
+  <!-- In Transit box -->
+  <rect x="310" y="30" width="260" height="170" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="440" y="60" text-anchor="middle" font-weight="bold" fill="#166534" font-size="14">Encryption in
+    Transit</text>
+  <text x="440" y="85" text-anchor="middle" fill="#22c55e" font-size="11">TLS 1.2+</text>
 
-          <rect x="330" y="100" width="220" height="30" rx="5" fill="#86efac"/>
-          <text x="440" y="120" text-anchor="middle" fill="#166534" font-size="10">HTTPS (porta 443)</text>
+  <rect x="330" y="100" width="220" height="30" rx="5" fill="#86efac" />
+  <text x="440" y="120" text-anchor="middle" fill="#166534" font-size="10">HTTPS (porta 443)</text>
 
-          <rect x="330" y="140" width="220" height="30" rx="5" fill="#4ade80"/>
-          <text x="440" y="160" text-anchor="middle" fill="#166534" font-size="10">SMB 3.x encryption (porta 445)</text>
-        </svg>
+  <rect x="330" y="140" width="220" height="30" rx="5" fill="#4ade80" />
+  <text x="440" y="160" text-anchor="middle" fill="#166534" font-size="10">SMB 3.x encryption (porta 445)</text>
+</svg>
 
-        <h3>Encryption at Rest</h3>
-        <p>La crittografia at rest è <strong>sempre abilitata</strong> e non può essere disattivata. Tutti i dati sono crittografati con AES 256-bit.</p>
+<h3>Encryption at Rest</h3>
+<p>La crittografia at rest è <strong>sempre abilitata</strong> e non può essere disattivata. Tutti i dati sono
+  crittografati con AES 256-bit.</p>
 
-        <h4>Opzioni per la Gestione delle Chiavi</h4>
-        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-          <thead>
-            <tr style="background:#f1f5f9;">
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Opzione</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Gestione</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caso d'Uso</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Microsoft-managed keys (MMK)</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Microsoft gestisce tutto</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Default, nessuna configurazione richiesta</td>
-            </tr>
-            <tr style="background:#f8fafc;">
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Customer-managed keys (CMK)</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Tu gestisci in Azure Key Vault</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Compliance, controllo ciclo vita chiavi</td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Customer-provided keys</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Tu fornisci per singole richieste</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Solo Blob, massimo controllo</td>
-            </tr>
-          </tbody>
-        </table>
+<h4>Opzioni per la Gestione delle Chiavi</h4>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;">
+  <thead>
+    <tr style="background:#f1f5f9;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Opzione</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Gestione</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caso d'Uso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Microsoft-managed keys (MMK)</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Microsoft gestisce tutto</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Default, nessuna configurazione richiesta</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Customer-managed keys (CMK)</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Tu gestisci in Azure Key Vault</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Compliance, controllo ciclo vita chiavi</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Customer-provided keys</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Tu fornisci per singole richieste</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Solo Blob, massimo controllo</td>
+    </tr>
+  </tbody>
+</table>
 
-        <h4>Configurare Customer-Managed Keys</h4>
-        <pre><code># Prerequisiti: Key Vault con soft-delete e purge protection
+<h4>Configurare Customer-Managed Keys</h4>
+<pre><code># Prerequisiti: Key Vault con soft-delete e purge protection
 az keyvault create \\
   --name mykeyvault \\
   --resource-group myResourceGroup \\
@@ -79,54 +82,63 @@ az storage account update \\
   --encryption-key-vault https://mykeyvault.vault.azure.net \\
   --encryption-key-name mystoragekey</code></pre>
 
-        <h3>Encryption in Transit</h3>
-        <p>Protegge i dati durante il trasferimento tra client e Azure Storage.</p>
+<h3>Encryption in Transit</h3>
+<p>Protegge i dati durante il trasferimento tra client e Azure Storage.</p>
 
-        <h4>Secure Transfer Required</h4>
-        <p>Questa opzione <strong>forza l'uso di HTTPS</strong> e rifiuta connessioni HTTP:</p>
-        <pre><code># Abilitare secure transfer (consigliato)
+<h4>Secure Transfer Required</h4>
+<p>Questa opzione <strong>forza l'uso di HTTPS</strong> e rifiuta connessioni HTTP:</p>
+<pre><code># Abilitare secure transfer (consigliato)
 az storage account update \\
   --name mystorageaccount \\
   --resource-group myResourceGroup \\
   --https-only true</code></pre>
 
-        <h4>TLS Version Minima</h4>
-        <pre><code># Impostare TLS 1.2 come versione minima
+<h4>TLS Version Minima</h4>
+<pre><code># Impostare TLS 1.2 come versione minima
 az storage account update \\
   --name mystorageaccount \\
   --resource-group myResourceGroup \\
   --min-tls-version TLS1_2</code></pre>
 
-        <h3>Encryption Scopes</h3>
-        <p>Permettono di usare chiavi diverse per container o blob diversi:</p>
-        <ul>
-          <li>Ogni scope può usare MMK o CMK</li>
-          <li>Utile per separare dati di clienti diversi</li>
-          <li>Puoi impostare uno scope di default per un container</li>
-        </ul>
+<h3>Encryption Scopes</h3>
+<p>Permettono di usare chiavi diverse per container o blob diversi:</p>
+<ul>
+  <li>Ogni scope può usare MMK o CMK</li>
+  <li>Utile per separare dati di clienti diversi</li>
+  <li>Puoi impostare uno scope di default per un container</li>
+</ul>
 
-        <h3>Infrastructure Encryption (Double Encryption)</h3>
-        <p>Per requisiti di compliance estremi, puoi abilitare <strong>doppia crittografia</strong>:</p>
-        <ul>
-          <li>Primo livello: Azure Storage encryption (AES 256)</li>
-          <li>Secondo livello: Infrastructure layer encryption (AES 256)</li>
-          <li>Deve essere abilitato alla creazione dello storage account</li>
-        </ul>
+<h3>Infrastructure Encryption (Double Encryption)</h3>
+<p>Per requisiti di compliance estremi, puoi abilitare <strong>doppia crittografia</strong>:</p>
+<ul>
+  <li>Primo livello: Azure Storage encryption (AES 256)</li>
+  <li>Secondo livello: Infrastructure layer encryption (AES 256)</li>
+  <li>Deve essere abilitato alla creazione dello storage account</li>
+</ul>
 
-        <h3>Best Practices</h3>
-        <ul>
-          <li><strong>Abilita sempre "Secure transfer required"</strong></li>
-          <li>Imposta <strong>TLS 1.2</strong> come versione minima</li>
-          <li>Usa <strong>CMK</strong> per compliance (HIPAA, PCI-DSS)</li>
-          <li>Abilita <strong>soft-delete e purge protection</strong> sul Key Vault</li>
-          <li>Ruota le chiavi regolarmente</li>
-        </ul>
+<h3>Best Practices</h3>
+<ul>
+  <li><strong>Abilita sempre "Secure transfer required"</strong></li>
+  <li>Imposta <strong>TLS 1.2</strong> come versione minima</li>
+  <li>Usa <strong>CMK</strong> per compliance (HIPAA, PCI-DSS)</li>
+  <li>Abilita <strong>soft-delete e purge protection</strong> sul Key Vault</li>
+  <li>Ruota le chiavi regolarmente</li>
+</ul>
 
-        <h3>Considerazioni per l'Esame</h3>
-        <ul>
-          <li>Encryption at rest è <strong>sempre abilitata e gratuita</strong></li>
-          <li><strong>Customer-provided keys</strong> funzionano solo con Blob storage</li>
-          <li>CMK richiede <strong>Key Vault con soft-delete e purge protection</strong></li>
-          <li><strong>Infrastructure encryption</strong> deve essere abilitata alla creazione</li>
-          <li>Secure transfer blocca <strong>HTTP e SMB senza encryption</strong></li>
-        </ul>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Non puoi DISABILITARE la encryption at rest. È sempre attiva.</li>
+        <li>Se l'esame menziona "controllo totale delle chiavi" o "revoca immediata accesso" -> <strong>CMK (Customer
+            Managed Keys)</strong>.</li>
+        <li>Se menziona "FIPS 140-2 Level 3" o "HSM" -> <strong>Azure Key Vault Premium</strong>.</li>
+        <li>"Secure Transfer Required" blocca l'accesso HTTP (porta 80) e SMB senza encryption.</li>
+      </ul>
+    </div>
+  </div>
+</div>

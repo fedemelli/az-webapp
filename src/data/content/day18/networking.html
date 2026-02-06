@@ -1,23 +1,44 @@
 <h2>Networking: Kubenet vs Azure CNI</h2>
-        <p>Scegliere il plugin di rete corretto è fondamentale per le performance e la gestione degli indirizzi IP.</p>
+<p>Scegliere il plugin di rete corretto è fondamentale per le performance e la gestione degli indirizzi IP.</p>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
-          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🌐 Kubenet (Basic)</h4>
-            <ul style="margin:0;padding-left:20px;color:#334155;font-size:14px;">
-              <li><strong>Risparmia IP</strong>: I Pod ricevono un IP da un range logico interno (non VNet).</li>
-              <li>Usa NAT per uscire dal nodo.</li>
-              <li>Leggermente meno performante (extra hop).</li>
-              <li>Default per molti scenari semplici.</li>
-            </ul>
-          </div>
-          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🔌 Azure CNI (Advanced)</h4>
-            <ul style="margin:0;padding-left:20px;color:#334155;font-size:14px;">
-              <li><strong>Ogni Pod ha un IP della VNet</strong>.</li>
-              <li>Performance massime (no NAT).</li>
-              <li>Richiede pianificazione IP accurata (consuma molti IP).</li>
-              <li>Necessario per Windows Containers e Virtual Nodes.</li>
-            </ul>
-          </div>
-        </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🌐 Kubenet (Basic)</h4>
+    <ul style="margin:0;padding-left:20px;color:#334155;font-size:14px;">
+      <li><strong>Risparmia IP</strong>: I Pod ricevono un IP da un range logico interno (non VNet).</li>
+      <li>Usa NAT per uscire dal nodo.</li>
+      <li>Leggermente meno performante (extra hop).</li>
+      <li>Default per molti scenari semplici.</li>
+    </ul>
+  </div>
+  <div
+    style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🔌 Azure CNI (Advanced)</h4>
+    <ul style="margin:0;padding-left:20px;color:#334155;font-size:14px;">
+      <li><strong>Ogni Pod ha un IP della VNet</strong>.</li>
+      <li>Performance massime (no NAT).</li>
+      <li>Richiede pianificazione IP accurata (consuma molti IP).</li>
+      <li>Necessario per Windows Containers e Virtual Nodes.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Se hai POCHI indirizzi IP disponibili nella VNet -> Usa <strong>Kubenet</strong> (i Pod usano IP interni
+          nattati).</li>
+        <li>Se hai bisogno di massima performance o connessione diretta Pod-to-VNet -> Usa <strong>Azure CNI</strong>.
+        </li>
+        <li>Azure CNI richiede un'attenta pianificazione: ogni Pod consuma un IP dalla subnet. Se finiscono, non puoi
+          creare nuovi Pod.</li>
+      </ul>
+    </div>
+  </div>
+</div>

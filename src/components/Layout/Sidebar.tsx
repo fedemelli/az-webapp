@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, Trophy, ExternalLink } from 'lucide-react';
+import { Calendar, Trophy, ExternalLink, FileQuestion } from 'lucide-react';
 import { ProgressBar } from './ProgressBar';
 import { studyPlan } from '../../data/studyPlan';
 import { useProgress } from '../../context/ProgressContext';
@@ -89,6 +89,21 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 );
               })}
             </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-xl p-3 sm:p-4 text-white shadow-lg shadow-emerald-500/20">
+            <h3 className="font-semibold mb-3 text-sm sm:text-base flex items-center gap-2">
+              <FileQuestion className="w-5 h-5" />
+              Quiz Simulazione
+            </h3>
+            <Link
+              to="/exam-quiz"
+              onClick={handleLinkClick}
+              className="block bg-white/20 hover:bg-white/30 rounded-lg p-3 transition-all duration-200 backdrop-blur-sm"
+            >
+              <p className="text-sm font-medium">Quiz Esame AZ-104</p>
+              <p className="text-xs text-emerald-100 mt-1">Testa le tue conoscenze con domande reali</p>
+            </Link>
           </div>
 
           <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl p-3 sm:p-4 text-white shadow-lg shadow-indigo-500/20">

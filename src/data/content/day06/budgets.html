@@ -1,70 +1,115 @@
-<h2>Azure Budgets</h2>
-        <p>I <strong>Budgets</strong> permettono di definire limiti di spesa e ricevere notifiche quando ci si avvicina o supera tali limiti.</p>
+<h2>Budgets & Alerts</h2>
+<p>Azure Budgets è lo strumento fondamentale per la governance dei costi. Permette di impostare limiti di spesa (non
+  blocca le risorse, manda avvisi!) e reagire proattivamente.</p>
 
-        <h3>Configurazione di un Budget</h3>
-        <ul>
-          <li><strong>Name</strong>: Nome identificativo del budget</li>
-          <li><strong>Scope</strong>: Subscription, Resource Group, o Management Group</li>
-          <li><strong>Reset period</strong>: Mensile, Trimestrale, Annuale</li>
-          <li><strong>Amount</strong>: Importo in valuta</li>
-          <li><strong>Start date</strong>: Quando inizia il conteggio</li>
-          <li><strong>Expiration date</strong>: Quando scade il budget (opzionale)</li>
-        </ul>
+<!-- Diagramma Budget Logic -->
+<svg viewBox="0 0 600 200"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#fff1f2 0%,#fff7ed 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Graph Axes -->
+  <line x1="50" y1="170" x2="550" y2="170" stroke="#94a3b8" stroke-width="2" />
+  <line x1="50" y1="170" x2="50" y2="30" stroke="#94a3b8" stroke-width="2" />
+  <text x="560" y="175" fill="#64748b" font-size="10">Time</text>
+  <text x="40" y="25" fill="#64748b" font-size="10">€</text>
 
-        <h3>Condizioni di Alert</h3>
-        <p>Puoi configurare alert per diverse soglie:</p>
-        <ul>
-          <li><strong>Actual</strong>: Basato sulla spesa effettiva già sostenuta</li>
-          <li><strong>Forecasted</strong>: Basato sulla previsione di spesa a fine periodo</li>
-        </ul>
-        <p>Esempio tipico: Alert al 50%, 80%, 100%, 120% del budget.</p>
+  <!-- Budget Line -->
+  <line x1="50" y1="60" x2="550" y2="60" stroke="#dc2626" stroke-width="2" stroke-dasharray="5" />
+  <text x="60" y="55" fill="#dc2626" font-size="11" font-weight="bold">Budget Limit (1000€)</text>
 
-        <h3>Azioni degli Alert</h3>
-        <p>Quando un alert scatta, puoi:</p>
-        <ul>
-          <li><strong>Email notification</strong>: Invia email a utenti o gruppi</li>
-          <li><strong>Action Group</strong>: Trigger Azure Monitor action groups (SMS, webhook, runbook, etc.)</li>
-        </ul>
+  <!-- Actual Spend -->
+  <path d="M50 170 Q150 160 250 120 T400 90" stroke="#3b82f6" stroke-width="3" fill="none" />
+  <text x="300" y="110" fill="#3b82f6" font-size="11" font-weight="bold">Spesa Reale</text>
 
-        <h3>Creare Budget con CLI</h3>
-        <pre><code># Creare un budget mensile di $1000
-az consumption budget create \\
-  --budget-name "monthly-budget" \\
-  --amount 1000 \\
-  --time-grain Monthly \\
-  --start-date 2024-01-01 \\
-  --end-date 2024-12-31 \\
-  --resource-group "my-rg"
+  <!-- Forecast -->
+  <path d="M400 90 Q480 70 550 40" stroke="#93c5fd" stroke-width="3" stroke-dasharray="4" fill="none" />
+  <text x="480" y="80" fill="#93c5fd" font-size="11">Previsione</text>
 
-# Elencare i budgets
-az consumption budget list --output table
+  <!-- Thresholds -->
+  <circle cx="200" cy="135" r="5" fill="#f59e0b" />
+  <text x="210" y="140" fill="#d97706" font-size="10">50% Alert</text>
 
-# Eliminare un budget
-az consumption budget delete --budget-name "monthly-budget"</code></pre>
+  <circle cx="340" cy="100" r="5" fill="#ea580c" />
+  <text x="350" y="105" fill="#ea580c" font-size="10">80% Alert</text>
 
-        <h3>Budget con Filtri</h3>
-        <p>Puoi creare budget filtrati per:</p>
-        <ul>
-          <li><strong>Resource Groups</strong>: Solo specifici RG</li>
-          <li><strong>Resources</strong>: Singole risorse</li>
-          <li><strong>Meters</strong>: Specifici tipi di consumo</li>
-          <li><strong>Tags</strong>: Risorse con specifici tag</li>
-        </ul>
+  <circle cx="480" cy="60" r="5" fill="#dc2626" />
+  <text x="440" y="50" fill="#dc2626" font-size="10">100% (Forecasted)</text>
+</svg>
 
-        <h3>Automazione con Runbooks</h3>
-        <p>Puoi automatizzare azioni quando il budget viene superato:</p>
-        <ul>
-          <li>Spegnere VM non critiche</li>
-          <li>Ridimensionare risorse</li>
-          <li>Inviare notifiche a Slack/Teams</li>
-          <li>Aprire ticket automaticamente</li>
-        </ul>
+<h3>Workflow di Creazione Budget</h3>
+<p>Creare un budget richiede 3 step fondamentali:</p>
 
-        <h3>Best Practices</h3>
-        <ul>
-          <li>Crea budget per <strong>ogni ambiente</strong> (Dev, Test, Prod)</li>
-          <li>Imposta alert <strong>progressivi</strong> (50%, 80%, 100%)</li>
-          <li>Usa <strong>forecasted alerts</strong> per anticipare i problemi</li>
-          <li>Combina budget con <strong>tag</strong> per tracciare costi per progetto</li>
-          <li>Rivedi i budget <strong>trimestralmente</strong></li>
-        </ul>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table
+    style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#ea580c,#c2410c);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Step</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Dettagli</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#fff7ed;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#c2410c;">1. Scope & Details
+        </td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Scegli dove applicare il budget (es. Subscription
+          intera o singolo Resource Group con tag specifico). Definisci il <strong>Reset Period</strong> (Mensile,
+          Trimestrale, Annuale).</td>
+      </tr>
+      <tr style="background:#ffffff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#c2410c;">2. Amount</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Definisci l'importo massimo. Azure suggerisce un
+          valore basato sui consumi storici.</td>
+      </tr>
+      <tr style="background:#fff7ed;">
+        <td style="padding:12px 16px;font-weight:600;color:#c2410c;">3. Alert Conditions</td>
+        <td style="padding:12px 16px;">Configura le soglie (es. 50%, 80%, 95%). Puoi basare gli alert su <strong>Actual
+            Cost</strong> (spesa già avvenuta) o <strong>Forecasted Cost</strong> (previsione di superamento).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Action Groups & Automazione</h3>
+<p>Un budget da solo invia solo email. Per agire automaticamente, si collegano gli <strong>Action Groups</strong>.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:white;border-top:4px solid #f59e0b;border-radius:10px;padding:20px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#d97706;">📧 Notifiche Base</h4>
+    <p style="margin:0;font-size:13px;color:#475569;">Email a amministratori o indirizzi specifici. SMS o Push
+      notification su App Azure.</p>
+  </div>
+  <div
+    style="background:white;border-top:4px solid #dc2626;border-radius:10px;padding:20px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#b91c1c;">🤖 Automazione Avanzata</h4>
+    <p style="margin:0;font-size:13px;color:#475569;">Trigger di un <strong>Webhook</strong>, <strong>Azure
+        Function</strong> o <strong>Logic App</strong>. Esempio: "Se arrivi al 90% del budget, spegni le VM di
+      sviluppo".</p>
+  </div>
+</div>
+
+<h3>Scenario Esame: "Budget Enforcement"</h3>
+<div
+  style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:4px solid #ef4444;border-radius:12px;padding:20px;margin:20px 0;">
+  <p style="margin:0;color:#991b1b;font-weight:600;">Domanda tipica: "Un Azure Budget può bloccare la creazione di nuove
+    risorse?"</p>
+  <p style="margin:8px 0 0 0;color:#7f1d1d;font-size:14px;"><strong>NO.</strong> I budget nativi sono strumenti di
+    <strong>monitoraggio e alerting</strong>, non di blocco. Se superi il budget, Azure continua a erogare servizi e
+    fatturare. Per bloccare la spesa, devi usare un Action Group che esegue uno script (es. applica policy Deny o spegne
+    risorse) o usare "Spending Limits" (disponibili solo su account Azure Credit/Trial, non Pay-As-You-Go enterprise).
+  </p>
+</div>
+
+<h3>CLI Commands</h3>
+<div
+  style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Listare i budget esistenti</span>
+<span style="color:#38bdf8;">az consumption budget list</span> <span style="color:#fbbf24;">--output</span> table
+
+<span style="color:#94a3b8;"># Creare un budget semplice (1000$ mensili, start-date oggi)</span>
+<span style="color:#38bdf8;">az consumption budget create</span> <span style="color:#fbbf24;">--amount</span> 1000 <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--budget-name</span> MyMonthlyBudget <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--category</span> cost <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--time-grain</span> monthly <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--start-date</span> 2024-01-01 <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--end-date</span> 2024-12-31</code></pre>
+</div>

@@ -81,8 +81,14 @@ cd az-webapp
 # Installa dipendenze
 npm install
 
-# Avvia development server
+# Configura variabili d'ambiente (JWT + admin)
+copy .env.example .env
+
+# Avvia frontend
 npm run dev
+
+# Avvia backend auth
+npm run dev:server
 
 # Build per produzione
 npm run build
@@ -90,6 +96,12 @@ npm run build
 # Preview build di produzione
 npm run preview
 ```
+
+## Autenticazione (SQLite + JWT)
+
+- Il backend salva gli utenti in SQLite (`server/data/auth.db`).
+- L'utente admin viene creato al primo avvio con le credenziali definite in `.env`.
+- Solo l'admin puo creare nuovi utenti dalla schermata `/admin/register`.
 
 ## Deployment
 

@@ -1,48 +1,69 @@
 <h2>Azure Kubernetes Service (AKS)</h2>
-        <p><strong>AKS</strong> è un servizio Kubernetes gestito che semplifica il deployment e la gestione di applicazioni containerizzate. Azure gestisce il Control Plane gratuitamente, mentre tu paghi e gestisci solo i nodi (VM).</p>
+<p><strong>AKS</strong> è un servizio Kubernetes gestito che semplifica il deployment e la gestione di applicazioni
+  containerizzate. Azure gestisce il Control Plane gratuitamente, mentre tu paghi e gestisci solo i nodi (VM).</p>
 
-        <h3>Architettura AKS</h3>
-        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- Control Plane (Azure Managed) -->
-          <rect x="30" y="40" width="200" height="200" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-          <text x="130" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Control Plane</text>
-          <text x="130" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">(Gestito da Azure - Gratis)</text>
+<h3>Architettura AKS</h3>
+<svg viewBox="0 0 600 280"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Control Plane (Azure Managed) -->
+  <rect x="30" y="40" width="200" height="200" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" />
+  <text x="130" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Control Plane</text>
+  <text x="130" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">(Gestito da Azure - Gratis)</text>
 
-          <rect x="50" y="90" width="160" height="30" rx="6" fill="white" stroke="#60a5fa"/>
-          <text x="130" y="110" text-anchor="middle" font-size="11" fill="#1e3a8a">API Server</text>
+  <rect x="50" y="90" width="160" height="30" rx="6" fill="white" stroke="#60a5fa" />
+  <text x="130" y="110" text-anchor="middle" font-size="11" fill="#1e3a8a">API Server</text>
 
-          <rect x="50" y="130" width="75" height="30" rx="6" fill="white" stroke="#60a5fa"/>
-          <text x="87" y="150" text-anchor="middle" font-size="10" fill="#1e3a8a">Scheduler</text>
+  <rect x="50" y="130" width="75" height="30" rx="6" fill="white" stroke="#60a5fa" />
+  <text x="87" y="150" text-anchor="middle" font-size="10" fill="#1e3a8a">Scheduler</text>
 
-          <rect x="135" y="130" width="75" height="30" rx="6" fill="white" stroke="#60a5fa"/>
-          <text x="172" y="150" text-anchor="middle" font-size="10" fill="#1e3a8a">Etcd</text>
+  <rect x="135" y="130" width="75" height="30" rx="6" fill="white" stroke="#60a5fa" />
+  <text x="172" y="150" text-anchor="middle" font-size="10" fill="#1e3a8a">Etcd</text>
 
-          <rect x="50" y="170" width="160" height="30" rx="6" fill="white" stroke="#60a5fa"/>
-          <text x="130" y="190" text-anchor="middle" font-size="11" fill="#1e3a8a">Controller Manager</text>
+  <rect x="50" y="170" width="160" height="30" rx="6" fill="white" stroke="#60a5fa" />
+  <text x="130" y="190" text-anchor="middle" font-size="11" fill="#1e3a8a">Controller Manager</text>
 
-          <!-- Customer Managed (Nodes) -->
-          <rect x="300" y="40" width="270" height="200" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="435" y="65" text-anchor="middle" font-weight="bold" fill="#166534">Customer Managed</text>
-          <text x="435" y="80" text-anchor="middle" font-size="10" fill="#22c55e">(I tuoi Nodi / VM)</text>
+  <!-- Customer Managed (Nodes) -->
+  <rect x="300" y="40" width="270" height="200" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="435" y="65" text-anchor="middle" font-weight="bold" fill="#166534">Customer Managed</text>
+  <text x="435" y="80" text-anchor="middle" font-size="10" fill="#22c55e">(I tuoi Nodi / VM)</text>
 
-          <!-- Node 1 -->
-          <rect x="320" y="100" width="100" height="120" rx="8" fill="white" stroke="#16a34a"/>
-          <text x="370" y="120" text-anchor="middle" font-weight="bold" font-size="11" fill="#14532d">Node 1</text>
-          <rect x="330" y="130" width="80" height="25" rx="4" fill="#bbf7d0"/>
-          <text x="370" y="147" text-anchor="middle" font-size="10" fill="#14532d">Kubelet</text>
-          <rect x="330" y="160" width="35" height="35" rx="4" fill="#3b82f6"/>
-          <text x="347" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
-          <rect x="375" y="160" width="35" height="35" rx="4" fill="#3b82f6"/>
-          <text x="392" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
+  <!-- Node 1 -->
+  <rect x="320" y="100" width="100" height="120" rx="8" fill="white" stroke="#16a34a" />
+  <text x="370" y="120" text-anchor="middle" font-weight="bold" font-size="11" fill="#14532d">Node 1</text>
+  <rect x="330" y="130" width="80" height="25" rx="4" fill="#bbf7d0" />
+  <text x="370" y="147" text-anchor="middle" font-size="10" fill="#14532d">Kubelet</text>
+  <rect x="330" y="160" width="35" height="35" rx="4" fill="#3b82f6" />
+  <text x="347" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
+  <rect x="375" y="160" width="35" height="35" rx="4" fill="#3b82f6" />
+  <text x="392" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
 
-          <!-- Node 2 -->
-          <rect x="450" y="100" width="100" height="120" rx="8" fill="white" stroke="#16a34a"/>
-          <text x="500" y="120" text-anchor="middle" font-weight="bold" font-size="11" fill="#14532d">Node 2</text>
-          <rect x="460" y="130" width="80" height="25" rx="4" fill="#bbf7d0"/>
-          <text x="500" y="147" text-anchor="middle" font-size="10" fill="#14532d">Kubelet</text>
-          <rect x="460" y="160" width="35" height="35" rx="4" fill="#3b82f6"/>
-          <text x="477" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
+  <!-- Node 2 -->
+  <rect x="450" y="100" width="100" height="120" rx="8" fill="white" stroke="#16a34a" />
+  <text x="500" y="120" text-anchor="middle" font-weight="bold" font-size="11" fill="#14532d">Node 2</text>
+  <rect x="460" y="130" width="80" height="25" rx="4" fill="#bbf7d0" />
+  <text x="500" y="147" text-anchor="middle" font-size="10" fill="#14532d">Kubelet</text>
+  <rect x="460" y="160" width="35" height="35" rx="4" fill="#3b82f6" />
+  <text x="477" y="182" text-anchor="middle" font-size="9" fill="white">Pod</text>
 
-          <!-- Connection -->
-          <path d="M230 105 L300 105" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-        </svg>
+  <!-- Connection -->
+  <path d="M230 105 L300 105" stroke="#64748b" stroke-width="2" stroke-dasharray="4" />
+</svg>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Il <strong>Control Plane</strong> è gestito da Azure ed è GRATUITO. Paghi solo per i <strong>Worker
+            Nodes</strong> (VM).</li>
+        <li>Per accedere al cluster, usi <code>az aks get-credentials</code> che scarica il config file per Kubectl.
+        </li>
+        <li><strong>Cluster Autoscaler</strong> scala i NODI (VM), mentre <strong>HPA (Horizontal Pod
+            Autoscaler)</strong> scala i POD.</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,27 @@
 <h2>Application Security Groups (ASG)</h2>
-        <p>Gli <strong>ASG</strong> permettono di raggruppare le interfacce di rete (NIC) delle VM in base alla loro funzione (es. "WebServers", "DBServers") invece che usare indirizzi IP.</p>
-        
-        <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;margin:20px 0;">
-          <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">✅ Vantaggio Principale</h4>
-          <p style="margin:0;color:#14532d;font-size:14px;">Semplifica le regole NSG. Se aggiungi una nuova VM al gruppo "WebServers", eredita automaticamente le regole di accesso senza dover modificare l'NSG.</p>
-        </div>
+<p>Gli <strong>ASG</strong> permettono di raggruppare le interfacce di rete (NIC) delle VM in base alla loro funzione
+  (es. "WebServers", "DBServers") invece che usare indirizzi IP.</p>
+
+<div
+  style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;margin:20px 0;">
+  <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">✅ Vantaggio Principale</h4>
+  <p style="margin:0;color:#14532d;font-size:14px;">Semplifica le regole NSG. Se aggiungi una nuova VM al gruppo
+    "WebServers", eredita automaticamente le regole di accesso senza dover modificare l'NSG.</p>
+</div>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Gli ASG NON hanno regole proprie. Sono solo <strong>etichette</strong> (raggruppamenti logici) usate
+          *dentro* le regole NSG.</li>
+        <li>Invece di scrivere "Allow port 80 to IP 10.0.1.4", scrivi "Allow port 80 to ASG 'WebServers'".</li>
+        <li>Un ASG può essere usato solo come Source o Destination in un NSG.</li>
+      </ul>
+    </div>
+  </div>
+</div>

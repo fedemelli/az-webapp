@@ -1,6 +1,7 @@
 <h2>Comandi CLI Essenziali</h2>
-        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
-          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un App Gateway</span>
+<div
+  style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un App Gateway</span>
 <span style="color:#38bdf8;">az network application-gateway create</span> <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--name</span> MyAppGateway <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
@@ -11,4 +12,19 @@
   <span style="color:#fbbf24;">--subnet</span> MySubnet <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--public-ip-address</span> MyPublicIP <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--http-settings-cookie-based-affinity</span> Enabled</code></pre>
-        </div>
+</div>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>App Gateway richiede una <strong>subnet dedicata</strong> (che non può contenere altre risorse).</li>
+        <li>A differenza del Load Balancer, lavora con i nomi DNS o IP, ma è molto più lento nel setup iniziale.</li>
+      </ul>
+    </div>
+  </div>
+</div>

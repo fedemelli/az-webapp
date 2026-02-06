@@ -1,45 +1,71 @@
 <h2>Azure Application Gateway</h2>
-        <p><strong>Application Gateway</strong> è un bilanciatore di carico web (Layer 7) che permette di gestire il traffico verso le applicazioni web. Include funzionalità avanzate come SSL termination, cookie-based session affinity e URL path-based routing.</p>
+<p><strong>Application Gateway</strong> è un bilanciatore di carico web (Layer 7) che permette di gestire il traffico
+  verso le applicazioni web. Include funzionalità avanzate come SSL termination, cookie-based session affinity e URL
+  path-based routing.</p>
 
-        <h3>Funzionalità Chiave</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
-          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🛣️ URL Path Routing</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Indirizza il traffico in base all'URL (es. <code>/images</code> va a un pool, <code>/video</code> a un altro).</p>
-          </div>
-          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🛡️ WAF (Web App Firewall)</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Protegge da attacchi comuni come SQL Injection e XSS (OWASP rules).</p>
-          </div>
-        </div>
+<h3>Funzionalità Chiave</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🛣️ URL Path Routing</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Indirizza il traffico in base all'URL (es. <code>/images</code> va
+      a un pool, <code>/video</code> a un altro).</p>
+  </div>
+  <div
+    style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🛡️ WAF (Web App Firewall)</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Protegge da attacchi comuni come SQL Injection e XSS (OWASP
+      rules).</p>
+  </div>
+</div>
 
-        <h3>Architettura</h3>
-        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- User -->
-          <circle cx="50" cy="140" r="20" fill="#94a3b8"/>
-          <text x="50" y="180" text-anchor="middle" font-size="10" fill="#475569">User</text>
+<h3>Architettura</h3>
+<svg viewBox="0 0 600 280"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- User -->
+  <circle cx="50" cy="140" r="20" fill="#94a3b8" />
+  <text x="50" y="180" text-anchor="middle" font-size="10" fill="#475569">User</text>
 
-          <!-- App Gateway -->
-          <rect x="150" y="80" width="120" height="120" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="210" y="110" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="11">App Gateway</text>
-          <text x="210" y="130" text-anchor="middle" font-size="9" fill="#1e3a8a">WAF Enabled</text>
-          <text x="210" y="150" text-anchor="middle" font-size="9" fill="#1e3a8a">/images -> Pool A</text>
-          <text x="210" y="165" text-anchor="middle" font-size="9" fill="#1e3a8a">/video -> Pool B</text>
+  <!-- App Gateway -->
+  <rect x="150" y="80" width="120" height="120" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="210" y="110" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="11">App Gateway</text>
+  <text x="210" y="130" text-anchor="middle" font-size="9" fill="#1e3a8a">WAF Enabled</text>
+  <text x="210" y="150" text-anchor="middle" font-size="9" fill="#1e3a8a">/images -> Pool A</text>
+  <text x="210" y="165" text-anchor="middle" font-size="9" fill="#1e3a8a">/video -> Pool B</text>
 
-          <!-- Pool A -->
-          <rect x="350" y="40" width="200" height="80" rx="8" fill="#dcfce7" stroke="#22c55e"/>
-          <text x="450" y="65" text-anchor="middle" font-weight="bold" fill="#166534">Pool A (Images)</text>
-          <rect x="370" y="75" width="40" height="30" rx="4" fill="white" stroke="#16a34a"/>
-          <rect x="430" y="75" width="40" height="30" rx="4" fill="white" stroke="#16a34a"/>
+  <!-- Pool A -->
+  <rect x="350" y="40" width="200" height="80" rx="8" fill="#dcfce7" stroke="#22c55e" />
+  <text x="450" y="65" text-anchor="middle" font-weight="bold" fill="#166534">Pool A (Images)</text>
+  <rect x="370" y="75" width="40" height="30" rx="4" fill="white" stroke="#16a34a" />
+  <rect x="430" y="75" width="40" height="30" rx="4" fill="white" stroke="#16a34a" />
 
-          <!-- Pool B -->
-          <rect x="350" y="160" width="200" height="80" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
-          <text x="450" y="185" text-anchor="middle" font-weight="bold" fill="#92400e">Pool B (Video)</text>
-          <rect x="370" y="195" width="40" height="30" rx="4" fill="white" stroke="#d97706"/>
-          <rect x="430" y="195" width="40" height="30" rx="4" fill="white" stroke="#d97706"/>
+  <!-- Pool B -->
+  <rect x="350" y="160" width="200" height="80" rx="8" fill="#fef3c7" stroke="#f59e0b" />
+  <text x="450" y="185" text-anchor="middle" font-weight="bold" fill="#92400e">Pool B (Video)</text>
+  <rect x="370" y="195" width="40" height="30" rx="4" fill="white" stroke="#d97706" />
+  <rect x="430" y="195" width="40" height="30" rx="4" fill="white" stroke="#d97706" />
 
-          <!-- Arrows -->
-          <line x1="70" y1="140" x2="150" y2="140" stroke="#64748b" stroke-width="2"/>
-          <line x1="270" y1="120" x2="350" y2="80" stroke="#3b82f6" stroke-width="2"/>
-          <line x1="270" y1="160" x2="350" y2="200" stroke="#3b82f6" stroke-width="2"/>
-        </svg>
+  <!-- Arrows -->
+  <line x1="70" y1="140" x2="150" y2="140" stroke="#64748b" stroke-width="2" />
+  <line x1="270" y1="120" x2="350" y2="80" stroke="#3b82f6" stroke-width="2" />
+  <line x1="270" y1="160" x2="350" y2="200" stroke="#3b82f6" stroke-width="2" />
+</svg>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>App Gateway è <strong>Layer 7</strong> (HTTP/HTTPS) e supporta Routing basato su URL Path, Host Header
+          (Multi-site) e Cookie Affinity.</li>
+        <li><strong>WAF (Web Application Firewall)</strong> è disponibile nelle SKU WAF_v2 e protegge da SQL Injection,
+          XSS, ecc.</li>
+        <li>Supporta <strong>SSL Termination</strong> (decripta traffico sull'App Gateway) e <strong>End-to-End
+            SSL</strong> (ricripta verso il backend).</li>
+      </ul>
+    </div>
+  </div>
+</div>

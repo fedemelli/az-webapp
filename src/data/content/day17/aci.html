@@ -1,37 +1,63 @@
 <h2>Azure Container Instances (ACI)</h2>
-        <p><strong>ACI</strong> è la soluzione più veloce e semplice per eseguire un container in Azure, senza dover gestire macchine virtuali o cluster. È ideale per task isolati, build jobs e automazione.</p>
+<p><strong>ACI</strong> è la soluzione più veloce e semplice per eseguire un container in Azure, senza dover gestire
+  macchine virtuali o cluster. È ideale per task isolati, build jobs e automazione.</p>
 
-        <h3>Container Groups</h3>
-        <p>Un Container Group è una collezione di container che vengono schedulati sulla stessa macchina host. Condividono ciclo di vita, risorse, rete locale e volumi di storage.</p>
+<h3>Container Groups</h3>
+<p>Un Container Group è una collezione di container che vengono schedulati sulla stessa macchina host. Condividono ciclo
+  di vita, risorse, rete locale e volumi di storage.</p>
 
-        <svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- Host Machine -->
-          <rect x="100" y="30" width="400" height="160" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
-          <text x="300" y="55" text-anchor="middle" font-weight="bold" fill="#1e40af">Container Group (Pod)</text>
-          <text x="300" y="70" text-anchor="middle" font-size="10" fill="#3b82f6">IP: 20.45.12.34</text>
+<svg viewBox="0 0 600 220"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Host Machine -->
+  <rect x="100" y="30" width="400" height="160" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"
+    stroke-dasharray="5,5" />
+  <text x="300" y="55" text-anchor="middle" font-weight="bold" fill="#1e40af">Container Group (Pod)</text>
+  <text x="300" y="70" text-anchor="middle" font-size="10" fill="#3b82f6">IP: 20.45.12.34</text>
 
-          <!-- App Container -->
-          <rect x="130" y="90" width="140" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2"/>
-          <text x="200" y="120" text-anchor="middle" font-weight="bold" fill="#1e3a8a">App Container</text>
-          <text x="200" y="140" text-anchor="middle" font-size="10" fill="#64748b">Port 80</text>
+  <!-- App Container -->
+  <rect x="130" y="90" width="140" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2" />
+  <text x="200" y="120" text-anchor="middle" font-weight="bold" fill="#1e3a8a">App Container</text>
+  <text x="200" y="140" text-anchor="middle" font-size="10" fill="#64748b">Port 80</text>
 
-          <!-- Sidecar Container -->
-          <rect x="330" y="90" width="140" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="120" text-anchor="middle" font-weight="bold" fill="#1e3a8a">Sidecar</text>
-          <text x="400" y="140" text-anchor="middle" font-size="10" fill="#64748b">Logging / Proxy</text>
+  <!-- Sidecar Container -->
+  <rect x="330" y="90" width="140" height="80" rx="8" fill="white" stroke="#2563eb" stroke-width="2" />
+  <text x="400" y="120" text-anchor="middle" font-weight="bold" fill="#1e3a8a">Sidecar</text>
+  <text x="400" y="140" text-anchor="middle" font-size="10" fill="#64748b">Logging / Proxy</text>
 
-          <!-- Shared Volume -->
-          <rect x="230" y="150" width="140" height="30" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
-          <text x="300" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">Shared Volume (Azure Files)</text>
-          
-          <!-- Connection -->
-          <path d="M270 130 L330 130" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-          <text x="300" y="125" text-anchor="middle" font-size="9" fill="#64748b">localhost</text>
-        </svg>
+  <!-- Shared Volume -->
+  <rect x="230" y="150" width="140" height="30" rx="6" fill="#fef3c7" stroke="#f59e0b" />
+  <text x="300" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">Shared Volume (Azure
+    Files)</text>
 
-        <h3>Caratteristiche Chiave</h3>
-        <ul>
-          <li><strong>Fatturazione al secondo</strong>: Paghi solo per CPU e RAM utilizzate mentre il container è in esecuzione.</li>
-          <li><strong>Avvio rapido</strong>: I container partono in pochi secondi.</li>
-          <li><strong>Hypervisor Isolation</strong>: Sicurezza a livello di kernel per ogni container group.</li>
-        </ul>
+  <!-- Connection -->
+  <path d="M270 130 L330 130" stroke="#64748b" stroke-width="2" stroke-dasharray="4" />
+  <text x="300" y="125" text-anchor="middle" font-size="9" fill="#64748b">localhost</text>
+</svg>
+
+<h3>Caratteristiche Chiave</h3>
+<ul>
+  <li><strong>Fatturazione al secondo</strong>: Paghi solo per CPU e RAM utilizzate mentre il container è in esecuzione.
+  </li>
+  <li><strong>Avvio rapido</strong>: I container partono in pochi secondi.</li>
+  <li><strong>Hypervisor Isolation</strong>: Sicurezza a livello di kernel per ogni container group.</li>
+</ul>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>In un <strong>Container Group</strong>, tutti i container condividono lo stesso host, lo stesso indirizzo
+          IP, la stessa rete e gli stessi volumi montati.</li>
+        <li>ACI è perfetto per scenari "burst" (traffico improvviso) o task schedulati brevi, ma per orchestrazione
+          complessa si usa AKS.</li>
+        <li>Per esporre più porte da container diversi nello stesso gruppo, devi mapparle: solo le porte specificate
+          sono esposte.</li>
+        <li>I container nello stesso gruppo possono comunicare tra loro via <code>localhost</code>.</li>
+      </ul>
+    </div>
+  </div>
+</div>

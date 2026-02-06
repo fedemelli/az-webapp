@@ -1,126 +1,140 @@
 <h2>Azure Storage Account</h2>
-        <p>Un <strong>Azure Storage Account</strong> fornisce uno spazio dei nomi univoco in Azure per i tuoi dati. È il contenitore di livello più alto per tutti i servizi di storage Azure.</p>
+<p>Lo Storage Account è l'unità fondamentale di storage in Azure, offrendo un namespace unico per i tuoi dati
+  (<code>https://&lt;accountname&gt;.blob.core.windows.net</code>).</p>
 
-        <h3>Servizi di Storage</h3>
-        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
-          <rect x="50" y="20" width="500" height="160" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="8"/>
-          <text x="300" y="45" text-anchor="middle" font-weight="bold" fill="#0369a1">Storage Account</text>
-          <rect x="70" y="60" width="110" height="100" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="4"/>
-          <text x="125" y="100" text-anchor="middle" font-size="12" fill="#1e40af">Blob Storage</text>
-          <text x="125" y="120" text-anchor="middle" font-size="10" fill="#64748b">Objects/Files</text>
-          <rect x="190" y="60" width="110" height="100" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="4"/>
-          <text x="245" y="100" text-anchor="middle" font-size="12" fill="#166534">File Storage</text>
-          <text x="245" y="120" text-anchor="middle" font-size="10" fill="#64748b">SMB Shares</text>
-          <rect x="310" y="60" width="110" height="100" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="4"/>
-          <text x="365" y="100" text-anchor="middle" font-size="12" fill="#b45309">Queue Storage</text>
-          <text x="365" y="120" text-anchor="middle" font-size="10" fill="#64748b">Messages</text>
-          <rect x="430" y="60" width="110" height="100" fill="#fce7f3" stroke="#ec4899" stroke-width="2" rx="4"/>
-          <text x="485" y="100" text-anchor="middle" font-size="12" fill="#be185d">Table Storage</text>
-          <text x="485" y="120" text-anchor="middle" font-size="10" fill="#64748b">NoSQL Data</text>
-        </svg>
+<!-- Diagramma Storage Services -->
+<svg viewBox="0 0 600 220"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:white;border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);border:1px solid #e2e8f0;">
+  <!-- Account Box -->
+  <rect x="20" y="20" width="560" height="180" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"
+    stroke-dasharray="6" />
+  <text x="50" y="45" fill="#1e40af" font-weight="bold" font-size="14">Storage Account</text>
+  <text x="170" y="45" fill="#64748b" font-size="12">(Unique Namespace)</text>
 
-        <h3>Tipi di Storage Account</h3>
-        <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 14px;">
-          <tr style="background: #f1f5f9;">
-            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Tipo</th>
-            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Servizi Supportati</th>
-            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Performance</th>
-            <th style="padding: 8px; border: 1px solid #e2e8f0; text-align: left;">Uso Tipico</th>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Standard GPv2</strong></td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Blob, File, Queue, Table</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Standard (HDD)</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Uso generale (raccomandato)</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium Block Blobs</strong></td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Block Blobs</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Alta frequenza transazioni</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium File Shares</strong></td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Azure Files</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Enterprise file shares</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Premium Page Blobs</strong></td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Solo Page Blobs</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Premium (SSD)</td>
-            <td style="padding: 8px; border: 1px solid #e2e8f0;">Dischi VM non gestiti</td>
-          </tr>
-        </table>
+  <!-- Blobs -->
+  <g transform="translate(45, 70)">
+    <rect x="0" y="0" width="110" height="110" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="0" y="0" width="110" height="40" rx="8" fill="#dbeafe" />
+    <text x="55" y="25" text-anchor="middle" fill="#1e3a8a" font-weight="bold" font-size="12">Containers</text>
+    <circle cx="55" cy="75" r="20" fill="#3b82f6" opacity="0.2" />
+    <text x="55" y="70" text-anchor="middle" fill="#3b82f6" font-weight="bold" font-size="24">Blob</text>
+    <text x="55" y="95" text-anchor="middle" fill="#64748b" font-size="10">Unstructured</text>
+  </g>
 
-        <h3>Access Tiers (Solo Blob Storage)</h3>
-        <p>I tier di accesso bilanciano costi di storage e costi di accesso:</p>
-        <svg viewBox="0 0 600 150" style="max-width: 100%; height: auto; margin: 1rem 0;">
-          <defs>
-            <linearGradient id="hotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#ef4444"/>
-              <stop offset="100%" style="stop-color:#f97316"/>
-            </linearGradient>
-            <linearGradient id="coolGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#3b82f6"/>
-              <stop offset="100%" style="stop-color:#06b6d4"/>
-            </linearGradient>
-            <linearGradient id="coldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#0ea5e9"/>
-              <stop offset="100%" style="stop-color:#6366f1"/>
-            </linearGradient>
-            <linearGradient id="archiveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#6366f1"/>
-              <stop offset="100%" style="stop-color:#8b5cf6"/>
-            </linearGradient>
-          </defs>
-          <rect x="20" y="30" width="120" height="80" fill="url(#hotGrad)" rx="8"/>
-          <text x="80" y="65" text-anchor="middle" fill="white" font-weight="bold">HOT</text>
-          <text x="80" y="85" text-anchor="middle" fill="white" font-size="10">Accesso frequente</text>
-          <rect x="160" y="30" width="120" height="80" fill="url(#coolGrad)" rx="8"/>
-          <text x="220" y="65" text-anchor="middle" fill="white" font-weight="bold">COOL</text>
-          <text x="220" y="85" text-anchor="middle" fill="white" font-size="10">30+ giorni</text>
-          <rect x="300" y="30" width="120" height="80" fill="url(#coldGrad)" rx="8"/>
-          <text x="360" y="65" text-anchor="middle" fill="white" font-weight="bold">COLD</text>
-          <text x="360" y="85" text-anchor="middle" fill="white" font-size="10">90+ giorni</text>
-          <rect x="440" y="30" width="120" height="80" fill="url(#archiveGrad)" rx="8"/>
-          <text x="500" y="65" text-anchor="middle" fill="white" font-weight="bold">ARCHIVE</text>
-          <text x="500" y="85" text-anchor="middle" fill="white" font-size="10">180+ giorni</text>
-          <text x="80" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $$$</text>
-          <text x="220" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $$</text>
-          <text x="360" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: $</text>
-          <text x="500" y="130" text-anchor="middle" font-size="10" fill="#64748b">Storage: ¢</text>
-        </svg>
+  <!-- Files -->
+  <g transform="translate(180, 70)">
+    <rect x="0" y="0" width="110" height="110" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="0" y="0" width="110" height="40" rx="8" fill="#dcfce7" />
+    <text x="55" y="25" text-anchor="middle" fill="#14532d" font-weight="bold" font-size="12">File Shares</text>
+    <circle cx="55" cy="75" r="20" fill="#22c55e" opacity="0.2" />
+    <text x="55" y="70" text-anchor="middle" fill="#22c55e" font-weight="bold" font-size="24">SMB</text>
+    <text x="55" y="95" text-anchor="middle" fill="#64748b" font-size="10">Serverless NAS</text>
+  </g>
 
-        <ul>
-          <li><strong>Hot</strong>: Per dati ad accesso frequente. Costo storage più alto, costo accesso più basso.</li>
-          <li><strong>Cool</strong>: Per dati ad accesso infrequente (almeno 30 giorni). Costo storage minore, costo accesso maggiore.</li>
-          <li><strong>Cold</strong>: Per dati raramente acceduti (almeno 90 giorni). Ancora più economico per storage.</li>
-          <li><strong>Archive</strong>: Per dati di archiviazione a lungo termine (almeno 180 giorni). Costo storage minimo, ma richiede <strong>rehydration</strong> (ore/giorni) per accedere.</li>
-        </ul>
+  <!-- Queues -->
+  <g transform="translate(315, 70)">
+    <rect x="0" y="0" width="110" height="110" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="0" y="0" width="110" height="40" rx="8" fill="#fef3c7" />
+    <text x="55" y="25" text-anchor="middle" fill="#78350f" font-weight="bold" font-size="12">Queues</text>
+    <circle cx="55" cy="75" r="20" fill="#f59e0b" opacity="0.2" />
+    <text x="55" y="70" text-anchor="middle" fill="#f59e0b" font-weight="bold" font-size="24">Msg</text>
+    <text x="55" y="95" text-anchor="middle" fill="#64748b" font-size="10">Messaging</text>
+  </g>
 
-        <h3>Creare Storage Account con CLI</h3>
-        <pre><code># Creare uno storage account Standard GPv2
-az storage account create \\
-  --name "mystorageaccount123" \\
-  --resource-group "my-rg" \\
-  --location "westeurope" \\
-  --sku "Standard_LRS" \\
-  --kind "StorageV2" \\
-  --access-tier "Hot"
+  <!-- Tables -->
+  <g transform="translate(450, 70)">
+    <rect x="0" y="0" width="110" height="110" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="0" y="0" width="110" height="40" rx="8" fill="#fce7f3" />
+    <text x="55" y="25" text-anchor="middle" fill="#831843" font-weight="bold" font-size="12">Tables</text>
+    <circle cx="55" cy="75" r="20" fill="#ec4899" opacity="0.2" />
+    <text x="55" y="70" text-anchor="middle" fill="#ec4899" font-weight="bold" font-size="24">NoSQL</text>
+    <text x="55" y="95" text-anchor="middle" fill="#64748b" font-size="10">Key/Value</text>
+  </g>
+</svg>
 
-# Creare con tier Cool
-az storage account create \\
-  --name "myarchivest" \\
-  --resource-group "my-rg" \\
-  --location "westeurope" \\
-  --sku "Standard_GRS" \\
-  --access-tier "Cool"</code></pre>
+<h3>Tipi di Account</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table
+    style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#0f172a,#334155);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Account Kind</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Performance</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f8fafc;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#334155;">General Purpose v2
+          (GPv2)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Standard (HDD/SSD)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Lo standard attuale. Supporta Blob, File, Queue,
+          Table, Access Tiers e Replication ZRS/GZRS. <strong>Usa questo nel 99% dei casi.</strong></td>
+      </tr>
+      <tr style="background:#ffffff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#334155;">Premium Block Blobs
+        </td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Premium (NVMe SSD)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Bassissima latenza. Ideale per database,
+          analytics ad alte prestazioni. Non supporta Access Tiering.</td>
+      </tr>
+      <tr style="background:#f8fafc;">
+        <td style="padding:12px 16px;font-weight:600;color:#334155;">Premium File Shares</td>
+        <td style="padding:12px 16px;">Premium (SSD)</td>
+        <td style="padding:12px 16px;">Progettato per carichi SMB/NFS intensivi (es. FSLogix profiles per Desktop
+          Virtuali, SQL migration).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-        <h3>Punti Chiave per l'Esame</h3>
-        <ul>
-          <li>Il tier <strong>Archive richiede rehydration</strong> prima dell'accesso</li>
-          <li><strong>Premium</strong> accounts non supportano access tiers</li>
-          <li>Il tier può essere impostato a livello di <strong>account</strong> o <strong>blob</strong></li>
-          <li>Il cambio tier ha <strong>costi early deletion</strong> se fatto prima del periodo minimo</li>
-        </ul>
+<h3>Access Tiers (Solo per Blob Storage)</h3>
+<p>Azure permette di ottimizzare i costi spostando i dati tra tier "Caldi" e "Freddi".</p>
+
+<!-- Diagramma Access Tiers -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px 0;">
+  <!-- Hot -->
+  <div
+    style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-radius:8px;padding:12px;text-align:center;border:1px solid #f87171;">
+    <div style="font-weight:bold;color:#b91c1c;margin-bottom:4px;">HOT</div>
+    <div style="font-size:11px;color:#7f1d1d;">Storage: $$$</div>
+    <div style="font-size:11px;color:#7f1d1d;">Access: $</div>
+    <div style="font-size:10px;margin-top:8px;color:#991b1b;">Data attiva</div>
+  </div>
+  <!-- Cool -->
+  <div
+    style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);border-radius:8px;padding:12px;text-align:center;border:1px solid #38bdf8;">
+    <div style="font-weight:bold;color:#0369a1;margin-bottom:4px;">COOL</div>
+    <div style="font-size:11px;color:#075985;">Storage: $$</div>
+    <div style="font-size:11px;color:#075985;">Access: $$</div>
+    <div style="font-size:10px;margin-top:8px;color:#0c4a6e;">Min. 30 Giorni</div>
+  </div>
+  <!-- Cold -->
+  <div
+    style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe);border-radius:8px;padding:12px;text-align:center;border:1px solid #818cf8;">
+    <div style="font-weight:bold;color:#4338ca;margin-bottom:4px;">COLD</div>
+    <div style="font-size:11px;color:#3730a3;">Storage: $</div>
+    <div style="font-size:11px;color:#3730a3;">Access: $$$</div>
+    <div style="font-size:10px;margin-top:8px;color:#312e81;">Min. 90 Giorni</div>
+  </div>
+  <!-- Archive -->
+  <div
+    style="background:linear-gradient(135deg,#f3f4f6,#d1d5db);border-radius:8px;padding:12px;text-align:center;border:1px solid #9ca3af;">
+    <div style="font-weight:bold;color:#374151;margin-bottom:4px;">ARCHIVE</div>
+    <div style="font-size:11px;color:#1f2937;">Storage: ¢</div>
+    <div style="font-size:11px;color:#1f2937;">Access: $$$$</div>
+    <div style="font-size:10px;margin-top:8px;color:#111827;">Offline (Rehydrate req.)</div>
+  </div>
+</div>
+
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame</strong>
+  <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+    <li><strong>Archive Tier</strong>: I dati sono offline. Per leggerli devi fare "Rehydrate" verso Hot/Cool. Richiede
+      ore (fino a 15h per Standard priority).</li>
+    <li><strong>Early Deletion Fee</strong>: Se cancelli o sposti un blob da Cool prima di 30 giorni (o Archive prima di
+      180), paghi una penale pro-rata.</li>
+    <li>Gli account <strong>Premium</strong> non supportano tiering (sono sempre "Super Hot").</li>
+  </ul>
+</div>

@@ -1,9 +1,11 @@
-import { createContext, useContext, useCallback, type ReactNode } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { apiUrl } from '../utils/api';
+import { useAuth } from './AuthContext';
 import type { Progress, QuizScore } from '../types';
 
 interface ProgressContextType {
   progress: Progress;
+  isLoading: boolean;
   toggleTopic: (topicId: string) => void;
   isTopicCompleted: (topicId: string) => boolean;
   saveQuizScore: (day: number, score: QuizScore) => void;
@@ -22,7 +24,60 @@ const initialProgress: Progress = {
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
-  const [progress, setProgress] = useLocalStorage<Progress>('az104-progress', initialProgress);
+  const { token } = useAuth();
+  const [progress, setProgress] = useState<Progress>(initialProgress);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isHydrated, setIsHydrated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
+
+    const loadProgress = async () => {
+      try {
+        const response = await fetch(apiUrl('/api/progress'), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Errore nel caricamento progressi.');
+        }
+        const data = (await response.json()) as { progress: Progress };
+        setProgress(data.progress);
+      } catch {
+        setProgress(initialProgress);
+      } finally {
+        setIsHydrated(true);
+        setIsLoading(false);
+      }
+    };
+
+    loadProgress();
+  }, [token]);
+
+  useEffect(() => {
+    if (!token || !isHydrated) {
+      return;
+    }
+    const persistProgress = async () => {
+      try {
+        await fetch(apiUrl('/api/progress'), {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ progress }),
+        });
+      } catch {
+        // Ignora errori di rete temporanei.
+      }
+    };
+    persistProgress();
+  }, [progress, token, isHydrated]);
 
   const toggleTopic = useCallback((topicId: string) => {
     setProgress(prev => {
@@ -34,32 +89,36 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
           : [...prev.completedTopics, topicId]
       };
     });
-  }, [setProgress]);
+  }, []);
 
   const isTopicCompleted = useCallback((topicId: string) => {
     return progress.completedTopics.includes(topicId);
   }, [progress.completedTopics]);
 
   const saveQuizScore = useCallback((day: number, score: QuizScore) => {
-    setProgress(prev => ({
-      ...prev,
-      quizScores: {
-        ...prev.quizScores,
-        [day]: score
-      }
-    }));
-  }, [setProgress]);
+    setProgress(prev => {
+      return {
+        ...prev,
+        quizScores: {
+          ...prev.quizScores,
+          [day]: score
+        }
+      };
+    });
+  }, []);
 
   const getQuizScore = useCallback((day: number) => {
     return progress.quizScores[day];
   }, [progress.quizScores]);
 
   const setLastAccessedDay = useCallback((day: number) => {
-    setProgress(prev => ({
-      ...prev,
-      lastAccessedDay: day
-    }));
-  }, [setProgress]);
+    setProgress(prev => {
+      return {
+        ...prev,
+        lastAccessedDay: day
+      };
+    });
+  }, []);
 
   const getCompletedTopicsCount = useCallback(() => {
     return progress.completedTopics.length;
@@ -67,11 +126,12 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const resetProgress = useCallback(() => {
     setProgress(initialProgress);
-  }, [setProgress]);
+  }, []);
 
   return (
     <ProgressContext.Provider value={{
       progress,
+      isLoading,
       toggleTopic,
       isTopicCompleted,
       saveQuizScore,

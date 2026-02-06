@@ -1,7 +1,26 @@
 <h2>Processo di Failover</h2>
-        <p>Il <strong>Failover</strong> è il processo di commutazione al sito secondario durante un disastro.</p>
-        <ul>
-          <li><strong>Test Failover</strong>: Simula il failover in una rete isolata senza impattare la produzione. <strong>Obbligatorio</strong> periodicamente.</li>
-          <li><strong>Planned Failover</strong>: Spostamento controllato (zero data loss) per manutenzione.</li>
-          <li><strong>Unplanned Failover</strong>: Attivazione d'emergenza durante un disastro (possibile data loss).</li>
-        </ul>
+<p>Il <strong>Failover</strong> è il processo di commutazione al sito secondario durante un disastro.</p>
+<ul>
+  <li><strong>Test Failover</strong>: Simula il failover in una rete isolata senza impattare la produzione.
+    <strong>Obbligatorio</strong> periodicamente.</li>
+  <li><strong>Planned Failover</strong>: Spostamento controllato (zero data loss) per manutenzione.</li>
+  <li><strong>Unplanned Failover</strong>: Attivazione d'emergenza durante un disastro (possibile data loss).</li>
+</ul>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>Test Failover</strong> è fondamentale e NON impatta la produzione (crea una rete isolata). Dovresti
+          farlo regolarmente.</li>
+        <li><strong>Planned Failover</strong> garantisce zero data loss (sincronizza tutto prima di switchare).</li>
+        <li><strong>Unplanned Failover</strong> è per emergenze vere e può causare perdita di dati (usa l'ultimo
+          recovery point disponibile).</li>
+      </ul>
+    </div>
+  </div>
+</div>

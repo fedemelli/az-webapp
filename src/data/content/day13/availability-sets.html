@@ -1,66 +1,73 @@
 <h2>Availability Sets</h2>
-        <p>Un <strong>Availability Set</strong> è un raggruppamento logico di VM che permette ad Azure di capire come l'applicazione è costruita per garantire ridondanza e disponibilità.</p>
+<p>Un <strong>Availability Set</strong> è un raggruppamento logico di VM che permette ad Azure di capire come
+  l'applicazione è costruita per garantire ridondanza e disponibilità.</p>
 
-        <h3>Fault Domains e Update Domains</h3>
-        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- Rack 1 (FD 0) -->
-          <rect x="50" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="120" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 0</text>
-          <text x="120" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 1 (Power/Net)</text>
-          
-          <rect x="70" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb"/>
-          <text x="120" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 1</text>
-          <text x="160" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 0</text>
+<h3>Fault Domains e Update Domains</h3>
+<svg viewBox="0 0 600 280"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Rack 1 (FD 0) -->
+  <rect x="50" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="120" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 0</text>
+  <text x="120" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 1 (Power/Net)</text>
 
-          <rect x="70" y="160" width="100" height="40" rx="4" fill="white" stroke="#2563eb"/>
-          <text x="120" y="185" text-anchor="middle" font-size="11" font-weight="bold">VM 4</text>
-          <text x="160" y="175" text-anchor="end" font-size="9" fill="#64748b">UD 3</text>
+  <rect x="70" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb" />
+  <text x="120" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 1</text>
+  <text x="160" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 0</text>
 
-          <!-- Rack 2 (FD 1) -->
-          <rect x="230" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 1</text>
-          <text x="300" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 2 (Power/Net)</text>
+  <rect x="70" y="160" width="100" height="40" rx="4" fill="white" stroke="#2563eb" />
+  <text x="120" y="185" text-anchor="middle" font-size="11" font-weight="bold">VM 4</text>
+  <text x="160" y="175" text-anchor="end" font-size="9" fill="#64748b">UD 3</text>
 
-          <rect x="250" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb"/>
-          <text x="300" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 2</text>
-          <text x="340" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 1</text>
+  <!-- Rack 2 (FD 1) -->
+  <rect x="230" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 1</text>
+  <text x="300" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 2 (Power/Net)</text>
 
-          <rect x="250" y="160" width="100" height="40" rx="4" fill="white" stroke="#2563eb"/>
-          <text x="300" y="185" text-anchor="middle" font-size="11" font-weight="bold">VM 5</text>
-          <text x="340" y="175" text-anchor="end" font-size="9" fill="#64748b">UD 4</text>
+  <rect x="250" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb" />
+  <text x="300" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 2</text>
+  <text x="340" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 1</text>
 
-          <!-- Rack 3 (FD 2) -->
-          <rect x="410" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="480" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 2</text>
-          <text x="480" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 3 (Power/Net)</text>
+  <rect x="250" y="160" width="100" height="40" rx="4" fill="white" stroke="#2563eb" />
+  <text x="300" y="185" text-anchor="middle" font-size="11" font-weight="bold">VM 5</text>
+  <text x="340" y="175" text-anchor="end" font-size="9" fill="#64748b">UD 4</text>
 
-          <rect x="430" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb"/>
-          <text x="480" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 3</text>
-          <text x="520" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 2</text>
-        </svg>
+  <!-- Rack 3 (FD 2) -->
+  <rect x="410" y="40" width="140" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="480" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Fault Domain 2</text>
+  <text x="480" y="80" text-anchor="middle" font-size="10" fill="#3b82f6">Rack 3 (Power/Net)</text>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
-          <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚡ Fault Domains (FD)</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Rappresentano rack fisici con alimentazione e rete condivise. Max <strong>3</strong> per region.</p>
-            <p style="margin:8px 0 0 0;font-size:13px;color:#78350f;">Protegge da: Guasti hardware, power outage.</p>
-          </div>
-          <div style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🔄 Update Domains (UD)</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Gruppi di VM che possono essere riavviate insieme durante maintenance. Max <strong>20</strong>.</p>
-            <p style="margin:8px 0 0 0;font-size:13px;color:#14532d;">Protegge da: Patching pianificato dell'host.</p>
-          </div>
-        </div>
+  <rect x="430" y="100" width="100" height="40" rx="4" fill="white" stroke="#2563eb" />
+  <text x="480" y="125" text-anchor="middle" font-size="11" font-weight="bold">VM 3</text>
+  <text x="520" y="115" text-anchor="end" font-size="9" fill="#64748b">UD 2</text>
+</svg>
 
-        <h3>SLA (Service Level Agreement)</h3>
-        <div style="background:white;border:2px solid #e2e8f0;border-radius:12px;padding:16px;text-align:center;margin:20px 0;">
-          <div style="font-size:32px;font-weight:800;color:#4f46e5;">99.95%</div>
-          <div style="color:#64748b;font-size:14px;margin-top:4px;">Per almeno 2 VM nello stesso Availability Set</div>
-        </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚡ Fault Domains (FD)</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Rappresentano rack fisici con alimentazione e rete condivise. Max
+      <strong>3</strong> per region.</p>
+    <p style="margin:8px 0 0 0;font-size:13px;color:#78350f;">Protegge da: Guasti hardware, power outage.</p>
+  </div>
+  <div
+    style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🔄 Update Domains (UD)</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Gruppi di VM che possono essere riavviate insieme durante
+      maintenance. Max <strong>20</strong>.</p>
+    <p style="margin:8px 0 0 0;font-size:13px;color:#14532d;">Protegge da: Patching pianificato dell'host.</p>
+  </div>
+</div>
 
-        <h3>Comandi CLI</h3>
-        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
-          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Availability Set</span>
+<h3>SLA (Service Level Agreement)</h3>
+<div style="background:white;border:2px solid #e2e8f0;border-radius:12px;padding:16px;text-align:center;margin:20px 0;">
+  <div style="font-size:32px;font-weight:800;color:#4f46e5;">99.95%</div>
+  <div style="color:#64748b;font-size:14px;margin-top:4px;">Per almeno 2 VM nello stesso Availability Set</div>
+</div>
+
+<h3>Comandi CLI</h3>
+<div
+  style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un Availability Set</span>
 <span style="color:#38bdf8;">az vm availability-set create</span> <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--name</span> MyAvSet <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
@@ -73,11 +80,24 @@
   <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--image</span> Ubuntu2204 <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--availability-set</span> MyAvSet</code></pre>
-        </div>
+</div>
 
-        <h3>Limitazioni</h3>
-        <ul>
-          <li>Le VM devono essere create <strong>nello stesso Resource Group</strong> e <strong>stessa Region</strong>.</li>
-          <li>Una VM può essere assegnata a un AvSet <strong>solo alla creazione</strong>.</li>
-          <li>Per spostare una VM in un AvSet, devi <strong>ricrearla</strong>.</li>
-        </ul>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Per avere SLA <strong>99.95%</strong>, devi avere almeno <strong>2 VM</strong> nello stesso Availability
+          Set.</li>
+        <li>Max <strong>3 Fault Domains</strong> e <strong>20 Update Domains</strong> per AvSet.</li>
+        <li>Una VM può essere assegnata a un AvSet <strong>solo alla creazione</strong>. Dopo non si può cambiare (devi
+          ricreare la VM).</li>
+        <li>Gli AvSet proteggono da guasti hardware <strong>dentro</strong> un datacenter, ma NON se l'intero datacenter
+          va giù (per quello servono le Availability Zones).</li>
+      </ul>
+    </div>
+  </div>
+</div>

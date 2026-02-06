@@ -1,39 +1,62 @@
 <h2>Deployment Slots</h2>
-        <p>I <strong>Deployment Slots</strong> sono app live con propri hostname. Puoi usarli per validare le modifiche in un ambiente di staging prima di scambiarle (swap) con lo slot di produzione.</p>
+<p>I <strong>Deployment Slots</strong> sono app live con propri hostname. Puoi usarli per validare le modifiche in un
+  ambiente di staging prima di scambiarle (swap) con lo slot di produzione.</p>
 
-        <h3>Come funziona lo Swap</h3>
-        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- Production Slot -->
-          <rect x="50" y="50" width="200" height="180" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="150" y="80" text-anchor="middle" font-weight="bold" fill="#1e40af">Production Slot</text>
-          <text x="150" y="100" text-anchor="middle" font-size="11" fill="#3b82f6">myapp.azurewebsites.net</text>
-          
-          <rect x="70" y="120" width="160" height="80" rx="8" fill="white" stroke="#2563eb"/>
-          <text x="150" y="155" text-anchor="middle" font-weight="bold" fill="#1e3a8a">App v1.0</text>
-          <text x="150" y="175" text-anchor="middle" font-size="10" fill="#64748b">Live Traffic</text>
+<h3>Come funziona lo Swap</h3>
+<svg viewBox="0 0 600 280"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Production Slot -->
+  <rect x="50" y="50" width="200" height="180" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="150" y="80" text-anchor="middle" font-weight="bold" fill="#1e40af">Production Slot</text>
+  <text x="150" y="100" text-anchor="middle" font-size="11" fill="#3b82f6">myapp.azurewebsites.net</text>
 
-          <!-- Staging Slot -->
-          <rect x="350" y="50" width="200" height="180" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="450" y="80" text-anchor="middle" font-weight="bold" fill="#166534">Staging Slot</text>
-          <text x="450" y="100" text-anchor="middle" font-size="11" fill="#22c55e">myapp-staging...net</text>
+  <rect x="70" y="120" width="160" height="80" rx="8" fill="white" stroke="#2563eb" />
+  <text x="150" y="155" text-anchor="middle" font-weight="bold" fill="#1e3a8a">App v1.0</text>
+  <text x="150" y="175" text-anchor="middle" font-size="10" fill="#64748b">Live Traffic</text>
 
-          <rect x="370" y="120" width="160" height="80" rx="8" fill="white" stroke="#16a34a"/>
-          <text x="450" y="155" text-anchor="middle" font-weight="bold" fill="#14532d">App v2.0</text>
-          <text x="450" y="175" text-anchor="middle" font-size="10" fill="#64748b">Test Traffic</text>
+  <!-- Staging Slot -->
+  <rect x="350" y="50" width="200" height="180" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="450" y="80" text-anchor="middle" font-weight="bold" fill="#166534">Staging Slot</text>
+  <text x="450" y="100" text-anchor="middle" font-size="11" fill="#22c55e">myapp-staging...net</text>
 
-          <!-- Swap Arrows -->
-          <path d="M260 140 L340 140" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow16)"/>
-          <path d="M340 180 L260 180" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow16)"/>
-          
-          <circle cx="300" cy="160" r="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-          <text x="300" y="165" text-anchor="middle" font-weight="bold" font-size="12" fill="#92400e">SWAP</text>
+  <rect x="370" y="120" width="160" height="80" rx="8" fill="white" stroke="#16a34a" />
+  <text x="450" y="155" text-anchor="middle" font-weight="bold" fill="#14532d">App v2.0</text>
+  <text x="450" y="175" text-anchor="middle" font-size="10" fill="#64748b">Test Traffic</text>
 
-          <defs><marker id="arrow16" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/></marker></defs>
-        </svg>
+  <!-- Swap Arrows -->
+  <path d="M260 140 L340 140" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow16)" />
+  <path d="M340 180 L260 180" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow16)" />
 
-        <h3>Vantaggi dello Swap</h3>
-        <ul>
-          <li><strong>Zero Downtime</strong>: Il traffico viene reindirizzato senza interruzioni.</li>
-          <li><strong>Warm-up</strong>: L'app nello slot di destinazione viene "riscaldata" prima di ricevere traffico.</li>
-          <li><strong>Rollback istantaneo</strong>: Se qualcosa va storto, puoi fare swap indietro immediatamente.</li>
-        </ul>
+  <circle cx="300" cy="160" r="25" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+  <text x="300" y="165" text-anchor="middle" font-weight="bold" font-size="12" fill="#92400e">SWAP</text>
+
+  <defs>
+    <marker id="arrow16" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b" />
+    </marker>
+  </defs>
+</svg>
+
+<h3>Vantaggi dello Swap</h3>
+<ul>
+  <li><strong>Zero Downtime</strong>: Il traffico viene reindirizzato senza interruzioni.</li>
+  <li><strong>Warm-up</strong>: L'app nello slot di destinazione viene "riscaldata" prima di ricevere traffico.</li>
+  <li><strong>Rollback istantaneo</strong>: Se qualcosa va storto, puoi fare swap indietro immediatamente.</li>
+</ul>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Lo <strong>Swap with Preview</strong> permette di verificare l'app nello slot di staging con la
+          CONFIGURAZIONE di produzione applicata, prima di completare lo swap.</li>
+        <li>Se l'app impiega troppo tempo ad avviarsi durante il warm-up, lo swap fallisce automaticamente.</li>
+        <li>L'operazione di Swap è reversibile eseguendo un altro swap immediato (Rollback).</li>
+      </ul>
+    </div>
+  </div>
+</div>

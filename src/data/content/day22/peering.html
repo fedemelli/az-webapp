@@ -1,44 +1,69 @@
 <h2>VNet Peering</h2>
-        <p>Il <strong>VNet Peering</strong> connette due Virtual Network permettendo alle risorse di comunicare come se fossero nella stessa rete. Il traffico passa interamente sul backbone privato di Microsoft.</p>
+<p>Il <strong>VNet Peering</strong> connette due Virtual Network permettendo alle risorse di comunicare come se fossero
+  nella stessa rete. Il traffico passa interamente sul backbone privato di Microsoft.</p>
 
-        <h3>Tipi di Peering</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
-          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🏠 Regional Peering</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Connette VNet nella <strong>stessa region</strong>. Bassa latenza, banda elevata.</p>
-          </div>
-          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🌍 Global Peering</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Connette VNet in <strong>region diverse</strong>. Utile per DR e architetture globali.</p>
-          </div>
-        </div>
+<h3>Tipi di Peering</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🏠 Regional Peering</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Connette VNet nella <strong>stessa region</strong>. Bassa latenza,
+      banda elevata.</p>
+  </div>
+  <div
+    style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🌍 Global Peering</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Connette VNet in <strong>region diverse</strong>. Utile per DR e
+      architetture globali.</p>
+  </div>
+</div>
 
-        <h3>Transitivita e Gateway Transit</h3>
-        <svg viewBox="0 0 600 280" style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
-          <!-- Hub VNet -->
-          <rect x="220" y="40" width="160" height="120" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-          <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Hub VNet</text>
-          
-          <!-- VPN Gateway -->
-          <rect x="250" y="80" width="100" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
-          <text x="300" y="115" text-anchor="middle" font-weight="bold" font-size="11" fill="#92400e">VPN Gateway</text>
+<h3>Transitivita e Gateway Transit</h3>
+<svg viewBox="0 0 600 280"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+  <!-- Hub VNet -->
+  <rect x="220" y="40" width="160" height="120" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" />
+  <text x="300" y="65" text-anchor="middle" font-weight="bold" fill="#1e40af">Hub VNet</text>
 
-          <!-- Spoke A -->
-          <rect x="40" y="180" width="160" height="80" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="120" y="205" text-anchor="middle" font-weight="bold" fill="#166534">Spoke A</text>
-          <text x="120" y="225" text-anchor="middle" font-size="10" fill="#14532d">Use Remote Gateway</text>
+  <!-- VPN Gateway -->
+  <rect x="250" y="80" width="100" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b" />
+  <text x="300" y="115" text-anchor="middle" font-weight="bold" font-size="11" fill="#92400e">VPN Gateway</text>
 
-          <!-- Spoke B -->
-          <rect x="400" y="180" width="160" height="80" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="480" y="205" text-anchor="middle" font-weight="bold" fill="#166534">Spoke B</text>
-          <text x="480" y="225" text-anchor="middle" font-size="10" fill="#14532d">Use Remote Gateway</text>
+  <!-- Spoke A -->
+  <rect x="40" y="180" width="160" height="80" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="120" y="205" text-anchor="middle" font-weight="bold" fill="#166534">Spoke A</text>
+  <text x="120" y="225" text-anchor="middle" font-size="10" fill="#14532d">Use Remote Gateway</text>
 
-          <!-- Peering Links -->
-          <path d="M120 180 L220 100" stroke="#64748b" stroke-width="3" stroke-dasharray="5,5"/>
-          <path d="M480 180 L380 100" stroke="#64748b" stroke-width="3" stroke-dasharray="5,5"/>
+  <!-- Spoke B -->
+  <rect x="400" y="180" width="160" height="80" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="480" y="205" text-anchor="middle" font-weight="bold" fill="#166534">Spoke B</text>
+  <text x="480" y="225" text-anchor="middle" font-size="10" fill="#14532d">Use Remote Gateway</text>
 
-          <!-- Transit X -->
-          <path d="M200 220 L400 220" stroke="#ef4444" stroke-width="3" marker-end="url(#xmark)"/>
-          <text x="300" y="215" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="bold">NO TRANSITIVITY</text>
-          <text x="300" y="240" text-anchor="middle" font-size="9" fill="#7f1d1d">Spoke A non parla con Spoke B</text>
-        </svg>
+  <!-- Peering Links -->
+  <path d="M120 180 L220 100" stroke="#64748b" stroke-width="3" stroke-dasharray="5,5" />
+  <path d="M480 180 L380 100" stroke="#64748b" stroke-width="3" stroke-dasharray="5,5" />
+
+  <!-- Transit X -->
+  <path d="M200 220 L400 220" stroke="#ef4444" stroke-width="3" marker-end="url(#xmark)" />
+  <text x="300" y="215" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="bold">NO TRANSITIVITY</text>
+  <text x="300" y="240" text-anchor="middle" font-size="9" fill="#7f1d1d">Spoke A non parla con Spoke B</text>
+</svg>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Il VNet Peering <strong>non è transitivo</strong>. Se A è peered con B e B con C, A non parla con C (a meno
+          che non usi B come Network Virtual Appliance e configuri le UDR).</li>
+        <li><strong>Gateway Transit</strong> permette a una VNet spoke di usare il Gateway VPN della hub (risparmiando
+          costi), ma richiede che la peering property <code>UseRemoteGateways</code> (su spoke) e
+          <code>AllowGatewayTransit</code> (su hub) siano settate.</li>
+        <li>Non puoi fare peering tra due VNet se i loro address space (CIDR) si sovrappongono.</li>
+      </ul>
+    </div>
+  </div>
+</div>

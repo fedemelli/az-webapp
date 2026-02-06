@@ -1,9 +1,11 @@
 <h2>Opzioni di Deployment</h2>
-        <p>Azure App Service supporta molteplici metodi di deployment per adattarsi a qualsiasi workflow, dal semplice upload FTP alle pipeline CI/CD complesse.</p>
+<p>Azure App Service supporta molteplici metodi di deployment per adattarsi a qualsiasi workflow, dal semplice upload
+  FTP alle pipeline CI/CD complesse.</p>
 
-        <h3>Comandi CLI per Deployment</h3>
-        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
-          <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un App Service Plan (Standard S1)</span>
+<h3>Comandi CLI per Deployment</h3>
+<div
+  style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Creare un App Service Plan (Standard S1)</span>
 <span style="color:#38bdf8;">az appservice plan create</span> <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--name</span> MyPlan <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
@@ -22,9 +24,25 @@
   <span style="color:#fbbf24;">--resource-group</span> MyRG <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--name</span> MyUniqueApp <span style="color:#a78bfa;">\\</span>
   <span style="color:#fbbf24;">--src</span> app.zip</code></pre>
-        </div>
+</div>
 
-        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:12px;padding:20px;">
-          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">📝 Deployment Slots</h4>
-          <p style="margin:0;color:#78350f;font-size:14px;">Disponibili dal tier <strong>Standard</strong> in su. Permettono di validare le modifiche in uno slot di staging prima di fare lo swap in produzione senza downtime.</p>
-        </div>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>I <strong>Deployment Slots</strong> sono disponibili solo nei tier <strong>Standard, Premium e
+            Isolated</strong>.</li>
+        <li>Lo slot di "staging" gira sullo <strong>stesso hardware</strong> (App Service Plan) della produzione ->
+          condividono le risorse!</li>
+        <li>Durante lo <strong>Swap</strong>, le impostazioni "Slot sticky" (come connection string specifiche di
+          staging) rimangono nello slot di origine.</li>
+        <li>Lo swap riscalda (warm-up) l'app nello slot sorgente prima di scambiare i DNS, garantendo <strong>Zero
+            Downtime Deployment</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</div>

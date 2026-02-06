@@ -1,54 +1,54 @@
 <h2>Autenticazione per Azure Storage</h2>
-        <p>Azure Storage supporta diversi metodi di autenticazione, ognuno con diversi livelli di sicurezza e casi d'uso.</p>
+<p>Azure Storage supporta diversi metodi di autenticazione, ognuno con diversi livelli di sicurezza e casi d'uso.</p>
 
-        <svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:20px auto;display:block;">
-          <!-- Security levels indicator -->
-          <rect x="30" y="20" width="540" height="30" rx="15" fill="#f1f5f9"/>
-          <text x="60" y="40" fill="#ef4444" font-size="10">Meno sicuro</text>
-          <text x="500" y="40" fill="#22c55e" font-size="10">Più sicuro</text>
-          <line x1="130" y1="35" x2="470" y2="35" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+<svg viewBox="0 0 600 220" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+  <!-- Security levels indicator -->
+  <rect x="30" y="20" width="540" height="30" rx="15" fill="#f1f5f9" />
+  <text x="60" y="40" fill="#ef4444" font-size="10">Meno sicuro</text>
+  <text x="500" y="40" fill="#22c55e" font-size="10">Più sicuro</text>
+  <line x1="130" y1="35" x2="470" y2="35" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)" />
 
-          <!-- Methods -->
-          <rect x="30" y="70" width="130" height="130" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
-          <text x="95" y="100" text-anchor="middle" font-weight="bold" fill="#dc2626" font-size="12">Access Keys</text>
-          <text x="95" y="125" text-anchor="middle" fill="#64748b" font-size="10">Full access</text>
-          <text x="95" y="145" text-anchor="middle" fill="#64748b" font-size="10">2 chiavi per rotazione</text>
-          <text x="95" y="165" text-anchor="middle" fill="#64748b" font-size="10">Super-user</text>
-          <text x="95" y="185" text-anchor="middle" fill="#ef4444" font-size="9">Non revocabili</text>
+  <!-- Methods -->
+  <rect x="30" y="70" width="130" height="130" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2" />
+  <text x="95" y="100" text-anchor="middle" font-weight="bold" fill="#dc2626" font-size="12">Access Keys</text>
+  <text x="95" y="125" text-anchor="middle" fill="#64748b" font-size="10">Full access</text>
+  <text x="95" y="145" text-anchor="middle" fill="#64748b" font-size="10">2 chiavi per rotazione</text>
+  <text x="95" y="165" text-anchor="middle" fill="#64748b" font-size="10">Super-user</text>
+  <text x="95" y="185" text-anchor="middle" fill="#ef4444" font-size="9">Non revocabili</text>
 
-          <rect x="175" y="70" width="130" height="130" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-          <text x="240" y="100" text-anchor="middle" font-weight="bold" fill="#d97706" font-size="12">SAS Token</text>
-          <text x="240" y="125" text-anchor="middle" fill="#64748b" font-size="10">Accesso limitato</text>
-          <text x="240" y="145" text-anchor="middle" fill="#64748b" font-size="10">Scadenza temporale</text>
-          <text x="240" y="165" text-anchor="middle" fill="#64748b" font-size="10">Permessi granulari</text>
-          <text x="240" y="185" text-anchor="middle" fill="#f59e0b" font-size="9">Revoca limitata</text>
+  <rect x="175" y="70" width="130" height="130" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+  <text x="240" y="100" text-anchor="middle" font-weight="bold" fill="#d97706" font-size="12">SAS Token</text>
+  <text x="240" y="125" text-anchor="middle" fill="#64748b" font-size="10">Accesso limitato</text>
+  <text x="240" y="145" text-anchor="middle" fill="#64748b" font-size="10">Scadenza temporale</text>
+  <text x="240" y="165" text-anchor="middle" fill="#64748b" font-size="10">Permessi granulari</text>
+  <text x="240" y="185" text-anchor="middle" fill="#f59e0b" font-size="9">Revoca limitata</text>
 
-          <rect x="320" y="70" width="130" height="130" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <text x="385" y="100" text-anchor="middle" font-weight="bold" fill="#16a34a" font-size="12">Azure AD</text>
-          <text x="385" y="125" text-anchor="middle" fill="#64748b" font-size="10">Identity-based</text>
-          <text x="385" y="145" text-anchor="middle" fill="#64748b" font-size="10">RBAC permissions</text>
-          <text x="385" y="165" text-anchor="middle" fill="#64748b" font-size="10">Audit trail</text>
-          <text x="385" y="185" text-anchor="middle" fill="#22c55e" font-size="9">Revoca immediata</text>
+  <rect x="320" y="70" width="130" height="130" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="385" y="100" text-anchor="middle" font-weight="bold" fill="#16a34a" font-size="12">Azure AD</text>
+  <text x="385" y="125" text-anchor="middle" fill="#64748b" font-size="10">Identity-based</text>
+  <text x="385" y="145" text-anchor="middle" fill="#64748b" font-size="10">RBAC permissions</text>
+  <text x="385" y="165" text-anchor="middle" fill="#64748b" font-size="10">Audit trail</text>
+  <text x="385" y="185" text-anchor="middle" fill="#22c55e" font-size="9">Revoca immediata</text>
 
-          <rect x="465" y="70" width="105" height="130" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
-          <text x="517" y="100" text-anchor="middle" font-weight="bold" fill="#64748b" font-size="12">Anonymous</text>
-          <text x="517" y="125" text-anchor="middle" fill="#64748b" font-size="10">Public access</text>
-          <text x="517" y="145" text-anchor="middle" fill="#64748b" font-size="10">Solo read</text>
-          <text x="517" y="165" text-anchor="middle" fill="#64748b" font-size="10">Container/Blob</text>
-          <text x="517" y="185" text-anchor="middle" fill="#94a3b8" font-size="9">Sconsigliato</text>
-        </svg>
+  <rect x="465" y="70" width="105" height="130" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" />
+  <text x="517" y="100" text-anchor="middle" font-weight="bold" fill="#64748b" font-size="12">Anonymous</text>
+  <text x="517" y="125" text-anchor="middle" fill="#64748b" font-size="10">Public access</text>
+  <text x="517" y="145" text-anchor="middle" fill="#64748b" font-size="10">Solo read</text>
+  <text x="517" y="165" text-anchor="middle" fill="#64748b" font-size="10">Container/Blob</text>
+  <text x="517" y="185" text-anchor="middle" fill="#94a3b8" font-size="9">Sconsigliato</text>
+</svg>
 
-        <h3>1. Access Keys (Storage Account Keys)</h3>
-        <p>Ogni storage account ha <strong>due chiavi</strong> (key1 e key2) che forniscono accesso completo a tutti i dati.</p>
-        <ul>
-          <li><strong>Full access</strong>: lettura, scrittura, eliminazione su tutti i servizi</li>
-          <li><strong>Non scadono</strong>: valide fino a rigenerazione manuale</li>
-          <li>Due chiavi permettono <strong>rotazione senza downtime</strong></li>
-          <li>Usare solo per applicazioni server-side o script automatizzati</li>
-        </ul>
+<h3>1. Access Keys (Storage Account Keys)</h3>
+<p>Ogni storage account ha <strong>due chiavi</strong> (key1 e key2) che forniscono accesso completo a tutti i dati.</p>
+<ul>
+  <li><strong>Full access</strong>: lettura, scrittura, eliminazione su tutti i servizi</li>
+  <li><strong>Non scadono</strong>: valide fino a rigenerazione manuale</li>
+  <li>Due chiavi permettono <strong>rotazione senza downtime</strong></li>
+  <li>Usare solo per applicazioni server-side o script automatizzati</li>
+</ul>
 
-        <h4>Rotazione delle Chiavi</h4>
-        <pre><code># Rigenerare key1
+<h4>Rotazione delle Chiavi</h4>
+<pre><code># Rigenerare key1
 az storage account keys renew \\
   --account-name mystorageaccount \\
   --resource-group myResourceGroup \\
@@ -59,40 +59,51 @@ az storage account keys list \\
   --account-name mystorageaccount \\
   --resource-group myResourceGroup</code></pre>
 
-        <h3>2. Shared Access Signature (SAS)</h3>
-        <p>Token che concede accesso limitato e temporaneo a specifiche risorse. Tre tipi disponibili (vedi topic successivo).</p>
+<h3>2. Shared Access Signature (SAS)</h3>
+<p>Token che concede accesso limitato e temporaneo a specifiche risorse. Tre tipi disponibili (vedi topic successivo).
+</p>
 
-        <h3>3. Microsoft Entra ID (Azure AD)</h3>
-        <p>Metodo più sicuro che utilizza identità Azure AD e ruoli RBAC:</p>
-        <ul>
-          <li><strong>Storage Blob Data Reader</strong>: lettura blob</li>
-          <li><strong>Storage Blob Data Contributor</strong>: lettura/scrittura blob</li>
-          <li><strong>Storage Blob Data Owner</strong>: full access + gestione ACL</li>
-          <li><strong>Storage Queue Data Contributor</strong>: per Queue storage</li>
-        </ul>
+<h3>3. Microsoft Entra ID (Azure AD)</h3>
+<p>Metodo più sicuro che utilizza identità Azure AD e ruoli RBAC:</p>
+<ul>
+  <li><strong>Storage Blob Data Reader</strong>: lettura blob</li>
+  <li><strong>Storage Blob Data Contributor</strong>: lettura/scrittura blob</li>
+  <li><strong>Storage Blob Data Owner</strong>: full access + gestione ACL</li>
+  <li><strong>Storage Queue Data Contributor</strong>: per Queue storage</li>
+</ul>
 
-        <h3>4. Anonymous Access</h3>
-        <p>Accesso pubblico senza autenticazione (solo per container configurati come public).</p>
-        <ul>
-          <li><strong>Private</strong>: nessun accesso anonimo (default)</li>
-          <li><strong>Blob</strong>: accesso anonimo solo ai blob</li>
-          <li><strong>Container</strong>: accesso anonimo a container e blob</li>
-        </ul>
-        <p><strong>Attenzione</strong>: Puoi disabilitare completamente l'accesso anonimo a livello di storage account.</p>
+<h3>4. Anonymous Access</h3>
+<p>Accesso pubblico senza autenticazione (solo per container configurati come public).</p>
+<ul>
+  <li><strong>Private</strong>: nessun accesso anonimo (default)</li>
+  <li><strong>Blob</strong>: accesso anonimo solo ai blob</li>
+  <li><strong>Container</strong>: accesso anonimo a container e blob</li>
+</ul>
+<p><strong>Attenzione</strong>: Puoi disabilitare completamente l'accesso anonimo a livello di storage account.</p>
 
-        <h3>Best Practices</h3>
-        <ul>
-          <li><strong>Preferisci Azure AD</strong> quando possibile (audit, revoca, nessun secret)</li>
-          <li>Usa <strong>Azure Key Vault</strong> per archiviare le access keys</li>
-          <li>Implementa <strong>rotazione automatica</strong> delle chiavi</li>
-          <li>Per SAS, usa sempre <strong>User Delegation SAS</strong> quando possibile</li>
-          <li><strong>Disabilita anonymous access</strong> a livello storage account per sicurezza</li>
-        </ul>
+<h3>Best Practices</h3>
+<ul>
+  <li><strong>Preferisci Azure AD</strong> quando possibile (audit, revoca, nessun secret)</li>
+  <li>Usa <strong>Azure Key Vault</strong> per archiviare le access keys</li>
+  <li>Implementa <strong>rotazione automatica</strong> delle chiavi</li>
+  <li>Per SAS, usa sempre <strong>User Delegation SAS</strong> quando possibile</li>
+  <li><strong>Disabilita anonymous access</strong> a livello storage account per sicurezza</li>
+</ul>
 
-        <h3>Considerazioni per l'Esame</h3>
-        <ul>
-          <li>Azure AD è il metodo <strong>più sicuro e raccomandato</strong></li>
-          <li>Le access keys forniscono <strong>accesso totale</strong> e non possono essere limitate</li>
-          <li>Rigenerare una key <strong>invalida tutti i SAS</strong> firmati con quella key</li>
-          <li>Anonymous access richiede configurazione esplicita</li>
-        </ul>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Se la domanda chiede "accesso temporaneo e limitato" -> <strong>SAS Token</strong>.</li>
+        <li>Se chiede "accesso amministrativo totale e permanente" -> <strong>Access Keys</strong> (ma sconsigliato).
+        </li>
+        <li>Se chiede "audit logs e RBAC granulare" -> <strong>Azure AD Authentication</strong>.</li>
+        <li>L'accesso <strong>Anonimo</strong> va esplicitamente abilitato a livello di Account E di Container.</li>
+      </ul>
+    </div>
+  </div>
+</div>

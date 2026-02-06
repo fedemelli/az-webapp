@@ -1,87 +1,99 @@
-<h2>Configurazione Storage Account</h2>
-        <p>Quando crei uno storage account, devi configurare diverse opzioni importanti per sicurezza, networking e prestazioni.</p>
+<h2>Account Configuration & Security</h2>
+<p>La sicurezza dello storage è multilayer: Networking, Identità e Crittografia. <strong>Secure by default</strong> è la
+  regola d'oro.</p>
 
-        <h3>Naming Convention</h3>
-        <p>Il nome dello storage account ha regole rigide:</p>
-        <ul>
-          <li>Lunghezza: <strong>3-24 caratteri</strong></li>
-          <li>Solo <strong>lettere minuscole</strong> e <strong>numeri</strong></li>
-          <li>Deve essere <strong>globalmente univoco</strong> in tutto Azure</li>
-          <li>Diventa parte dell'URL: <code>https://[name].blob.core.windows.net</code></li>
-        </ul>
+<h3>1. Network Security</h3>
+<p>Azure Storage offre 3 livelli di protezione rete:</p>
 
-        <h3>Opzioni di Networking</h3>
-        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
-          <!-- Internet -->
-          <ellipse cx="100" cy="100" rx="60" ry="40" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
-          <text x="100" y="105" text-anchor="middle" font-size="12" fill="#b91c1c">Internet</text>
-          <!-- Storage -->
-          <rect x="380" y="60" width="180" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
-          <text x="470" y="105" text-anchor="middle" font-size="12" fill="#1d4ed8">Storage Account</text>
-          <!-- All Networks -->
-          <path d="M 160 80 L 370 80" stroke="#22c55e" stroke-width="2" stroke-dasharray="5,5"/>
-          <text x="265" y="70" text-anchor="middle" font-size="10" fill="#22c55e">All Networks ✓</text>
-          <!-- Selected Networks -->
-          <path d="M 160 100 L 370 100" stroke="#f59e0b" stroke-width="2"/>
-          <text x="265" y="95" text-anchor="middle" font-size="10" fill="#f59e0b">Firewall/VNet</text>
-          <!-- Private Endpoint -->
-          <rect x="220" y="120" width="100" height="30" fill="#e0e7ff" stroke="#6366f1" stroke-width="2" rx="4"/>
-          <text x="270" y="140" text-anchor="middle" font-size="10" fill="#4338ca">Private Endpoint</text>
-          <path d="M 320 135 L 370 135" stroke="#6366f1" stroke-width="2"/>
-        </svg>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:white;border-top:4px solid #ef4444;border-radius:10px;padding:20px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#b91c1c;">Public Endpoint (Firewall)</h4>
+    <p style="margin:0;font-size:13px;color:#475569;">Di default è aperto a tutti. Puoi restringerlo a:</p>
+    <ul style="margin:8px 0 0 0;padding-left:20px;color:#334155;font-size:12px;">
+      <li>IP Pubblici specifici (es. l'ufficio)</li>
+      <li>Virtual Networks specifiche (via Service Endpoint)</li>
+    </ul>
+  </div>
+  <div
+    style="background:white;border-top:4px solid #10b981;border-radius:10px;padding:20px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#047857;">Private Endpoint</h4>
+    <p style="margin:0;font-size:13px;color:#475569;">La soluzione più sicura. Crea un'interfaccia di rete (NIC) privata
+      nella tua VNet. Il traffico non esce mai su internet pubblico.</p>
+  </div>
+</div>
 
-        <ul>
-          <li><strong>Public endpoint (all networks)</strong>: Accessibile da internet. Meno sicuro.</li>
-          <li><strong>Public endpoint (selected networks)</strong>: Accessibile solo da IP/VNet specifici. Configuri un firewall.</li>
-          <li><strong>Private endpoint</strong>: Accessibile solo tramite Private Link. Il più sicuro.</li>
-        </ul>
+<h3>2. Encryption (Data at Rest)</h3>
+<p>Tutti i dati sono SEMPRE criptati (AES-256). Non puoi disabilitarlo. Puoi scegliere chi gestisce le chiavi.</p>
 
-        <h3>Configurare Firewall con CLI</h3>
-        <pre><code># Abilitare accesso solo da VNet specifiche
-az storage account network-rule add \\
-  --account-name "mystorageaccount" \\
-  --vnet-name "myVNet" \\
-  --subnet "mySubnet"
+<div style="overflow-x:auto;margin:20px 0;">
+  <table
+    style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Metodo</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Gestore Chiavi</th>
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#eef2ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#4338ca;">PMK (Platform
+          Managed Keys)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Microsoft</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Default. Nessuna gestione richiesta. Adatto alla
+          maggior parte dei casi.</td>
+      </tr>
+      <tr style="background:#ffffff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#4338ca;">CMK (Customer
+          Managed Keys)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Tu (in Azure Key Vault)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;">Compliance e regolamentazioni severe. Hai il
+          controllo totale (puoi revocare l'accesso ai dati revocando la chiave).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-# Aggiungere IP al whitelist
-az storage account network-rule add \\
-  --account-name "mystorageaccount" \\
-  --ip-address "203.0.113.0/24"
+<h3>3. Configuration Tips</h3>
+<ul style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px 40px; background: #f8fafc;">
+  <li style="margin-bottom: 10px;"><strong>Secure Transfer Required:</strong> Forza HTTPS. Abilitalo sempre.</li>
+  <li style="margin-bottom: 10px;"><strong>Allow Blob Public Access:</strong> Imposta a <strong>Disabled</strong> a
+    livello di account per prevenire leak di dati accidentali (blocca l'accesso anonimo ai container).</li>
+  <li style="margin-bottom: 10px;"><strong>Minimum TLS Version:</strong> Imposta a TLS 1.2 per sicurezza.</li>
+</ul>
 
-# Impostare default action a Deny
-az storage account update \\
-  --name "mystorageaccount" \\
-  --default-action Deny</code></pre>
+<h3>CLI Configuration Examples</h3>
+<div
+  style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto;">
+  <pre
+    style="margin:0;color:#e2e8f0;font-size:13px;line-height:1.6;font-family:'Consolas','Monaco',monospace;"><code><span style="color:#94a3b8;"># Disabilitare accesso pubblico ai blob (Consigliato!)</span>
+<span style="color:#38bdf8;">az storage account update</span> <span style="color:#fbbf24;">--name</span> mystorage <span style="color:#fbbf24;">--resource-group</span> myrg <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--allow-blob-public-access</span> false
 
-        <h3>Encryption</h3>
-        <p>Azure Storage crittografa automaticamente tutti i dati:</p>
-        <ul>
-          <li><strong>Encryption at rest</strong>: AES-256, sempre attiva</li>
-          <li><strong>Microsoft-managed keys</strong>: Default, gestite da Azure</li>
-          <li><strong>Customer-managed keys (CMK)</strong>: Chiavi in Azure Key Vault</li>
-          <li><strong>Customer-provided keys</strong>: Chiavi fornite per ogni richiesta</li>
-        </ul>
+<span style="color:#94a3b8;"># Limitare accesso rete a una subnet specifica</span>
+<span style="color:#38bdf8;">az storage account network-rule add</span> <span style="color:#fbbf24;">--account-name</span> mystorage <span style="color:#a78bfa;">\</span>
+  <span style="color:#fbbf24;">--vnet-name</span> myvnet <span style="color:#fbbf24;">--subnet</span> mysubnet
 
-        <h3>Altre Opzioni Importanti</h3>
-        <ul>
-          <li><strong>Secure transfer required</strong>: Forza HTTPS (raccomandato ON)</li>
-          <li><strong>Allow Blob public access</strong>: Permetti accesso anonimo ai container</li>
-          <li><strong>Minimum TLS version</strong>: TLS 1.2 raccomandato</li>
-          <li><strong>Large file shares</strong>: Per file shares > 5 TiB</li>
-          <li><strong>Hierarchical namespace</strong>: Abilita Azure Data Lake Storage Gen2</li>
-        </ul>
+<span style="color:#94a3b8;"># Ruotare le Access Keys (Key1)</span>
+<span style="color:#38bdf8;">az storage account keys renew</span> <span style="color:#fbbf24;">--account-name</span> mystorage <span style="color:#fbbf24;">--key</span> primary</code></pre>
+</div>
 
-        <h3>Endpoint URLs</h3>
-        <pre><code>Blob:    https://[account].blob.core.windows.net
-File:    https://[account].file.core.windows.net
-Queue:   https://[account].queue.core.windows.net
-Table:   https://[account].table.core.windows.net
-Data Lake: https://[account].dfs.core.windows.net</code></pre>
-
-        <h3>Punti Chiave per l'Esame</h3>
-        <ul>
-          <li>Il nome deve essere <strong>globalmente univoco</strong></li>
-          <li><strong>Secure transfer</strong> richiede HTTPS per tutte le operazioni</li>
-          <li><strong>Private endpoint</strong> è l'opzione più sicura per accesso</li>
-          <li>La crittografia è <strong>sempre attiva</strong> e non può essere disabilitata</li>
-        </ul>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>SAS Tokens</strong>: Usa <em>User Delegation SAS</em> (firmato con AD) quando possibile invece di
+          <em>Key SAS</em>.</li>
+        <li><strong>Firewall</strong>: Se abiliti il firewall, tutto il traffico è bloccato tranne le eccezioni (VNet,
+          IP).</li>
+        <li><strong>CMK</strong>: Per usare Customer Managed Keys, Azure Key Vault deve essere nella <strong>stessa
+            regione</strong> dello Storage Account e avere "Soft Delete" e "Purge Protection" abilitati.</li>
+      </ul>
+    </div>
+  </div>
+</div>

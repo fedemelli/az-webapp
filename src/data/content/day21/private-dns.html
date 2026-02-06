@@ -1,13 +1,37 @@
 <h2>Private DNS Zones</h2>
-        <p>Le <strong>Private DNS Zones</strong> permettono di usare nomi di dominio personalizzati (es. <code>app.internal</code>) all'interno delle tue VNet, senza esporli su internet.</p>
+<p>Le <strong>Private DNS Zones</strong> permettono di usare nomi di dominio personalizzati (es.
+  <code>app.internal</code>) all'interno delle tue VNet, senza esporli su internet.</p>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
-          <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🔗 VNet Link</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Collega una o più VNet alla zona privata. Tutte le VM in quelle VNet potranno risolvere i nomi della zona.</p>
-          </div>
-          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
-            <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🤖 Auto-registration</h4>
-            <p style="margin:0;color:#334155;font-size:14px;">Se abilitato, Azure crea automaticamente un record A per ogni VM nella VNet, usando il nome della VM.</p>
-          </div>
-        </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#1e40af;font-size:15px;">🔗 VNet Link</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Collega una o più VNet alla zona privata. Tutte le VM in quelle
+      VNet potranno risolvere i nomi della zona.</p>
+  </div>
+  <div
+    style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid #22c55e;border-radius:12px;padding:20px;">
+    <h4 style="margin:0 0 8px 0;color:#166534;font-size:15px;">🤖 Auto-registration</h4>
+    <p style="margin:0;color:#334155;font-size:14px;">Se abilitato, Azure crea automaticamente un record A per ogni VM
+      nella VNet, usando il nome della VM.</p>
+  </div>
+</div>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li><strong>Auto-registration</strong> funziona solo per le VM nella VNet linkata. Le VM in VNet in peering NON
+          vengono registrate automaticamente (a meno che non linki anche loro).</li>
+        <li>Puoi linkare una Private DNS Zone a molteplici VNet per la <strong>Resolution</strong> (risoluzione nomi).
+        </li>
+        <li>Ma una VNet può essere linkata a <strong>una sola</strong> Private DNS Zone per la
+          <strong>Registration</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</div>

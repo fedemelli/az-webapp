@@ -15,6 +15,21 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+// Tipi per i quiz dell'esame AZ-104
+export type ExamQuestionType = 'single-choice' | 'multiple-choice' | 'hotspot' | 'yes-no' | 'drag-drop';
+
+export interface ExamQuestion {
+  id: string;
+  type: ExamQuestionType;
+  category: StudyCategory;
+  question: string;
+  options: string[];
+  correctAnswers: number[]; // Array per supportare risposte multiple
+  explanation: string;
+  reference?: string; // Link alla documentazione Learn
+  note?: string; // Note aggiuntive (es. "Each correct selection is worth one point")
+}
+
 export interface Day {
   day: number;
   title: string;

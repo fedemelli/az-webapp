@@ -1,32 +1,51 @@
 <h2>SKU Comparison</h2>
-        <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;">
-          <thead>
-            <tr style="background-color:#f1f5f9;text-align:left;">
-              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Feature</th>
-              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Basic</th>
-              <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Standard</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">SLA</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Nessuno</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>99.99%</strong></td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Availability Zones</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Non supportato</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>Zone-redundant</strong></td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Backend Pool</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Singola Availability Set</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Qualsiasi VM nella VNet</td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Sicurezza</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Aperto per default</td>
-              <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>Chiuso per default (serve NSG)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+<table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;">
+  <thead>
+    <tr style="background-color:#f1f5f9;text-align:left;">
+      <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Feature</th>
+      <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Basic</th>
+      <th style="padding:12px;border-bottom:2px solid #cbd5e1;">Standard</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">SLA</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Nessuno</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>99.99%</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Availability Zones</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Non supportato</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>Zone-redundant</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Backend Pool</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Singola Availability Set</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Qualsiasi VM nella VNet</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Sicurezza</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;">Aperto per default</td>
+      <td style="padding:12px;border-bottom:1px solid #e2e8f0;"><strong>Chiuso per default (serve NSG)</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Standard LB è <strong>Secure by Default</strong>: devi creare esplicitamente un NSG per permettere il
+          traffico in ingresso, altrimenti è tutto bloccato. Basic LB è aperto di default.</li>
+        <li>Standard LB supporta <strong>HA Ports</strong> (High Availability Ports) per bilanciare TUTTE le porte
+          TCP/UDP simultaneamente.</li>
+        <li>Le VM nel backend pool di uno Standard LB DEVONO avere Network Interface o IP pubblici di tipo Standard (non
+          Basic).</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,26 @@
 <h2>Alerts</h2>
-        <p>Gli <strong>Alerts</strong> ti notificano proattivamente quando vengono rilevati problemi. Sono composti da:</p>
-        <ul>
-          <li><strong>Target Resource</strong>: Cosa monitorare (es. VM).</li>
-          <li><strong>Signal</strong>: Metrica o Log (es. CPU > 80%).</li>
-          <li><strong>Logic</strong>: Condizione (es. media ultimi 5 min).</li>
-          <li><strong>Action Group</strong>: Chi notificare (Email, SMS, Webhook).</li>
-        </ul>
+<p>Gli <strong>Alerts</strong> ti notificano proattivamente quando vengono rilevati problemi. Sono composti da:</p>
+<ul>
+  <li><strong>Target Resource</strong>: Cosa monitorare (es. VM).</li>
+  <li><strong>Signal</strong>: Metrica o Log (es. CPU > 80%).</li>
+  <li><strong>Logic</strong>: Condizione (es. media ultimi 5 min).</li>
+  <li><strong>Action Group</strong>: Chi notificare (Email, SMS, Webhook).</li>
+</ul>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Un <strong>Action Group</strong> è un oggetto riutilizzabile. Non definisci l'email dentro ogni singolo
+          alert, ma crei un Action Group "AdminEmail" e lo associ a N alert.</li>
+        <li>Le regole di alert possono essere <strong>Statiche</strong> (soglia fissa definita da te) o
+          <strong>Dinamiche</strong> (Azure impara il comportamento normale e avvisa se c'è un'anomalia).</li>
+        <li>Alert su Log costano più di Alert su Metriche e hanno una latenza maggiore.</li>
+      </ul>
+    </div>
+  </div>
+</div>

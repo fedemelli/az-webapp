@@ -1,32 +1,33 @@
 <h2>AzCopy</h2>
-        <p><strong>AzCopy</strong> è un'utility a riga di comando per copiare dati da/verso Azure Storage in modo efficiente. Supporta trasferimenti paralleli, resume automatico e ottimizzazioni per grandi volumi di dati.</p>
+<p><strong>AzCopy</strong> è un'utility a riga di comando per copiare dati da/verso Azure Storage in modo efficiente.
+  Supporta trasferimenti paralleli, resume automatico e ottimizzazioni per grandi volumi di dati.</p>
 
-        <svg viewBox="0 0 600 200" style="width:100%;max-width:600px;margin:20px auto;display:block;">
-          <!-- Source -->
-          <rect x="30" y="60" width="140" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
-          <text x="100" y="95" text-anchor="middle" font-weight="bold" fill="#334155" font-size="12">Sorgente</text>
-          <text x="100" y="115" text-anchor="middle" fill="#64748b" font-size="10">Local / Azure / S3</text>
+<svg viewBox="0 0 600 200" style="width:100%;max-width:600px;margin:20px auto;display:block;">
+  <!-- Source -->
+  <rect x="30" y="60" width="140" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
+  <text x="100" y="95" text-anchor="middle" font-weight="bold" fill="#334155" font-size="12">Sorgente</text>
+  <text x="100" y="115" text-anchor="middle" fill="#64748b" font-size="10">Local / Azure / S3</text>
 
-          <!-- AzCopy -->
-          <rect x="230" y="50" width="140" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="300" y="85" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="14">AzCopy</text>
-          <text x="300" y="105" text-anchor="middle" fill="#3b82f6" font-size="10">Parallel transfer</text>
-          <text x="300" y="120" text-anchor="middle" fill="#3b82f6" font-size="10">Resume support</text>
-          <text x="300" y="135" text-anchor="middle" fill="#3b82f6" font-size="10">Auth: SAS / Azure AD</text>
+  <!-- AzCopy -->
+  <rect x="230" y="50" width="140" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="300" y="85" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="14">AzCopy</text>
+  <text x="300" y="105" text-anchor="middle" fill="#3b82f6" font-size="10">Parallel transfer</text>
+  <text x="300" y="120" text-anchor="middle" fill="#3b82f6" font-size="10">Resume support</text>
+  <text x="300" y="135" text-anchor="middle" fill="#3b82f6" font-size="10">Auth: SAS / Azure AD</text>
 
-          <!-- Destination -->
-          <rect x="430" y="60" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="500" y="95" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="12">Azure Storage</text>
-          <text x="500" y="115" text-anchor="middle" fill="#3b82f6" font-size="10">Blob / Files / ADLS</text>
+  <!-- Destination -->
+  <rect x="430" y="60" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+  <text x="500" y="95" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="12">Azure Storage</text>
+  <text x="500" y="115" text-anchor="middle" fill="#3b82f6" font-size="10">Blob / Files / ADLS</text>
 
-          <!-- Arrows -->
-          <line x1="170" y1="100" x2="225" y2="100" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
-          <line x1="375" y1="100" x2="425" y2="100" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
-        </svg>
+  <!-- Arrows -->
+  <line x1="170" y1="100" x2="225" y2="100" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="375" y1="100" x2="425" y2="100" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)" />
+</svg>
 
-        <h3>Installazione</h3>
-        <p>AzCopy è un singolo eseguibile scaricabile, non richiede installazione:</p>
-        <pre><code># Windows (PowerShell)
+<h3>Installazione</h3>
+<p>AzCopy è un singolo eseguibile scaricabile, non richiede installazione:</p>
+<pre><code># Windows (PowerShell)
 Invoke-WebRequest -Uri "https://aka.ms/downloadazcopy-v10-windows" -OutFile azcopy.zip
 Expand-Archive azcopy.zip -DestinationPath .
 
@@ -37,38 +38,38 @@ tar -xvf downloadazcopy-v10-linux
 # macOS
 brew install azcopy</code></pre>
 
-        <h3>Metodi di Autenticazione</h3>
-        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-          <thead>
-            <tr style="background:#f1f5f9;">
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Metodo</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Comando</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caso d'Uso</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Azure AD</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><code>azcopy login</code></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Interattivo, più sicuro</td>
-            </tr>
-            <tr style="background:#f8fafc;">
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>SAS Token</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Incluso nell'URL</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Script automatizzati</td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Service Principal</strong></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;"><code>azcopy login --service-principal</code></td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">CI/CD pipelines</td>
-            </tr>
-          </tbody>
-        </table>
+<h3>Metodi di Autenticazione</h3>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;">
+  <thead>
+    <tr style="background:#f1f5f9;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Metodo</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Comando</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caso d'Uso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Azure AD</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><code>azcopy login</code></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Interattivo, più sicuro</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>SAS Token</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Incluso nell'URL</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Script automatizzati</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><strong>Service Principal</strong></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;"><code>azcopy login --service-principal</code></td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">CI/CD pipelines</td>
+    </tr>
+  </tbody>
+</table>
 
-        <h3>Comandi Principali</h3>
+<h3>Comandi Principali</h3>
 
-        <h4>azcopy copy - Copia file/blob</h4>
-        <pre><code># Upload file singolo
+<h4>azcopy copy - Copia file/blob</h4>
+<pre><code># Upload file singolo
 azcopy copy "C:\\local\\file.txt" "https://account.blob.core.windows.net/container/file.txt?SAS"
 
 # Upload directory ricorsivo
@@ -81,8 +82,8 @@ azcopy copy "https://account.blob.core.windows.net/container/file.txt?SAS" "C:\\
 azcopy copy "https://source.blob.core.windows.net/container?SAS" \\
             "https://dest.blob.core.windows.net/container?SAS" --recursive</code></pre>
 
-        <h4>azcopy sync - Sincronizza directory</h4>
-        <pre><code># Sync locale -> Azure (upload solo file nuovi/modificati)
+<h4>azcopy sync - Sincronizza directory</h4>
+<pre><code># Sync locale -> Azure (upload solo file nuovi/modificati)
 azcopy sync "C:\\local\\folder" "https://account.blob.core.windows.net/container?SAS"
 
 # Sync Azure -> locale
@@ -91,8 +92,8 @@ azcopy sync "https://account.blob.core.windows.net/container?SAS" "C:\\local\\fo
 # Sync con eliminazione (rimuove file non presenti in source)
 azcopy sync "C:\\local\\folder" "https://account.blob.core.windows.net/container?SAS" --delete-destination=true</code></pre>
 
-        <h4>Altri comandi utili</h4>
-        <pre><code># Creare container
+<h4>Altri comandi utili</h4>
+<pre><code># Creare container
 azcopy make "https://account.blob.core.windows.net/newcontainer?SAS"
 
 # Rimuovere blob
@@ -107,39 +108,47 @@ azcopy jobs list
 # Riprendere job fallito
 azcopy jobs resume &lt;job-id&gt;</code></pre>
 
-        <h3>copy vs sync</h3>
-        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-          <thead>
-            <tr style="background:#f1f5f9;">
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caratteristica</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">copy</th>
-              <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">sync</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Comportamento</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Copia tutto</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Solo file nuovi/modificati</td>
-            </tr>
-            <tr style="background:#f8fafc;">
-              <td style="padding:12px;border:1px solid #e2e8f0;">Direzione</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Bidirezionale</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Unidirezionale (source -> dest)</td>
-            </tr>
-            <tr>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Timestamp</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Non considera</td>
-              <td style="padding:12px;border:1px solid #e2e8f0;">Usa per confronto</td>
-            </tr>
-          </tbody>
-        </table>
+<h3>copy vs sync</h3>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;">
+  <thead>
+    <tr style="background:#f1f5f9;">
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">Caratteristica</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">copy</th>
+      <th style="padding:12px;text-align:left;border:1px solid #e2e8f0;">sync</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Comportamento</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Copia tutto</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Solo file nuovi/modificati</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px;border:1px solid #e2e8f0;">Direzione</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Bidirezionale</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Unidirezionale (source -> dest)</td>
+    </tr>
+    <tr>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Timestamp</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Non considera</td>
+      <td style="padding:12px;border:1px solid #e2e8f0;">Usa per confronto</td>
+    </tr>
+  </tbody>
+</table>
 
-        <h3>Considerazioni per l'Esame</h3>
-        <ul>
-          <li><strong>azcopy sync</strong> è unidirezionale e source-driven</li>
-          <li>Per copia tra storage accounts, usa <strong>server-side copy</strong> (più veloce)</li>
-          <li>I jobs possono essere <strong>ripresi</strong> dopo un'interruzione</li>
-          <li>AzCopy supporta anche <strong>Amazon S3</strong> come sorgente</li>
-          <li>Richiede ruolo <strong>Storage Blob Data Contributor</strong> per Azure AD auth</li>
-        </ul>
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Se devi copiare dati TRA storage accounts -> <strong>AzCopy</strong> (Server-side copy, super veloce).</li>
+        <li><strong>azcopy sync</strong> è unidirezionale (Source -> Dest). Per backup incrementale è perfetto.</li>
+        <li>AzCopy ora supporta <strong>S3 (AWS)</strong> e <strong>GCP</strong> come sorgenti dirette.</li>
+        <li>Per usare Azure AD con AzCopy, devi avere il ruolo <strong>Storage Blob Data Contributor</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</div>

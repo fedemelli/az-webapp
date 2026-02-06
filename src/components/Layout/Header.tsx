@@ -1,6 +1,8 @@
-import { BookOpen, RotateCcw, Menu, X } from 'lucide-react';
+import { BookOpen, RotateCcw, Menu, X, LogOut, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useProgress } from '../../context/ProgressContext';
 import { studyPlan } from '../../data/studyPlan';
+import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
   isSidebarOpen: boolean;
@@ -9,6 +11,7 @@ interface HeaderProps {
 
 export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
   const { getCompletedTopicsCount, resetProgress } = useProgress();
+  const { logout, user } = useAuth();
 
   const totalTopics = studyPlan.reduce((acc, day) => acc + day.topics.length, 0);
   const completedCount = getCompletedTopicsCount();
@@ -75,6 +78,24 @@ export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
               title="Reset progressi"
             >
               <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            {user?.isAdmin ? (
+              <>
+                <Link
+                  to="/admin/users"
+                  className="p-1.5 sm:p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                  title="Gestione utenze"
+                >
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+                </Link>
+              </>
+            ) : null}
+            <button
+              onClick={logout}
+              className="p-1.5 sm:p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              title="Esci"
+            >
+              <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>

@@ -1,116 +1,195 @@
-<h2>Storage Redundancy</h2>
-        <p>Azure Storage mantiene sempre <strong>multiple copie</strong> dei tuoi dati per proteggerli da guasti hardware, interruzioni di rete e disastri naturali.</p>
+<h2>Replication & Redundancy</h2>
+<p>Azure garantisce la durabilità dei dati replicandoli multiple volte. Scegliere la giusta strategia di replica è
+  critico per High Availability (HA) e Disaster Recovery (DR).</p>
 
-        <h3>Opzioni di Ridondanza - Region Primaria</h3>
-        <svg viewBox="0 0 600 200" style="max-width: 100%; height: auto; margin: 1rem 0;">
-          <text x="300" y="20" text-anchor="middle" font-weight="bold" fill="#1e293b">Region Primaria</text>
-          <!-- LRS -->
-          <rect x="30" y="40" width="250" height="140" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="8"/>
-          <text x="155" y="60" text-anchor="middle" font-weight="bold" fill="#b45309">LRS - Datacenter Singolo</text>
-          <rect x="50" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
-          <text x="80" y="105" text-anchor="middle" font-size="10">Copy 1</text>
-          <rect x="125" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
-          <text x="155" y="105" text-anchor="middle" font-size="10">Copy 2</text>
-          <rect x="200" y="80" width="60" height="40" fill="#fde68a" stroke="#f59e0b" rx="4"/>
-          <text x="230" y="105" text-anchor="middle" font-size="10">Copy 3</text>
-          <text x="155" y="160" text-anchor="middle" font-size="11" fill="#78716c">11 nines (99.999999999%)</text>
-          <!-- ZRS -->
-          <rect x="320" y="40" width="250" height="140" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
-          <text x="445" y="60" text-anchor="middle" font-weight="bold" fill="#1d4ed8">ZRS - 3 Zone Disponibilità</text>
-          <rect x="340" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
-          <text x="370" y="105" text-anchor="middle" font-size="10">Zone 1</text>
-          <rect x="415" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
-          <text x="445" y="105" text-anchor="middle" font-size="10">Zone 2</text>
-          <rect x="490" y="80" width="60" height="40" fill="#bfdbfe" stroke="#3b82f6" rx="4"/>
-          <text x="520" y="105" text-anchor="middle" font-size="10">Zone 3</text>
-          <text x="445" y="160" text-anchor="middle" font-size="11" fill="#78716c">12 nines (99.9999999999%)</text>
-        </svg>
+<!-- Diagramma Redundancy -->
+<svg viewBox="0 0 600 320"
+  style="width:100%;max-width:600px;margin:24px auto;display:block;background:white;border-radius:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);border:1px solid #e2e8f0;">
+  <defs>
+    <style>
+      .data-block {
+        fill: #3b82f6;
+        stroke: #1e40af;
+        stroke-width: 1;
+      }
 
-        <h3>Opzioni di Ridondanza - Con Region Secondaria</h3>
-        <svg viewBox="0 0 600 180" style="max-width: 100%; height: auto; margin: 1rem 0;">
-          <!-- Primary Region -->
-          <rect x="30" y="30" width="240" height="120" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="8"/>
-          <text x="150" y="50" text-anchor="middle" font-weight="bold" fill="#166534">Region Primaria</text>
-          <rect x="50" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
-          <rect x="110" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
-          <rect x="170" y="70" width="50" height="30" fill="#bbf7d0" stroke="#22c55e" rx="4"/>
-          <text x="150" y="130" text-anchor="middle" font-size="10" fill="#166534">Read + Write</text>
-          <!-- Arrow -->
-          <path d="M 280 90 L 320 90" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
-          <text x="300" y="80" text-anchor="middle" font-size="10" fill="#64748b">Async</text>
-          <!-- Secondary Region -->
-          <rect x="330" y="30" width="240" height="120" fill="#e0e7ff" stroke="#6366f1" stroke-width="2" rx="8"/>
-          <text x="450" y="50" text-anchor="middle" font-weight="bold" fill="#4338ca">Region Secondaria</text>
-          <rect x="350" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
-          <rect x="410" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
-          <rect x="470" y="70" width="50" height="30" fill="#c7d2fe" stroke="#6366f1" rx="4"/>
-          <text x="450" y="130" text-anchor="middle" font-size="10" fill="#4338ca">RA-*: Read Only</text>
-        </svg>
+      .zone-box {
+        fill: #f8fafc;
+        stroke: #cbd5e1;
+        stroke-width: 1;
+        stroke-dasharray: 4;
+      }
 
-        <h3>Confronto Opzioni</h3>
-        <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 13px;">
-          <tr style="background: #f1f5f9;">
-            <th style="padding: 6px; border: 1px solid #e2e8f0;">Opzione</th>
-            <th style="padding: 6px; border: 1px solid #e2e8f0;">Copie</th>
-            <th style="padding: 6px; border: 1px solid #e2e8f0;">Durabilità</th>
-            <th style="padding: 6px; border: 1px solid #e2e8f0;">Read dalla Secondaria</th>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>LRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">3 nello stesso DC</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">11 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">N/A</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>ZRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">3 in 3 zone</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">12 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">N/A</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>GRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">LRS + 3 in region secondaria</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">Solo dopo failover</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>RA-GRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">Come GRS</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">✅ Sempre</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>GZRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">ZRS + 3 in region secondaria</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">Solo dopo failover</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;"><strong>RA-GZRS</strong></td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">Come GZRS</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">16 nines</td>
-            <td style="padding: 6px; border: 1px solid #e2e8f0;">✅ Sempre</td>
-          </tr>
-        </table>
+      .region-box {
+        fill: #f1f5f9;
+        stroke: #94a3b8;
+        stroke-width: 2;
+      }
 
-        <h3>Failover</h3>
-        <p>Con GRS/GZRS puoi eseguire un <strong>failover manuale</strong> alla region secondaria:</p>
-        <pre><code># Iniziare failover
-az storage account failover --name "mystorageaccount"
+      .label {
+        font-size: 10px;
+        fill: #475569;
+        font-family: sans-serif;
+        text-anchor: middle;
+      }
 
-# Verificare lo stato del failover
-az storage account show --name "mystorageaccount" \\
-  --query "failoverInProgress"</code></pre>
-        <p><strong>Attenzione</strong>: Il failover può causare perdita di dati (RPO ~15 minuti).</p>
+      .title {
+        font-weight: bold;
+        font-family: sans-serif;
+        fill: #0f172a;
+      }
+    </style>
+  </defs>
 
-        <h3>Endpoint Secondario (RA-*)</h3>
-        <p>Con RA-GRS/RA-GZRS, l'endpoint secondario è:</p>
-        <pre><code>https://[accountname]-secondary.blob.core.windows.net</code></pre>
+  <!-- LRS Section -->
+  <g transform="translate(20, 20)">
+    <text x="70" y="20" class="title" text-anchor="middle">LRS (Locally)</text>
+    <rect x="0" y="30" width="140" height="100" class="region-box" />
+    <text x="70" y="45" class="label">Primary Region</text>
 
-        <h3>Punti Chiave per l'Esame</h3>
-        <ul>
-          <li><strong>ZRS</strong> richiede che la region supporti le Availability Zones</li>
-          <li><strong>Premium storage</strong> supporta solo LRS e ZRS</li>
-          <li>La replica verso la region secondaria è <strong>asincrona</strong></li>
-          <li>Puoi cambiare tipo di replica dopo la creazione (con alcune limitazioni)</li>
-        </ul>
+    <rect x="20" y="60" width="100" height="60" rx="4" fill="white" stroke="#cbd5e1" />
+    <text x="70" y="75" class="label">Single DC</text>
+
+    <!-- 3 Copies -->
+    <rect x="35" y="90" width="20" height="20" class="data-block" />
+    <rect x="60" y="90" width="20" height="20" class="data-block" />
+    <rect x="85" y="90" width="20" height="20" class="data-block" />
+  </g>
+
+  <!-- ZRS Section -->
+  <g transform="translate(180, 20)">
+    <text x="100" y="20" class="title" text-anchor="middle">ZRS (Zone)</text>
+    <rect x="0" y="30" width="200" height="100" class="region-box" />
+    <text x="100" y="45" class="label">Primary Region (3 AZs)</text>
+
+    <!-- Zone 1 -->
+    <rect x="10" y="60" width="50" height="60" class="zone-box" />
+    <rect x="25" y="80" width="20" height="20" class="data-block" />
+
+    <!-- Zone 2 -->
+    <rect x="75" y="60" width="50" height="60" class="zone-box" />
+    <rect x="90" y="80" width="20" height="20" class="data-block" />
+
+    <!-- Zone 3 -->
+    <rect x="140" y="60" width="50" height="60" class="zone-box" />
+    <rect x="155" y="80" width="20" height="20" class="data-block" />
+  </g>
+
+  <!-- GRS Section -->
+  <g transform="translate(20, 160)">
+    <text x="140" y="20" class="title" text-anchor="middle">GRS (Geo-Redundant)</text>
+
+    <!-- Primary -->
+    <rect x="0" y="30" width="120" height="100" class="region-box" />
+    <text x="60" y="45" class="label">Primary Region</text>
+    <rect x="30" y="60" width="60" height="60" fill="white" stroke="#cbd5e1" stroke-dasharray="2" />
+    <text x="60" y="80" class="label" font-size="8">LRS (3 copies)</text>
+    <rect x="40" y="90" width="40" height="20" class="data-block" />
+
+    <!-- Arrow -->
+    <path d="M130 80 L190 80" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="4" />
+    <text x="160" y="70" class="label" font-size="9">Async Copy</text>
+
+    <!-- Secondary -->
+    <rect x="200" y="30" width="120" height="100" class="region-box" />
+    <text x="260" y="45" class="label">Secondary Region</text>
+    <rect x="230" y="60" width="60" height="60" fill="white" stroke="#cbd5e1" stroke-dasharray="2" />
+    <text x="260" y="80" class="label" font-size="8">LRS (3 copies)</text>
+    <rect x="240" y="90" width="40" height="20" class="data-block" style="fill:#93c5fd" />
+  </g>
+
+  <!-- GZRS Section -->
+  <g transform="translate(360, 160)">
+    <text x="100" y="20" class="title" text-anchor="middle">GZRS (Geo-Zone)</text>
+    <text x="100" y="80" class="label" font-style="italic">Combines ZRS in Primary + LRS in Secondary</text>
+    <text x="100" y="100" class="label" font-weight="bold">= Max Durability</text>
+  </g>
+</svg>
+
+<h3>Confronto Scenari di Guasto</h3>
+<div style="overflow-x:auto;margin:20px 0;">
+  <table
+    style="width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#4338ca,#3730a3);">
+        <th style="padding:14px 16px;text-align:left;color:white;font-weight:600;">Scenario</th>
+        <th style="padding:14px 16px;text-align:center;color:white;font-weight:600;">LRS</th>
+        <th style="padding:14px 16px;text-align:center;color:white;font-weight:600;">ZRS</th>
+        <th style="padding:14px 16px;text-align:center;color:white;font-weight:600;">GRS</th>
+        <th style="padding:14px 16px;text-align:center;color:white;font-weight:600;">GZRS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#eef2ff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#3730a3;">Disk/Node Failure
+        </td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+      </tr>
+      <tr style="background:#ffffff;">
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;font-weight:600;color:#3730a3;">Datacenter Fire
+          (Zone)</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#dc2626;">❌</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#dc2626;">❌*</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e2e8f0;text-align:center;color:#16a34a;">✅</td>
+      </tr>
+      <tr style="background:#eef2ff;">
+        <td style="padding:12px 16px;font-weight:600;color:#3730a3;">Region Failure (Disaster)</td>
+        <td style="padding:12px 16px;text-align:center;color:#dc2626;">❌</td>
+        <td style="padding:12px 16px;text-align:center;color:#dc2626;">❌</td>
+        <td style="padding:12px 16px;text-align:center;color:#16a34a;">✅</td>
+        <td style="padding:12px 16px;text-align:center;color:#16a34a;">✅</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:#64748b;margin:8px 16px;">* GRS protegge dalla perdita dati in caso di Region Failure,
+    ma se perdi il singolo DC primario (senza perdere l'intera region) potresti avere indisponibilità temporanea.</p>
+</div>
+
+<h3>Failover e Read Access</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0;">
+  <div
+    style="background:white;border-left:4px solid #f59e0b;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#d97706;font-size:15px;">RA-GRS (Read Access)</h4>
+    <p style="margin:0;color:#475569;font-size:13px;">Abilita la <strong>lettura</strong> sulla regione secondaria
+      SEMPRE, anche se la primaria è online. Utile per applicazioni High Availability in lettura.</p>
+  </div>
+  <div
+    style="background:white;border-left:4px solid #dc2626;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+    <h4 style="margin:0 0 8px 0;color:#b91c1c;font-size:15px;">Customer-Managed Failover</h4>
+    <p style="margin:0;color:#475569;font-size:13px;">Se la primaria cade, PUOI forzare il failover manualmente.
+      <strong>Attenzione:</strong> Poiché la copia è asincrona, potresti perdere gli ultimi dati scritti (RPO > 0).
+    </p>
+  </div>
+</div>
+
+<h3>Durabilità</h3>
+<ul>
+  <li><strong>LRS</strong>: 99.999999999% (11 nines)</li>
+  <li><strong>ZRS</strong>: 99.9999999999% (12 nines)</li>
+  <li><strong>GRS</strong>: 16 nines</li>
+</ul>
+
+<!-- Callout esame -->
+<div
+  style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-left:4px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;">
+  <div style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:24px;">📝</span>
+    <div>
+      <strong style="color:#1e40af;font-size:15px;">Tips per l'Esame AZ-104</strong>
+      <ul style="margin:8px 0 0 0;padding-left:20px;color:#1e3a8a;font-size:14px;">
+        <li>Se la domanda richiede <strong>High Availability (HA)</strong> in caso di guasto datacenter ->
+          <strong>ZRS</strong>.</li>
+        <li>Se richiede <strong>Disaster Recovery (DR)</strong> regionale ma con costi minimi -> <strong>GRS</strong>.
+        </li>
+        <li>Se l'applicazione deve leggere dalla secondaria sempre (non solo dopo failover) -> <strong>RA-GRS</strong> o
+          <strong>RA-GZRS</strong>.</li>
+        <li>Il failover manuale (Customer-managed) modifica il record DNS e trasforma l'account in <strong>LRS</strong>.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
