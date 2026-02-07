@@ -15,12 +15,14 @@ Una webapp responsive in stile "Runna" per prepararsi all'esame Microsoft Azure 
 
 ## Stack Tecnologico
 
-- **Framework**: React 18 con TypeScript
+- **Frontend**: React con TypeScript
 - **Styling**: Tailwind CSS v4 (design moderno mobile-first)
 - **State Management**: React Context + localStorage
-- **Routing**: React Router v6
+- **Routing**: React Router
 - **Build Tool**: Vite
 - **Icons**: Lucide React
+- **Backend**: Node.js + Express (API serverless su Vercel)
+- **Database**: PostgreSQL (Neon)
 
 ## Struttura del Progetto
 
@@ -97,42 +99,55 @@ npm run build
 npm run preview
 ```
 
-## Autenticazione (SQLite + JWT)
+## Autenticazione (PostgreSQL + JWT)
 
-- Il backend salva gli utenti in SQLite (`server/data/auth.db`).
+- Il backend salva gli utenti e i progressi in PostgreSQL.
 - L'utente admin viene creato al primo avvio con le credenziali definite in `.env`.
-- Solo l'admin puo creare nuovi utenti dalla schermata `/admin/register`.
+- Solo l'admin può creare nuovi utenti dalla schermata `/admin/register`.
 
-## Deployment
+## Deployment (Vercel + Neon)
 
-### Vercel (Consigliato)
+### 1) Database Neon (PostgreSQL)
+
+- Crea un database su Neon.
+- Copia la connection string (formato `postgres://...`).
+
+### 2) Variabili d'ambiente
+
+Imposta queste variabili su Vercel (Project → Settings → Environment Variables):
+
+- `DATABASE_URL` = connection string Neon
+- `JWT_SECRET`
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
+- `CLIENT_ORIGIN` = dominio Vercel del frontend (es. `https://nome-progetto.vercel.app`)
+
+In locale puoi usare `.env`:
 
 ```bash
-# Installa Vercel CLI
-npm install -g vercel
-
-# Deploy
-vercel
+DATABASE_URL="postgres://user:password@host:5432/dbname"
+JWT_SECRET="change-me"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="admin"
+CLIENT_ORIGIN="http://localhost:5173"
+VITE_API_BASE_URL="http://localhost:3001"
 ```
 
-Oppure collega il repository GitHub a Vercel per deploy automatici ad ogni push.
+### 3) Deploy su Vercel
 
-### Netlify
+- Il backend è esposto come Serverless Function in `api/index.js` con rewrite `/api/*`.
+- Collega il repository GitHub a Vercel e fai deploy.
+- Per build locale:
 
 ```bash
-# Installa Netlify CLI
-npm install -g netlify-cli
-
-# Deploy
-netlify deploy --prod --dir=dist
+npm run build
+npm run preview
 ```
 
-### Altri servizi
+### Nota
 
-L'app puo essere deployata su qualsiasi piattaforma che supporta hosting di siti statici:
-- GitHub Pages
-- Cloudflare Pages
-- Azure Static Web Apps
+- In produzione l'API è disponibile su `/api/...` (stesso dominio del frontend).
+- In locale usa `VITE_API_BASE_URL` per puntare a `http://localhost:3001`.
 
 ## Responsive Breakpoints
 
