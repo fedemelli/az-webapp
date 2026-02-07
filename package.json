@@ -8,7 +8,8 @@
     "dev:server": "node server/index.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "env:pull": "vercel env pull .env.local"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

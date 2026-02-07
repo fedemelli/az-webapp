@@ -25,5 +25,8 @@ dist-ssr
 
 .claude/
 .vercel
+.env
+.env.local
+.env.*
 .env*.local
 server/data/*.db
