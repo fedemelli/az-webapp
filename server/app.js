@@ -9,10 +9,22 @@ const app = express();
 
 const clientOriginEnv = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
 const allowedOrigins = clientOriginEnv.split(',').map((origin) => origin.trim()).filter(Boolean);
+const allowVercelPreview = (process.env.ALLOW_VERCEL_PREVIEW || '').toLowerCase() === 'true';
+const isVercelPreviewOrigin = (origin) => {
+  try {
+    const { hostname } = new URL(origin);
+    return hostname.endsWith('.vercel.app');
+  } catch {
+    return false;
+  }
+};
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      if (allowVercelPreview && isVercelPreviewOrigin(origin)) {
         return callback(null, true);
       }
       return callback(new Error('Not allowed by CORS'));
